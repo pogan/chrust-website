@@ -1,0 +1,15 @@
+{
+  "name": "chrust-website",
+  "version": "1.0.0",
+  "description": "chrusts band website",
+  "license": "ISC",
+  "author": "Karol Konop",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8"
+  }
+}

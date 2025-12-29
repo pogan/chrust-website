@@ -1,0 +1,179 @@
+// Variable overrides first
+$primary: #900000;
+$enable-shadows: true;
+$enable-rounded: false;
+$enable-dark-mode: false;
+
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+$font-family-base: 'Montserrat', sans-serif;
+
+@keyframes arrowAnimation {
+  0% {background-position: center 0px;}
+  50% {background-position: center 30px;}
+  100% {background-position: center 0px;}
+}
+
+.chrust{
+    &.cover{
+        background-size: cover;
+        background-position: center center;
+        min-height: 100vh;
+        
+        .arrow-down{
+            position: absolute;
+            display: inline-block;
+            bottom: 0px;
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
+            height: 100px;
+
+            background-image: url("../img/down-arrow.png");
+            background-size: 100px 100%;
+            background-repeat: no-repeat;
+            background-position: center 0px;
+            
+            animation-name: arrowAnimation;
+            animation-duration: 3s;
+            animation-iteration-count: infinite;
+            background-color: transparent;   
+                
+            transition: background-color 0.5s ease-in-out;
+
+            &:hover{
+                cursor: pointer;
+                background-color:rgba(0,0,0, 0.2);
+            }
+        }
+        
+        &.fp {
+            background-image: url('../img/chrust_bg_gosia_clean.png');
+        }
+
+        &.concerts {
+            background-image: url('../img/chrust_bg_zespol3.jpeg');
+        }
+
+        &.merch{
+            background-image: url('../img/chrust_przedzmierzchem_full.jpg');
+        }
+
+        &.about{
+            background-image: url('../img/chrust_bg_gosia2.png');
+        }
+
+        &.links{
+            background-image: url('../img/chrust_bg_karol1.png');
+            .card{
+                background-color: rgba(255, 255, 255, 0.1) !important;
+                border-radius: 0.2em;
+                border:0px;
+                @extend .text-light;
+                @extend .text-center;
+
+                
+                &:hover{
+                    background-color: rgba(255, 255, 255, 0.4) !important;
+                    text-decoration: none !important;
+                    border: 1px solid #ccc !important;
+                }
+            }
+        }
+
+        &.members{
+            background-image: url('../img/chrust_bg_zespol1.png');
+            
+            .text-danger{
+                color: #FF0000 !important;
+                
+            }
+
+            .card{
+                background-color: rgba(255, 255, 255, 0.1) !important;
+                border-radius: 0.2em;
+            }
+        }
+
+        
+        &.contact{
+            background-image: url('../img/chrust_bg_gosia3.png');
+            background-position: center right; 
+        }
+
+        &.timeline{
+            height: auto !important;
+            background-image: url('../img/chrust_bg_bw_karol1.jpeg');
+
+            @extend .text-light;
+
+            .timeline-panel{
+                background-color: rgba(0, 0, 0, 0.6) !important;
+                border-radius: 0.2em;
+                border:1px solid  rgba(255, 255, 255, 0.6) !important;;
+                padding: 1.5rem;
+                margin: 1.5rem;
+                backdrop-filter: blur(2px);
+            }
+        }
+        
+        h1,a{
+            color: #fff !important;
+            text-decoration: none !important;
+        }
+    }
+}
+
+
+.bigbtn{
+    // margin-top: 45vh;
+    letter-spacing: 1rem;
+    font-weight: 100 !important;
+    // font-size: 4rem !important;
+    padding: 1rem 3rem !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    backdrop-filter: blur(2px);
+    text-transform: uppercase;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.6) !important;
+        border-bottom: 0.1rem #fff solid !important;
+    }
+}
+
+.abouttext{
+    font-weight: 400 !important;
+}
+
+.redhighlight{
+    // display: inline-block;
+    padding: 0rem 0.3rem;
+    background-color: #FF0000 !important;
+    color: #fff !important; 
+}
+
+.text-justify{
+    text-align: justify !important;
+}
+
+#biglogo{
+    position: relative;
+
+    &.hidden{
+        opacity: 0 !important;
+        margin-bottom:-500px !important;
+    }
+    transition: opacity 5s ease-out, margin 5s ease-out !important;
+    margin: 0px !important;
+    opacity: 1 !important;
+}
+
+body{
+    text-shadow: #000 1px 1px 1px;
+}
+
+// Then import Bootstrap
+@import "../node_modules/bootstrap/scss/bootstrap";
