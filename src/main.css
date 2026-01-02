@@ -50,28 +50,34 @@
 .chrust.cover.about {
   background-image: url("../img/chrust_bg_gosia2.png");
 }
+.chrust.cover .card {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 0.2em;
+  border: 1px solid rgba(255, 255, 255, 0) !important;
+  -webkit-backdrop-filter: blur(2px);
+          backdrop-filter: blur(2px);
+}
+.chrust.cover .card:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  text-decoration: none !important;
+  border: 1px solid #ccc !important;
+  cursor: pointer;
+}
 .chrust.cover.links {
   background-image: url("../img/chrust_bg_karol1.png");
 }
-.chrust.cover.links .card {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-  border-radius: 0.2em;
-  border: 0px;
+.chrust.cover.links img {
+  transition: transform 100ms ease-in-out;
+  transform: scale(1);
 }
-.chrust.cover.links .card:hover {
-  background-color: rgba(255, 255, 255, 0.4) !important;
-  text-decoration: none !important;
-  border: 1px solid #ccc !important;
+.chrust.cover.links img:hover {
+  transform: scale(1.3);
 }
 .chrust.cover.members {
   background-image: url("../img/chrust_bg_zespol1.png");
 }
 .chrust.cover.members .text-danger {
   color: #FF0000 !important;
-}
-.chrust.cover.members .card {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-  border-radius: 0.2em;
 }
 .chrust.cover.contact {
   background-image: url("../img/chrust_bg_gosia3.png");
@@ -84,11 +90,27 @@
 .chrust.cover.timeline .timeline-panel {
   background-color: rgba(0, 0, 0, 0.6) !important;
   border-radius: 0.2em;
-  border: 1px solid rgba(255, 255, 255, 0.6) !important;
-  padding: 1.5rem;
-  margin: 1.5rem;
   -webkit-backdrop-filter: blur(2px);
           backdrop-filter: blur(2px);
+}
+.chrust.cover.timeline .timeline-panel p {
+  text-align: justify;
+}
+.chrust.cover.videos video {
+  -o-object-fit: cover !important;
+     object-fit: cover !important;
+}
+.chrust.cover.press {
+  background-image: url("../img/chrust_bg_zespol2.png");
+}
+.chrust.cover.press img {
+  max-width: 200px;
+}
+.chrust.cover.press .card {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+.chrust.cover.press .card a {
+  opacity: 0;
 }
 .chrust.cover h1, .chrust.cover .h1, .chrust.cover a {
   color: #fff !important;
@@ -136,7 +158,43 @@
   margin-bottom: -500px !important;
 }
 
-body {
+.navbar {
+  text-shadow: none !important;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  opacity: 1 !important;
+  transition: top 2s ease-out, opacity 2s ease-out;
+}
+.navbar.pushed {
+  top: -100px !important;
+  opacity: 0 !important;
+}
+.navbar .nav-link {
+  color: #eee;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
+}
+.navbar .nav-link.active {
+  border-bottom: 1px solid #fff;
+}
+
+#langChangeButton {
+  filter: grayscale(100%);
+}
+#langChangeButton:hover {
+  filter: grayscale(0%);
+}
+
+#firstArrow {
+  transition: top 2s ease-out, opacity 2s ease-out;
+  bottom: 0px !important;
+  opacity: 1 !important;
+}
+#firstArrow.pushed {
+  bottom: -100px !important;
+  opacity: 0 !important;
+}
+
+html, body {
   text-shadow: #000 1px 1px 1px;
 }
 
@@ -212,7 +270,7 @@ body {
   --bs-dark-border-subtle: #adb5bd;
   --bs-white-rgb: 255, 255, 255;
   --bs-black-rgb: 0, 0, 0;
-  --bs-font-sans-serif: "Comic Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --bs-body-font-family: "Montserrat", sans-serif;
@@ -8205,7 +8263,7 @@ textarea.form-control-lg {
   text-align: right !important;
 }
 
-.text-center, .chrust.cover.links .card {
+.text-center, .chrust.cover .card {
   text-align: center !important;
 }
 
@@ -8278,7 +8336,7 @@ textarea.form-control-lg {
   color: rgba(var(--bs-danger-rgb), var(--bs-text-opacity)) !important;
 }
 
-.text-light, .chrust.cover.links .card, .chrust.cover.timeline {
+.text-light, .chrust.cover .card, .chrust.cover.timeline {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-light-rgb), var(--bs-text-opacity)) !important;
 }
