@@ -24,7 +24,7 @@
   padding: 0px;
   width: 100%;
   height: 100px;
-  background-image: url("../img/down-arrow.png");
+  background-image: url("img/down-arrow.png");
   background-size: 100px 100%;
   background-repeat: no-repeat;
   background-position: center 0px;
@@ -39,16 +39,16 @@
   background-color: rgba(0, 0, 0, 0.2);
 }
 .chrust.cover.fp {
-  background-image: url("../img/chrust_bg_gosia_clean.png");
+  background-image: url("img/chrust_bg_gosia_clean.png");
 }
 .chrust.cover.concerts {
-  background-image: url("../img/chrust_bg_zespol3.jpeg");
+  background-image: url("img/chrust_bg_zespol3.jpeg");
 }
 .chrust.cover.merch {
-  background-image: url("../img/chrust_przedzmierzchem_full.jpg");
+  background-image: url("img/chrust_przedzmierzchem_full.jpg");
 }
 .chrust.cover.about {
-  background-image: url("../img/chrust_bg_gosia2.png");
+  background-image: url("img/chrust_bg_gosia2.png");
 }
 .chrust.cover .card {
   background-color: rgba(255, 255, 255, 0.1) !important;
@@ -64,7 +64,7 @@
   cursor: pointer;
 }
 .chrust.cover.links {
-  background-image: url("../img/chrust_bg_karol1.png");
+  background-image: url("img/chrust_bg_karol1.png");
 }
 .chrust.cover.links img {
   transition: transform 100ms ease-in-out;
@@ -74,18 +74,18 @@
   transform: scale(1.3);
 }
 .chrust.cover.members {
-  background-image: url("../img/chrust_bg_zespol1.png");
+  background-image: url("img/chrust_bg_zespol1.png");
 }
 .chrust.cover.members .text-danger {
   color: #FF0000 !important;
 }
 .chrust.cover.contact {
-  background-image: url("../img/chrust_bg_gosia3.png");
+  background-image: url("img/chrust_bg_gosia3.png");
   background-position: center right;
 }
 .chrust.cover.timeline {
   height: auto !important;
-  background-image: url("../img/chrust_bg_bw_karol1.jpeg");
+  background-image: url("img/chrust_bg_bw_karol1.jpeg");
 }
 .chrust.cover.timeline .timeline-panel {
   background-color: rgba(0, 0, 0, 0.6) !important;
@@ -101,7 +101,7 @@
      object-fit: cover !important;
 }
 .chrust.cover.press {
-  background-image: url("../img/chrust_bg_zespol2.png");
+  background-image: url("img/chrust_bg_zespol2.png");
 }
 .chrust.cover.press img {
   max-width: 200px;

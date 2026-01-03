@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>CHRUST</title>
+
+	<link rel="stylesheet" href="./main.css" />
+	<link rel="icon" type="image/x-icon" href="img/chrust_favicon_pozytyw.png">
+	<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+		crossorigin="anonymous"></script>
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#navbarSupportedContent">
+
+	<!-- navbar -->
+	<nav class="navbar navbar-expand-lg fixed-top pushed" data-bs-theme="dark" id="navBar">
+		<div class="container">
+			<a class="navbar-brand" href="#fp">
+				<img class="" src="img/chrust_logotyp_negatyw.png" height="50px">
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+					<li class="nav-item">
+						<a class="nav-link" href="#concerts" data-ts="concerts-navlink">koncerty</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#merch" data-ts="shop-navlink">sklep</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#bio" data-ts="bio-navlink">bio</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#videos" data-ts="video-navlink">video</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#links" data-ts="links-navlink">linki</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#members" data-ts="members-navlink">członkowie</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#history" data-ts="history-navlink">osiągnięcia</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#press" data-ts="press-navlink">dla organizatorów</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#contact" data-ts="contact-navlink">kontakt</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" id="langChangeButton" onclick="return false;">
+							<img src="img/uk_pl_flag_round.png" width="20px" alt="english"></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="container-fluid">
+
+		<!-- front page -->
+		<div class="row chrust cover fp position-relative" id="fp">
+			<div class="col">
+				<div class="vh-100 d-flex flex-column justify-content-center align-items-center">
+
+					<img src="img/chrust_bg_logotype_hollow_white.png" class="img-fluid hidden" alt="CHRUST Logo"
+						id="biglogo">
+
+				</div>
+			</div>
+			<div class="arrow-down pushed" data-next="concerts" id="firstArrow"></div>
+		</div>
+
+		<!-- koncerty -->
+		<div class="row chrust cover concerts position-relative" id="concerts">
+			<div class="col">
+				<div class="vh-100 d-flex flex-column justify-content-center align-items-center">
+					<a class="btn btn-link btn-primary btn-lg bigbtn fs-1" href="https://www.bandsintown.com/a/15542927"
+						target="_blank" role="button" data-ts="concerts-button">koncerty</a>
+				</div>
+			</div>
+			<div class="arrow-down" data-next="merch"></div>
+		</div>
+
+		<!-- merch -->
+		<div class="row chrust cover merch position-relative" id="merch">
+			<div class="col">
+				<div class="min-vh-100 d-flex flex-column justify-content-center align-items-center">
+					<a class="btn btn-link btn-primary btn-lg bigbtn fs-1" href="https://chrust.bandcamp.com/merch"
+						target="_blank" role="button" data-ts="shop-button">sklep</a>
+				</div>
+			</div>
+			<div class="arrow-down" data-next="bio"></div>
+		</div>
+
+		<!-- bio -->
+		<div class="row chrust cover about position-relative" id="bio">
+			<div class="col">
+				<div class="min-vh-100 d-flex flex-column justify-content-center align-items-center">
+					<div class="container my-5">
+						<p class="fs-4 text-light abouttext text-justify" data-ts="bio-paragraph">
+							<span class='redhighlight'>CHRUST</span> to zespół który zamienia <span
+								class='redhighlight'>słowiański folk</span> w energetyczny spektakl.
+							Trzy odmienne osobowości <span class='redhighlight'>folk, elektronika i
+								rock</span> tworzą show, które równie dobrze sprawdza się na
+							festiwalowej scenie, jak i w klubie. Koncerty CHRUSTU to <span
+								class='redhighlight'>intensywne emocje</span>, mocne groove’y i
+							opowieści <span class='redhighlight'>zakorzenione w tradycji</span>,
+							opowiedziane językiem współczesnej alternatywy. Zespół ma na koncie nagrody na
+							prestiżowych przeglądach (Rock May Festival, InMemoriam, Soundella), udział w
+							<span class='redhighlight'>„Must Be The Music”</span> oraz finał polskich
+							kwalifikacji do <span class='redhighlight'>Eurowizji 2025</span> co czyni go
+							jednym z czołowych przedstawicieli <span class='redhighlight'>nowej fali
+								polskiego folku</span> w mainstreamie. To idealna propozycja dla
+							organizatorów, którzy szukają czegoś więcej niż „kolejnego rockowego” czy
+							„kolejnego folkowego” zespołu. CHRUST łączy oba światy w spójną, widowiskową
+							całość.
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="arrow-down" data-next="videos"></div>
+		</div>
+
+		<!-- videos -->
+		<div class="row chrust cover videos position-relative" id="videos">
+			<div class="col-12 min-vh-100 vw-100 m-0 p-0">
+
+				<div id="carouselExampleIndicators" class="carousel slide">
+					<div class="carousel-indicators">
+						<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+							class="active" aria-current="true" aria-label="Slide 1"></button>
+						<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+							aria-label="Slide 2"></button>
+						<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+							aria-label="Slide 3"></button>
+						<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+							aria-label="Slide 4"></button>
+						<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4"
+							aria-label="Slide 5"></button>
+					</div>
+					<div class="carousel-inner">
+						<div class="carousel-item active vw-100 vh-100 align-items-center overflow-hidden"
+							next-video="videos_podjaworem_video">
+							<video class="vh-100 vw-100" loop controls id="videos_tempo_video">
+								<source src="video/chrust_tempo.mp4" type="video/mp4" />
+							</video>
+						</div>
+						<div class="carousel-item vw-100 vh-100 align-items-center overflow-hidden"
+							next-video="videos_eurowizja_video">
+							<video class="vh-100 vw-100" loop controls id="videos_podjaworem_video">
+								<source src="video/chrust_podjaworem.mp4" type="video/mp4" />
+							</video>
+						</div>
+						<div class="carousel-item vw-100 vh-100 align-items-center overflow-hidden"
+							next-video="videos_zew_video">
+							<video class="vh-100 vw-100" loop controls id="videos_eurowizja_video">
+								<source src="video/chrust_eurowizja.mp4" type="video/mp4" />
+							</video>
+						</div>
+						<div class="carousel-item vw-100 vh-100 align-items-center overflow-hidden"
+							next-video="videos_woda_video">
+							<video class="vh-100 vw-100" loop controls id="videos_zew_video">
+								<source src="video/chrust_twoj_zew.mp4" type="video/mp4" />
+							</video>
+						</div>
+						<div class="carousel-item vw-100 vh-100 align-items-center overflow-hidden"
+							next-video="videos_tempo_video">
+							<video class="vh-100 vw-100" loop controls id="videos_woda_video">
+								<source src="video/chrust_woda.mp4" type="video/mp4" />
+							</video>
+						</div>
+					</div>
+					<button id="videos_control_l" class="carousel-control-prev" type="button"
+						data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button id="videos_control_r" class="carousel-control-next" type="button"
+						data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Next</span>
+					</button>
+				</div>
+
+			</div>
+
+			<div class="arrow-down" data-next="members"></div>
+		</div>
+
+		<!-- links -->
+		<div class="row chrust cover links position-relative" id="links">
+			<div class="col-12 min-vh-100 vw-100 d-flex align-items-center text-center">
+				<div class="row-12 vw-100 text-center my-5">
+
+					<div class="col-12 text-center">
+
+						<div class="container">
+							<div class="row p-5">
+								<div class="col p-1">
+									<a href="https://www.facebook.com/chrust.folkmusic" target="_blank">
+										<img src="img/sm/fb.png" width="80rem" height="80rem"
+											alt="chrust facebook page">
+									</a>
+								</div>
+								<div class="col p-1">
+									<a href="https://www.tiktok.com/@chrust.folkmusic" target="_blank">
+										<img src="img/sm/tt.png" width="80rem" height="80rem" alt="chrust tiktok page">
+									</a>
+								</div>
+								<div class="col p-1">
+									<a href="https://open.spotify.com/artist/2di34XAaoL0ppBWIVcmtrA" target="_blank">
+										<img src="img/sm/spotify.png" width="80rem" height="80rem"
+											alt="chrust spotify page">
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row-12 text-center">
+						<div class="container">
+							<div class="row p-5">
+								<div class="col p-1">
+									<a href="https://music.apple.com/us/artist/chrust/1495191966" target="_blank">
+										<img src="img/sm/music.png" width="80rem" height="80rem"
+											alt="chrust apple music page">
+									</a>
+								</div>
+								<div class="col p-1">
+									<a href="https://www.instagram.com/chrust.folkmusic/" target="_blank">
+										<img src="img/sm/insta.png" width="80rem" height="80rem"
+											alt="chrust instagram page">
+									</a>
+								</div>
+								<div class="col p-1">
+									<a href="https://www.youtube.com/@chrust.folkmusic/" target="_blank">
+										<img src="img/sm/yt.png" width="80rem" height="80rem"
+											alt="chrust instagram page">
+									</a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12 my-4">
+									<a href="https://linktr.ee/chrust.folkmusic" target="_blank">
+										<h1>@chrust.folkmusic</h1>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="arrow-down" data-next="members"></div>
+		</div>
+
+		<!-- members -->
+		<div class="row chrust cover members text-light position-relative" id="members">
+			<div class="col">
+				<div class="container min-vh-100 d-flex align-items-center">
+					<div class="row g-2 my-3">
+
+						<div class="col">
+							<div class="card h-100 bg-transparent text-light border-0">
+								<div class="card-body">
+									<h3 class="card-title text-uppercase text-nowrap" data-ts="members-dariusz-name">
+										Dariusz Mrozek
+									</h3>
+									<h5 class="my-4" data-ts="members-dariusz-role">perkusja, sampler, wokal</h5>
+									<p class="card-text text-justify fs-5" data-ts="members-dariusz-description">
+										Absolwent Akademii Muzycznej w
+										Gdań-sku. Na co dzień pracuje w Straży
+										Granicznej jako perkusista, Po
+										godzinach uczy grać na perkusji we
+										własnej szkole muzycznej. W czasie
+										wolnym - gra na perkusji. W zespole
+										odpowiedzialny za równe granie,
+										sample i wszechobecny hałas. Poza
+										pracą i zespołem współtworzy wiele
+										projektów i inicjatyw muzycznych.</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="col">
+							<div class="card h-100 bg-transparent text-light border-0">
+								<div class="card-body">
+									<h3 class="card-title text-uppercase text-nowrap" data-ts="members-gosia-name">
+										Małgorzata
+										Oleszczuk</h3>
+									<h5 class="my-4" data-ts="members-gosia-role">wokal, ukulele, flety</h5>
+									<p class="card-text text-justify fs-5" data-ts="members-gosia-description">
+										Absolwentka wokalistyki
+										jazzowej Akademii Muzycznej w Gdańsku, miłośniczka śpiewu i
+										muzyki tradycyjnej, ogólno-folkowej oraz filmowej. W
+										Chruście jest głosem wiodącym, odpowiada też za wszelkiego
+										rodzaju chórki, flety i krzyki w tle. Jej największym
+										muzycznym marzeniem jest współtworzenie muzyki do filmów i
+										gier</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="col">
+							<div class="card h-100 bg-transparent text-light border-0">
+								<div class="card-body">
+									<h3 class="card-title text-uppercase text-nowrap" data-ts="members-karol-name">Karol
+										Konop</h3>
+									<h5 class="my-4" data-ts="members-karol-role">syntezator, wokal, produkcja</h5>
+									<p class="card-text text-justify fs-5" data-ts="members-karol-description">Absolwent
+										Polsko
+										Japońskiej Akademii Technik Komputerowych. Na co dzień
+										inżynier informatyk w korporacji, po godzinach producent
+										audiovideo. Fanboy Roberta Makłowicza i Trenta Reznora. W
+										zespole Chrust odpowiedzialny za syntezatory i produkcję
+										muzyczną. Jego matką było drzewo a ojcem przebieg
+										piłokształtny oscylatora Mooga.</p>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="arrow-down" data-next="history"></div>
+		</div>
+
+		<!-- history -->
+		<div class="row chrust cover timeline position-relative" id="history">
+			<div class="col-12 min-vh-100">
+
+				<div class="container text-center my-5 py-5">
+
+					<div class="row">
+						<div class="col-xs-12 col-md-4 timeline-panel p-4">
+							<h2 class="timeline-title">2021</h2>
+							<div class="timeline-body fs-6">
+								<p data-ts="history-1">CHRUST powstaje w Gdańsku podczas pandemii i wydaje debiutancki
+									singiel
+									„Hen za rzeką” otwierający zespołowi drogę na ogólnopolskie sceny.</p>
+							</div>
+						</div>
+
+						<div class="col-xs-12 col-md-4 timeline-panel p-4">
+							<h2 class="timeline-title">2022</h2>
+							<div class="timeline-body fs-6">
+								<p data-ts="history-2">Zespół własnym nakładem wydaje debiutancki album pt. CHRUST który
+									szybko
+									zdobywa popularność wśród dziennikarzy i słuchaczy.</p>
+							</div>
+						</div>
+
+						<div class="col-xs-12 col-md-4 timeline-panel p-4">
+							<h2 class="timeline-title">2023</h2>
+							<div class="timeline-body fs-6">
+								<p data-ts="history-3">Zespół koncertując zdobywa wiele nagród i wyróżnień, w tym
+									nagrodę dla
+									najlepszej wokalistki na Soundella Festival, nagrodę główną oraz nagrodę
+									publiczności na Rock May Festival.</p>
+							</div>
+						</div>
+
+						<div class="col-xs-12 col-md-4 timeline-panel p-4">
+							<h2 class="timeline-title">2024</h2>
+							<div class="timeline-body fs-6">
+								<p data-ts="history-4">Zespół wygrywa nagrodę główną oraz nagrodę dla najlepszego
+									perkusisty na
+									konkursie InMemoriam Grzegorza Ciechowskiego, przedstawiając autorską
+									interpretacje utworu "Dziewczyna Szamana".</p>
+							</div>
+						</div>
+
+						<div class="col-xs-12 col-md-4 timeline-panel p-4">
+							<h2 class="timeline-title">2024</h2>
+							<div class="timeline-body fs-6">
+								<p data-ts="history-5">CHRUST występuje na na inauguracyjnym koncercie Męskiego Grania
+									na scenie Radia 357.
+								</p>
+							</div>
+						</div>
+
+						<div class="col-xs-12 col-md-4 timeline-panel p-4">
+							<h2 class="timeline-title">2024</h2>
+							<div class="timeline-body fs-6">
+								<p data-ts="history-6">CHRUST występuje jako headliner na głównej scenie SlotArt
+									Festival.</p>
+							</div>
+						</div>
+
+						<div class="col-xs-12 col-md-4 timeline-panel p-4">
+							<h2 class="timeline-title">2024</h2>
+							<div class="timeline-body fs-6">
+								<p data-ts="history-7">Zespól występuje na największych polskich showcaseach takich jak
+									Great September,
+									SeaYou Music Festival
+									oraz Tak Brzmi Miasto.</p>
+							</div>
+						</div>
+
+						<div class="col-xs-12 col-md-4 timeline-panel p-4">
+							<h2 class="timeline-title">2025</h2>
+							<div class="timeline-body fs-6">
+								<p data-ts="history-8">Zespół wydaje swój drugi album „Przed Zmierzchem” zawierający
+									m.in. utwór
+									„Tempo”, znany z polskich preselekcji do Konkursu Piosenki Eurowizji
+									2025. Utwór „Róża” nagrany we współpracy z Czesławem Mozilem czy
+									„Zapiera Mi Dech” z Joanną Jabłczyńską.</p>
+							</div>
+						</div>
+
+						<div class="col-xs-12 col-md-4 timeline-panel p-4">
+							<h2 class="timeline-title">2025</h2>
+							<div class="timeline-body fs-6">
+								<p data-ts="history-9">CHRUST dostaje 4 x TAK w ćwierćfinale Must Be The Music! od
+									Dawida Kwiatkowskiego,
+									Natalii
+									Szroeder, Miuosha oraz Sebastiana Karpiel-Bułecki.</p>
+							</div>
+						</div>
+
+						<div class="col-xs-12 col-md-4 timeline-panel p-4">
+							<h2 class="timeline-title">2025</h2>
+							<div class="timeline-body fs-6">
+								<p data-ts="history-10">Zespół zajmuje czwarte miejsce w finale Polskiego Konkursu
+									Piosenki Eurowizji.</p>
+							</div>
+						</div>
+
+						<div class="col-xs-12 col-md-4 timeline-panel p-4">
+							<h2 class="timeline-title">2025</h2>
+							<div class="timeline-body fs-6">
+								<p data-ts="history-11">W Grudniu ukazuje się trzeci album zespołu - Suita Reymontowska,
+									stworozny
+									razem z Falkowski Orkiestra, którego premiera odbyła się w Filharmonii
+									Łódzkiej im. Artura Rubinsteina.</p>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+			<div class="arrow-down" data-next="press"></div>
+		</div>
+
+		<!-- press -->
+		<div class="row chrust cover press position-relative" id="press">
+			<div class="col">
+				<div class="vh-100 d-flex flex-column justify-content-center align-items-center">
+
+					<div class="container">
+						<div class="row g-2 my-3">
+
+							<div class="col">
+								<div class="card h-100 bg-transparent text-light border-0">
+									<div class="card-body">
+										<img src="img/package.png" class="card-img-top" alt="...">
+
+										<span class="card-text" data-ts="press-pack">
+											<h1>Press Pack</h1> Tutaj znajdziesz nasze zdjęcia, opisy,
+											logotypy, nagrania video, a także nasz wzór umowy, rider techniczny czy
+											wypełnioną listę utworów do ZAiKS.
+											<a target='_blank' href='https://drive.google.com/drive/folders/1N0Zyv_Q2AWYGj3xWljny8ciOkJWFJMuU' class='btn btn-primary stretched-link'></a>
+										</span>
+									</div>
+								</div>
+							</div>
+
+							<div class="col">
+								<div class="card h-100 bg-transparent text-light border-0">
+									<div class="card-body">
+
+										<img src="img/download-pdf.png" class="card-img-top" alt="...">
+
+										<span class="card-text" data-ts="press-pdf">
+											<h1>Ulotka</h1> Wszystkie niezbędne informacje w jednym pliku
+											gotowym do druku.
+											<a target='_blank' href='https://drive.google.com/file/d/15GE-lBwXvNDC1x-V20M_GVS18_nrpvB9/view?usp=drive_link' class='btn btn-primary stretched-link'></a>
+										</span>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="arrow-down" data-next="contact"></div>
+		</div>
+
+		<!-- contact -->
+		<div class="row chrust cover contact position-relative" id="contact">
+			<div class="col text-light">
+				<div class="vh-100 d-flex flex-column justify-content-center align-items-center text-center">
+
+					<p class="fs-2">
+						<a href="mailto:chrust@chrustfokmusic.pl">chrust@chrustfokmusic.pl</a>
+						<br />
+						<br />
+						<a href="tel:+48504223320">+48 504 223 320</a>
+						<br />
+						<br />
+					</p>
+
+					<p class="fs-1">© 2026 CHRUST</p>
+					<p class="fs-9" data-ts="contact-rights">wszystkie prawa zastrzeżone</p>
+					<p class="fs-8" data-ts="contact-credits">Zdjęcia: Sebastian Bernatowicz, Monika Kutkowska, Szymon
+						Ogrodnik</p>
+					<p class="fs-8" data-ts="contact-creator">Projekt strony internetowej: <a
+							href="https://www.karol.konop.pl">Karol
+							Konop</a></p>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+</body>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+
+		let logo = document.getElementById("biglogo");
+
+		let covers = document.getElementsByClassName('cover');
+		let activeCover = 0;
+		let arrows = document.getElementsByClassName("arrow-down");
+
+		// HELPER check if element is visible in viewport
+		const isVisibleInViewport = (element) => {
+			const rect = element.getBoundingClientRect()
+			return (
+				rect.top >= 0 &&
+				rect.left >= 0 &&
+				rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+				rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+			)
+		}
+
+		document.addEventListener('keydown', function (e) {
+
+			if (e.keyCode == 40 ) {
+				activeCover++;
+			}
+			else if (e.keyCode == 38) {
+				activeCover--;
+			}
+			else {
+				return 0;
+			};
+
+			if (activeCover >= covers.length || activeCover < 0) {
+				activeCover = 0;
+			}
+
+			e.preventDefault();
+			e.stopPropagation();
+			e.stopImmediatePropagation();
+
+			let nextElement = covers[activeCover];
+			window.scrollTo(0, nextElement.offsetTop, 'smooth');
+
+		});
+
+		// smooth scrolling
+
+		// let isScrolling = false;
+
+		// window.addEventListener('wheel', function (e) {
+		// 	e.preventDefault();
+
+		// 	if(isScrolling) return;
+
+		// 	if (e.deltaY > 0) {
+		// 		activeCover++;
+		// 	}
+		// 	else if (e.deltaY < 0) {
+		// 		activeCover--;
+		// 	}
+		// 	else {
+		// 		return 0;
+		// 	};
+
+		// 	if (activeCover >= covers.length || activeCover < 0) {
+		// 		activeCover = 0;
+		// 	}
+
+		// 	isScrolling = true;
+		// 	let nextElement = covers[activeCover];
+		// 	window.scrollTo(0, nextElement.offsetTop, 'smooth');
+
+		// },{passive:false});
+
+		// window.addEventListener('mousewheel', function (e) {e.preventDefault();},{passive:false});
+		// window.addEventListener('scroll', function (e) {e.preventDefault();},{passive:false});
+		// window.addEventListener('scrollend', function(e){
+		// 	isScrolling = false;
+		// });
+
+		// click listeners for DOWN ARROWS
+		for (let item of arrows) {
+			item.addEventListener('click', function (e) {
+				let nextElement = document.getElementById(this.getAttribute("data-next"));
+				window.scrollTo(0, nextElement.offsetTop, 'smooth');
+			}, false);
+		};
+
+		// animate logo at start
+		setTimeout(() => {
+			logo.classList.remove('hidden');
+		}, 100);
+
+		setTimeout(() => {
+			document.getElementById("navBar").classList.remove('pushed');
+			document.getElementById("firstArrow").classList.remove('pushed');
+		}, 1000)
+
+
+
+		// VIDEO controls
+		let video1 = document.getElementById("videos_tempo");
+		let controlsR = document.getElementById("videos_control_r");
+		let controlsL = document.getElementById("videos_control_l");
+		let videos = document.getElementsByTagName("video");
+
+		const stopAllVideos = () => {
+			for (let i in videos) {
+				try { videos[i].pause() } catch { }
+			}
+		}
+
+		controlsR.addEventListener('click', function (e) {
+			stopAllVideos();
+			let nextVideoId = document.getElementsByClassName("carousel-item active")[0].getAttribute('next-video');
+			document.getElementById(nextVideoId).play();
+		});
+		controlsL.addEventListener('click', stopAllVideos);
+
+
+		let navLinks = document.getElementsByClassName("nav-link");
+		let nabvar = document.getElementById("navbarSupportedContent");
+
+		let setNavListeners = function () {
+			for (i in navLinks) {
+				if (isNaN(i)) return;
+				navLinks[i].addEventListener('click', function (e) {
+					nabvar.classList.remove('show');
+				});
+			}
+		};
+
+		setNavListeners();
+
+		//translations
+		let translations;
+
+		function fetchTranslations() {
+			fetch('./translations.json')
+				.then(response => {
+					if (!response.ok) {
+						throw new Error(`HTTP error! Status: ${response.status}`);
+					}
+					return response.json();
+				})
+				.then(data => { translations = data })
+				.catch(error => console.error('Failed to fetch data:', error));
+		}
+
+		let currentLang = 'pl';
+		fetchTranslations();
+
+		let translationElements = document.querySelectorAll('[data-ts]');
+
+		function reTranslate(data) {
+
+			if (currentLang == 'pl') { currentLang = 'en' } else if (currentLang == 'en') { currentLang = 'pl' } else { currentLang = 'pl' };
+
+
+			for (i in translationElements) {
+				if (isNaN(i)) return;
+
+				let key = translationElements[i].getAttribute('data-ts');
+				translationElements[i].innerHTML = translations.lang[currentLang][key];
+
+			}
+
+
+		}
+
+		// reTranslate();
+
+
+		document.getElementById('langChangeButton').addEventListener('click', reTranslate);
+
+	});
+</script>
+
+</html>
