@@ -9,6 +9,7 @@ app.use(express.static(__dirname+'/public'));
 app.get('/', function(req, res) {
   res.sendfile(__dirname + '/index.html');
 });
+
 app.listen(3000,()=>{
-	console.log('chrust-website-app listening at 3000');
+	console.log('chrust-website-app listening at 3000 from ',__dirname);
 });
