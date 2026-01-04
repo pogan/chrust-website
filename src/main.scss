@@ -165,6 +165,7 @@ $font-family-base: 'Montserrat', sans-serif;
     background-color: rgba(0, 0, 0, 0.4) !important;
     backdrop-filter: blur(2px);
     text-transform: uppercase;
+	border-bottom: 0.1rem rgba(0,0,0,0.0) !important;
 
     &:hover {
         background-color: rgba(0, 0, 0, 0.6) !important;
@@ -203,6 +204,7 @@ $font-family-base: 'Montserrat', sans-serif;
 	text-shadow: none !important;
 	background-color: rgba(0, 0, 0, 0.6) !important;
 	opacity: 1 !important;
+	backdrop-filter: blur(6px);
 	transition: top 2s ease-out, opacity 2s ease-out;
 
 	&.pushed{
