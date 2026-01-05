@@ -103,7 +103,7 @@
 .chrust.cover.press {
   background-image: url("img/chrust_bg_zespol2.png");
 }
-.chrust.cover.press img {
+.chrust.cover.press .card-img-top {
   max-width: 200px;
 }
 .chrust.cover.press .card {
