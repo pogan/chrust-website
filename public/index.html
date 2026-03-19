@@ -5,7 +5,6 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>CHRUST</title>
-
 	<link rel="stylesheet" href="./main.css" />
 	<link rel="icon" type="image/x-icon" href="img/chrust_favicon_pozytyw.png">
 	<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
@@ -29,13 +28,16 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
 					<li class="nav-item">
+						<a class="nav-link" href="#bio" data-ts="bio-navlink">bio</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#oferta" data-ts="oferta-navlink">oferta</a>
+					</li>
+					<li class="nav-item">
 						<a class="nav-link" href="#concerts" data-ts="concerts-navlink">koncerty</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#merch" data-ts="shop-navlink">sklep</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#bio" data-ts="bio-navlink">bio</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#videos" data-ts="video-navlink">video</a>
@@ -50,7 +52,9 @@
 						<a class="nav-link" href="#history" data-ts="history-navlink">osiągnięcia</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#press" data-ts="press-navlink">dla organizatorów</a>
+						<a class="nav-link" target="_blank"
+							href="https://drive.google.com/drive/folders/1N0Zyv_Q2AWYGj3xWljny8ciOkJWFJMuU"
+							data-ts="press-navlink">dla organizatorów</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#contact" data-ts="contact-navlink">kontakt</a>
@@ -80,12 +84,107 @@
 			<div class="arrow-down pushed" data-next="concerts" id="firstArrow"></div>
 		</div>
 
+		<!-- bio -->
+		<div class="row chrust cover bio position-relative" id="bio">
+			<div class="col">
+					<div class="min-vh-100 d-flex flex-column justify-content-center align-items-center">
+						<div class="container my-5">
+							<p class="fs-4 text-light abouttext text-justify" data-ts="bio-paragraph">
+								<span class='redhighlight'>CHRUST</span> to zespół który zamienia <span
+									class='redhighlight'>słowiański folk</span> w energetyczny spektakl.
+								Trzy odmienne osobowości <span class='redhighlight'>folk, elektronika i
+									rock</span> tworzą show, które równie dobrze sprawdza się na
+								festiwalowej scenie, jak i w klubie. Koncerty CHRUSTU to <span
+									class='redhighlight'>intensywne
+									emocje</span>, mocne groove’y i
+								opowieści <span class='redhighlight'>zakorzenione w tradycji</span>,
+								opowiedziane językiem współczesnej alternatywy. Zespół ma na koncie nagrody na
+								prestiżowych przeglądach (<span class='redhighlight'>ONET O!LŚNIENIA</span> Rock May
+								Festival, InMemoriam, Soundella), udział w
+								<span class='redhighlight'>„Must Be The Music”</span> oraz finał polskich
+								kwalifikacji do <span class='redhighlight'>Eurowizji 2025</span> co czyni go
+								jednym z czołowych przedstawicieli <span class='redhighlight'>nowej fali
+									polskiego folku</span> w mainstreamie. To idealna propozycja dla
+								organizatorów, którzy szukają czegoś więcej niż „kolejnego rockowego” czy
+								„kolejnego folkowego” zespołu. CHRUST łączy oba światy w spójną, widowiskową
+								całość.
+							</p>
+						</div>
+					</div>
+			</div>
+			<div class="arrow-down pushed" data-next="concerts" id="firstArrow"></div>
+		</div>
+
+		<!-- oferta -->
+		<div class="row chrust cover about position-relative" id="oferta">
+			<div class="col">
+				<div class="min-vh-100 d-flex flex-column justify-content-center align-items-center">
+					<div class="container my-5">
+						<p class="fs-4 text-light abouttext text-justify" data-ts="oferta-paragraph-2">
+							Na każdym koncercie występujemy w kostiumach. Przyjeżdżamy z własną scenografią,
+							realizatorem frontu, odsłuchu, stołem, omikrofonowaniem oraz statywami. W ramach jednolitej
+							stawki sami organizujemy swój transport, nocleg oraz wyżywienie.
+							Rozliczamy się fakturą, zwolnioną z VAT na podstawie umowy i preferujemy podpis
+							kwalifikowany. <a class="redhighlight underline"
+								href="https://drive.google.com/drive/folders/1N0Zyv_Q2AWYGj3xWljny8ciOkJWFJMuU"
+								target="_blank">Tutaj znajdziecie Państwo nasz rider techniczny i wszystkie materiały
+								dla organizatorów.</a>
+							W przypadku zainteresowania współpracą, prosimy o <a href="#contact"
+								class="redhighlight underline">kontakt mailowy lub telefoniczny</a>, abyśmy mogli omówić
+							szczegóły i przygotować indywidualną ofertę dostosowaną do Państwa potrzeb.
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="arrow-down" data-next="videos"></div>
+		</div>
+
 		<!-- koncerty -->
 		<div class="row chrust cover concerts position-relative" id="concerts">
 			<div class="col">
-				<div class="vh-100 d-flex flex-column justify-content-center align-items-center">
-					<a class="btn btn-link btn-primary btn-lg bigbtn fs-2" href="https://www.bandsintown.com/a/15542927"
-						target="_blank" role="button" data-ts="concerts-button">koncerty</a>
+				<div class="d-flex justify-content-center">
+					<!-- <a class="btn btn-link btn-primary btn-lg bigbtn fs-2" href="https://www.bandsintown.com/a/15542927" -->
+					<!-- target="_blank" role="button" data-ts="concerts-button">koncerty</a> -->
+
+					<script charset="utf-8" src="https://widgetv3.bandsintown.com/main.min.js"></script>
+					<a class="bit-widget-initializer" data-artist-name="id_15542927"
+						data-background-color="rgba(46,37,37,0)" data-separator-color="rgba(255,255,255,0.2)"
+						data-text-color="rgba(255,255,255,1)" data-font="Montserrat" data-auto-style="true"
+						data-button-label-capitalization="uppercase" data-header-capitalization="uppercase"
+						data-location-capitalization="uppercase" data-venue-capitalization="capitalize"
+						data-local-dates-position="tab" data-display-details="false" data-display-lineup="false"
+						data-display-start-time="false" data-social-share-icon="false" data-display-limit="all"
+						data-date-format="DD.MM.YYYY" data-date-orientation="horizontal"
+						data-date-border-color="#4A4A4A" data-date-border-width="1px"
+						data-date-capitalization="lowercase" data-date-border-radius="10px"
+						data-event-ticket-cta-size="medium" data-event-ticket-text="TICKETS"
+						data-event-ticket-icon="false" data-event-ticket-cta-text-color="rgba(0,0,0,1)"
+						data-event-ticket-cta-bg-color="rgba(255,255,255,1)"
+						data-event-ticket-cta-border-color="rgba(74,74,74,1)" data-event-ticket-cta-border-width="0px"
+						data-event-ticket-cta-border-radius="0px" data-sold-out-button-text-color="rgba(255,255,255,1)"
+						data-sold-out-button-background-color="rgba(74,74,74,1)"
+						data-sold-out-button-border-color="rgba(74,74,74,1)" data-sold-out-button-clickable="true"
+						data-event-rsvp-position="hidden" data-event-rsvp-cta-size="medium"
+						data-event-rsvp-only-show-icon="false" data-event-rsvp-text="RSVP" data-event-rsvp-icon="false"
+						data-event-rsvp-cta-text-color="rgba(74,74,74,1)"
+						data-event-rsvp-cta-bg-color="rgba(255,255,255,1)"
+						data-event-rsvp-cta-border-color="rgba(74,74,74,1)" data-event-rsvp-cta-border-width="1px"
+						data-event-rsvp-cta-border-radius="2px" data-follow-section-position="top"
+						data-follow-section-alignment="center" data-follow-section-header-text="UPCOMING SHOWS"
+						data-follow-section-cta-size="medium" data-follow-section-cta-text="FOLLOW"
+						data-follow-section-cta-icon="false" data-follow-section-cta-text-color="rgba(255,255,255,1)"
+						data-follow-section-cta-bg-color="rgba(0,0,0,1)"
+						data-follow-section-cta-border-color="rgba(74,74,74,1)"
+						data-follow-section-cta-border-width="0px" data-follow-section-cta-border-radius="2px"
+						data-play-my-city-position="hidden" data-play-my-city-alignment="center"
+						data-play-my-city-header-text="Don’t see a show near you?" data-play-my-city-cta-size="medium"
+						data-play-my-city-cta-text="REQUEST A SHOW" data-play-my-city-cta-icon="false"
+						data-play-my-city-cta-text-color="rgba(255,255,255,1)"
+						data-play-my-city-cta-bg-color="rgba(74,74,74,1)"
+						data-play-my-city-cta-border-color="rgba(74,74,74,1)" data-play-my-city-cta-border-width="0px"
+						data-play-my-city-cta-border-radius="2px" data-language="en" data-layout-breakpoint="900"
+						data-app-id="ab831cd331a0844eef6739a8eed498d6" data-bit-logo-position="bottomCenter"
+						data-bit-logo-color="rgba(255,255,255,1)"></a>
 				</div>
 			</div>
 			<div class="arrow-down" data-next="merch"></div>
@@ -96,39 +195,10 @@
 			<div class="col">
 				<div class="min-vh-100 d-flex flex-column justify-content-center align-items-center">
 					<a class="btn btn-link btn-primary btn-lg bigbtn fs-1" href="https://chrust.bandcamp.com/merch"
-						target="_blank" role="button" data-ts="shop-button">sklep</a>
+						target="_blank" role="button" data-ts="shop-button">bandcamp ⬈</a>
 				</div>
 			</div>
-			<div class="arrow-down" data-next="bio"></div>
-		</div>
-
-		<!-- bio -->
-		<div class="row chrust cover about position-relative" id="bio">
-			<div class="col">
-				<div class="min-vh-100 d-flex flex-column justify-content-center align-items-center">
-					<div class="container my-5">
-						<p class="fs-4 text-light abouttext text-justify" data-ts="bio-paragraph">
-							<span class='redhighlight'>CHRUST</span> to zespół który zamienia <span
-								class='redhighlight'>słowiański folk</span> w energetyczny spektakl.
-							Trzy odmienne osobowości <span class='redhighlight'>folk, elektronika i
-								rock</span> tworzą show, które równie dobrze sprawdza się na
-							festiwalowej scenie, jak i w klubie. Koncerty CHRUSTU to <span
-								class='redhighlight'>intensywne emocje</span>, mocne groove’y i
-							opowieści <span class='redhighlight'>zakorzenione w tradycji</span>,
-							opowiedziane językiem współczesnej alternatywy. Zespół ma na koncie nagrody na
-							prestiżowych przeglądach (Rock May Festival, InMemoriam, Soundella), udział w
-							<span class='redhighlight'>„Must Be The Music”</span> oraz finał polskich
-							kwalifikacji do <span class='redhighlight'>Eurowizji 2025</span> co czyni go
-							jednym z czołowych przedstawicieli <span class='redhighlight'>nowej fali
-								polskiego folku</span> w mainstreamie. To idealna propozycja dla
-							organizatorów, którzy szukają czegoś więcej niż „kolejnego rockowego” czy
-							„kolejnego folkowego” zespołu. CHRUST łączy oba światy w spójną, widowiskową
-							całość.
-						</p>
-					</div>
-				</div>
-			</div>
-			<div class="arrow-down" data-next="videos"></div>
+			<div class="arrow-down" data-next="oferta"></div>
 		</div>
 
 		<!-- videos -->
@@ -218,9 +288,9 @@
 									</a>
 								</div>
 								<div class="col p-1">
-									<a href="https://open.spotify.com/artist/2di34XAaoL0ppBWIVcmtrA" target="_blank">
-										<img src="img/sm/spotify.png" width="80rem" height="80rem"
-											alt="chrust spotify page">
+									<a href="https://chrust.bandcamp.com/" target="_blank">
+										<img src="img/sm/bandcamp.png" width="80rem" height="80rem"
+											alt="chrust bandcamp page">
 									</a>
 								</div>
 							</div>
@@ -338,163 +408,146 @@
 		<div class="row chrust cover timeline position-relative" id="history">
 			<div class="col-12 min-vh-100">
 
-				<div class="container text-center my-5 py-5">
+				<div class="container text-center">
 
-					<div class="row">
-						<div class="col-xs-12 col-md-4 timeline-panel p-4">
-							<h2 class="timeline-title">2021</h2>
-							<div class="timeline-body fs-6">
-								<p data-ts="history-1">CHRUST powstaje w Gdańsku podczas pandemii i wydaje debiutancki
-									singiel
-									„Hen za rzeką” otwierający zespołowi drogę na ogólnopolskie sceny.</p>
+					<div class="row justify-content-center">
+
+						<div class="col-xs-12 col-lg-3 timeline-panel">
+							<div>
+								<h2 class="timeline-title">2026</h2>
+								<div class="timeline-body fs-6">
+									<p data-ts="history-11">CHRUST otrzymuje nagrodę ONET O!Lśnienia w kategorii muzyka
+										popularna, za album "Przed Zmierzchem".</p>
+								</div>
+							</div>
+							<img src="img/olsnienia.png" alt='onet olsnienia' />
+						</div>
+
+						<div class="col-xs-12 col-lg-3 timeline-panel">
+							<div>
+								<h2 class="timeline-title">2025</h2>
+								<div class="timeline-body fs-6">
+									<p data-ts="history-10">Zespół zajmuje czwarte miejsce w finale Polskiego Konkursu
+										Piosenki Eurowizji.</p>
+								</div>
+							</div>
+							<img src="img/eurovision.png" alt="eurovision" />
+						</div>
+
+						<div class="col-xs-12 col-lg-3 timeline-panel">
+							<div>
+								<h2 class="timeline-title">2025</h2>
+								<div class="timeline-body fs-6">
+									<p data-ts="history-9">CHRUST dostaje 4 x TAK w ćwierćfinale Must Be The Music! od
+										Dawida Kwiatkowskiego, Natalii Szroeder, Miuosha oraz Sebastiana
+										Karpiel-Bułecki.</p>
+									<img src="img/mbtm.png" alt="must be the music" />
+								</div>
 							</div>
 						</div>
 
-						<div class="col-xs-12 col-md-4 timeline-panel p-4">
-							<h2 class="timeline-title">2022</h2>
-							<div class="timeline-body fs-6">
-								<p data-ts="history-2">Zespół własnym nakładem wydaje debiutancki album pt. CHRUST który
-									szybko
-									zdobywa popularność wśród dziennikarzy i słuchaczy.</p>
+						<div class="col-xs-12 col-lg-3 timeline-panel">
+							<div>
+								<h2 class="timeline-title">2025</h2>
+								<div class="timeline-body fs-6">
+									<p data-ts="history-8">Zespół wydaje swój drugi album „Przed Zmierzchem” zawierający
+										m.in. utwór „Tempo”, znany z polskich preselekcji do Konkursu Piosenki Eurowizji
+										2025. Utwór „Róża” nagrany we współpracy z Czesławem Mozilem czy „Zapiera Mi
+										Dech” z Joanną Jabłczyńską.</p>
+								</div>
 							</div>
+							<img src="img/pzm.png" alt="okładka albumu Przed Zmierzchem" />
 						</div>
 
-						<div class="col-xs-12 col-md-4 timeline-panel p-4">
-							<h2 class="timeline-title">2023</h2>
-							<div class="timeline-body fs-6">
-								<p data-ts="history-3">Zespół koncertując zdobywa wiele nagród i wyróżnień, w tym
-									nagrodę dla
-									najlepszej wokalistki na Soundella Festival, nagrodę główną oraz nagrodę
-									publiczności na Rock May Festival.</p>
+
+						<div class="col-xs-12 col-lg-3 timeline-panel">
+							<div>
+								<h2 class="timeline-title">2024</h2>
+								<div class="timeline-body fs-6">
+									<p data-ts="history-4">Zespół wygrywa nagrodę główną oraz nagrodę dla najlepszego
+										perkusisty na konkursie InMemoriam Grzegorza Ciechowskiego, przedstawiając
+										autorską interpretacje utworu "Dziewczyna Szamana".</p>
+								</div>
 							</div>
+							<img src="img/ciechowski.png" alt="inmemoriam ciechowskiego" />
 						</div>
 
-						<div class="col-xs-12 col-md-4 timeline-panel p-4">
-							<h2 class="timeline-title">2024</h2>
-							<div class="timeline-body fs-6">
-								<p data-ts="history-4">Zespół wygrywa nagrodę główną oraz nagrodę dla najlepszego
-									perkusisty na
-									konkursie InMemoriam Grzegorza Ciechowskiego, przedstawiając autorską
-									interpretacje utworu "Dziewczyna Szamana".</p>
+						<div class="col-xs-12 col-lg-3 timeline-panel">
+							<div>
+								<h2 class="timeline-title">2024</h2>
+								<div class="timeline-body fs-6">
+									<p data-ts="history-5">CHRUST występuje na na inauguracyjnym koncercie Męskiego
+										Grania na scenie Radia 357.
+									</p>
+								</div>
 							</div>
+							<img src="img/radio357.png" alt="radio367" />
 						</div>
 
-						<div class="col-xs-12 col-md-4 timeline-panel p-4">
-							<h2 class="timeline-title">2024</h2>
-							<div class="timeline-body fs-6">
-								<p data-ts="history-5">CHRUST występuje na na inauguracyjnym koncercie Męskiego Grania
-									na scenie Radia 357.
-								</p>
+						<div class="col-xs-12 col-lg-3 timeline-panel">
+							<div>
+								<h2 class="timeline-title">2024</h2>
+								<div class="timeline-body fs-6">
+									<p data-ts="history-6">CHRUST występuje jako headliner na głównej scenie SlotArt
+										Festival.</p>
+								</div>
 							</div>
+							<img src="img/slotart.png" alt="Slot Art festival" />
 						</div>
 
-						<div class="col-xs-12 col-md-4 timeline-panel p-4">
-							<h2 class="timeline-title">2024</h2>
-							<div class="timeline-body fs-6">
-								<p data-ts="history-6">CHRUST występuje jako headliner na głównej scenie SlotArt
-									Festival.</p>
+						<div class="col-xs-12 col-lg-3 timeline-panel">
+							<div>
+								<h2 class="timeline-title">2024</h2>
+								<div class="timeline-body fs-6">
+									<p data-ts="history-7">Zespól występuje na największych polskich showcaseach takich
+										jak Great September, SeaYou Music Festival oraz Tak Brzmi Miasto.</p>
+								</div>
 							</div>
+							<img src="img/greatseptember.png" alt="great september showcase" />
 						</div>
 
-						<div class="col-xs-12 col-md-4 timeline-panel p-4">
-							<h2 class="timeline-title">2024</h2>
-							<div class="timeline-body fs-6">
-								<p data-ts="history-7">Zespól występuje na największych polskich showcaseach takich jak
-									Great September,
-									SeaYou Music Festival
-									oraz Tak Brzmi Miasto.</p>
+						<div class="col-xs-12 col-lg-3 timeline-panel">
+							<div>
+								<h2 class="timeline-title">2023</h2>
+								<div class="timeline-body fs-6">
+									<p data-ts="history-3">Zespół koncertując zdobywa wiele nagród i wyróżnień, w tym
+										nagrodę dla najlepszej wokalistki na Soundella Festival, nagrodę główną oraz
+										nagrodę publiczności na Rock May Festival.</p>
+								</div>
 							</div>
+							<img src="img/rockmay.png" alt="Rock May Festival" />
 						</div>
 
-						<div class="col-xs-12 col-md-4 timeline-panel p-4">
-							<h2 class="timeline-title">2025</h2>
-							<div class="timeline-body fs-6">
-								<p data-ts="history-8">Zespół wydaje swój drugi album „Przed Zmierzchem” zawierający
-									m.in. utwór
-									„Tempo”, znany z polskich preselekcji do Konkursu Piosenki Eurowizji
-									2025. Utwór „Róża” nagrany we współpracy z Czesławem Mozilem czy
-									„Zapiera Mi Dech” z Joanną Jabłczyńską.</p>
+						<div class="col-xs-12 col-lg-3 timeline-panel">
+							<div>
+								<h2 class="timeline-title">2022</h2>
+								<div class="timeline-body fs-6">
+									<p data-ts="history-2">Zespół własnym sumptem wydaje debiutancki album pt. CHRUST
+										który szybko zdobywa popularność wśród dziennikarzy i słuchaczy.</p>
+								</div>
 							</div>
+							<img src="img/chrustchrust.png" alt="CHRUST - Chrust" />
 						</div>
 
-						<div class="col-xs-12 col-md-4 timeline-panel p-4">
-							<h2 class="timeline-title">2025</h2>
-							<div class="timeline-body fs-6">
-								<p data-ts="history-9">CHRUST dostaje 4 x TAK w ćwierćfinale Must Be The Music! od
-									Dawida Kwiatkowskiego,
-									Natalii
-									Szroeder, Miuosha oraz Sebastiana Karpiel-Bułecki.</p>
+						<div class="col-xs-12 col-lg-3 timeline-panel">
+							<div>
+								<h2 class="timeline-title">2021</h2>
+								<div class="timeline-body fs-6">
+									<p data-ts="history-1">CHRUST powstaje w Gdańsku podczas pandemii i wydaje
+										debiutancki singiel „Hen za rzeką” który przy pomocy promocji dziennikarzy Radia
+										Gdańsk, otwierają zespołowi drogę na sceny polskich festiwali dla młodych
+										zespołów.</p>
+								</div>
 							</div>
+							<img src="img/radiogdansk.png" alt="Radio Gdańsk" />
 						</div>
 
-						<div class="col-xs-12 col-md-4 timeline-panel p-4">
-							<h2 class="timeline-title">2025</h2>
-							<div class="timeline-body fs-6">
-								<p data-ts="history-10">Zespół zajmuje czwarte miejsce w finale Polskiego Konkursu
-									Piosenki Eurowizji.</p>
-							</div>
-						</div>
-
-						<div class="col-xs-12 col-md-4 timeline-panel p-4">
-							<h2 class="timeline-title">2025</h2>
-							<div class="timeline-body fs-6">
-								<p data-ts="history-11">W Grudniu ukazuje się trzeci album zespołu - Suita Reymontowska,
-									stworzozny razem z Falkowski Orkiestra, którego premiera odbyła się w Filharmonii
-									Łódzkiej im. Artura Rubinsteina.</p>
-							</div>
-						</div>
 					</div>
 
 				</div>
 
 			</div>
 			<div class="arrow-down" data-next="press"></div>
-		</div>
-
-		<!-- press -->
-		<div class="row chrust cover press position-relative" id="press">
-			<div class="col">
-				<div class="vh-100 d-flex flex-column justify-content-center align-items-center">
-
-					<div class="container">
-						<div class="row g-2 my-3">
-
-							<div class="col">
-								<div class="card h-100 bg-transparent text-light border-0">
-									<div class="card-body">
-										<img src="img/package.png" class="card-img-top" alt="...">
-
-										<span class="card-text" data-ts="press-pack">
-											<h1>PressPack</h1> Tutaj znajdziesz nasze zdjęcia, opisy,
-											logotypy, nagrania video, a także nasz wzór umowy, rider techniczny czy
-											wypełnioną listę utworów do ZAiKS.
-											<a target='_blank' href='https://drive.google.com/drive/folders/1N0Zyv_Q2AWYGj3xWljny8ciOkJWFJMuU' class='btn btn-primary stretched-link'></a>
-										</span>
-									</div>
-								</div>
-							</div>
-
-							<div class="col">
-								<div class="card h-100 bg-transparent text-light border-0">
-									<div class="card-body">
-
-										<img src="img/download-pdf.png" class="card-img-top" alt="...">
-
-										<span class="card-text" data-ts="press-pdf">
-											<h1>Ulotka</h1> Wszystkie niezbędne informacje w jednym pliku
-											gotowym do druku.
-											<a target='_blank' href='https://drive.google.com/file/d/15GE-lBwXvNDC1x-V20M_GVS18_nrpvB9/view?usp=drive_link' class='btn btn-primary stretched-link'></a>
-										</span>
-									</div>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-				</div>
-			</div>
-			<div class="arrow-down" data-next="contact"></div>
 		</div>
 
 		<!-- contact -->
@@ -548,7 +601,7 @@
 
 		document.addEventListener('keydown', function (e) {
 
-			if (e.keyCode == 40 ) {
+			if (e.keyCode == 40) {
 				activeCover++;
 			}
 			else if (e.keyCode == 38) {
