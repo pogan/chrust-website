@@ -1,16 +1,85 @@
 <!doctype html>
-<html lang="en">
+<html lang="pl">
 
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>CHRUST</title>
+
+	<title>CHRUST — słowiański folk, elektronika i rock</title>
+	<meta name="description"
+		content="CHRUST zamienia słowiański folk w energetyczny spektakl. Nominacja do Fryderyka 2026 i finał preselekcji do Eurowizji 2025. Koncerty i kontakt.">
+	<link rel="canonical" href="https://chrustfolkmusic.pl/">
+	<meta name="theme-color" content="#900000">
+
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="CHRUST">
+	<meta property="og:locale" content="pl_PL">
+	<meta property="og:locale:alternate" content="en_US">
+	<meta property="og:url" content="https://chrustfolkmusic.pl/">
+	<meta property="og:title" content="CHRUST — słowiański folk, elektronika i rock">
+	<meta property="og:description"
+		content="Zespół, który zamienia słowiański folk w energetyczny spektakl. Nominacja do Fryderyka 2026 i finał preselekcji do Eurowizji 2025.">
+	<meta property="og:image" content="https://chrustfolkmusic.pl/img/chrust_przedzmierzchem_full.jpg">
+	<meta property="og:image:width" content="2000">
+	<meta property="og:image:height" content="1200">
+	<meta property="og:image:alt" content="CHRUST — okładka albumu Przed Zmierzchem">
+
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="CHRUST — słowiański folk, elektronika i rock">
+	<meta name="twitter:description"
+		content="Zespół, który zamienia słowiański folk w energetyczny spektakl. Nominacja do Fryderyka 2026 i finał preselekcji do Eurowizji 2025.">
+	<meta name="twitter:image" content="https://chrustfolkmusic.pl/img/chrust_przedzmierzchem_full.jpg">
+
 	<link rel="stylesheet" href="./main.css" />
-	<link rel="icon" type="image/x-icon" href="img/chrust_favicon_pozytyw.png">
+	<link rel="icon" type="image/png" href="img/chrust_favicon_pozytyw.png">
+	<link rel="apple-touch-icon" href="img/chrust_favicon_pozytyw.png">
+
 	<script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
 		crossorigin="anonymous"></script>
 	<script defer src="js/main.js"></script>
+
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "MusicGroup",
+		"name": "CHRUST",
+		"url": "https://chrustfolkmusic.pl/",
+		"foundingDate": "2021",
+		"foundingLocation": { "@type": "Place", "name": "Gdańsk, Polska" },
+		"genre": ["Slavic folk", "Folk rock", "Electronic"],
+		"email": "chrust@chrustfolkmusic.pl",
+		"telephone": "+48504223320",
+		"logo": "https://chrustfolkmusic.pl/img/chrust_logotyp_negatyw.png",
+		"image": "https://chrustfolkmusic.pl/img/chrust_przedzmierzchem_full.jpg",
+		"member": [
+			{ "@type": "Person", "name": "Dariusz Mrozek", "roleName": "perkusja, sampler, wokal" },
+			{ "@type": "Person", "name": "Małgorzata Oleszczuk", "roleName": "wokal, ukulele, flety" },
+			{ "@type": "Person", "name": "Karol Konop", "roleName": "syntezator, wokal, produkcja" }
+		],
+		"album": [
+			{ "@type": "MusicAlbum", "name": "CHRUST", "datePublished": "2022" },
+			{ "@type": "MusicAlbum", "name": "Przed Zmierzchem", "datePublished": "2025" }
+		],
+		"award": [
+			"Nominacja do nagrody FRYDERYK 2026 — Album Roku Muzyka Korzeni",
+			"ONET O!Lśnienia — muzyka popularna",
+			"4. miejsce w finale polskich preselekcji do Konkursu Piosenki Eurowizji 2025",
+			"Nagroda główna i nagroda dla najlepszego perkusisty — InMemoriam Grzegorza Ciechowskiego",
+			"Nagroda główna i nagroda publiczności — Rock May Festival",
+			"Nagroda dla najlepszej wokalistki — Soundella Festival"
+		],
+		"sameAs": [
+			"https://www.facebook.com/chrust.folkmusic",
+			"https://www.instagram.com/chrust.folkmusic/",
+			"https://www.tiktok.com/@chrust.folkmusic",
+			"https://www.youtube.com/@chrust.folkmusic/",
+			"https://chrust.bandcamp.com/",
+			"https://music.apple.com/us/artist/chrust/1495191966",
+			"https://linktr.ee/chrust.folkmusic"
+		]
+	}
+	</script>
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#navbarSupportedContent">
@@ -19,7 +88,7 @@
 	<nav class="navbar navbar-expand-lg fixed-top pushed" data-bs-theme="dark" id="navBar">
 		<div class="container">
 			<a class="navbar-brand" href="#fp">
-				<img class="" src="img/chrust_logotyp_negatyw.png" height="50px">
+				<img src="img/chrust_logotyp_negatyw.png" height="50" alt="CHRUST" decoding="async">
 			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -62,7 +131,7 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#" id="langChangeButton">
-							<img src="img/uk_pl_flag_round.png" width="20px" alt="english"></a>
+							<img src="img/uk_pl_flag_round.png" width="20" height="20" alt="Change language to English"></a>
 					</li>
 				</ul>
 			</div>
@@ -77,8 +146,10 @@
 			<div class="col">
 				<div class="vh-100 d-flex flex-column justify-content-center align-items-center">
 
+					<h1 class="visually-hidden">CHRUST — słowiański folk, elektronika i rock</h1>
+
 					<img src="img/chrust_bg_logotype_hollow_white.png" class="img-fluid hidden" alt="CHRUST Logo"
-						id="biglogo">
+						id="biglogo" fetchpriority="high" decoding="async">
 
 				</div>
 			</div>
@@ -147,7 +218,7 @@
 					<!-- <a class="btn btn-link btn-primary btn-lg bigbtn fs-2" href="https://www.bandsintown.com/a/15542927" -->
 					<!-- target="_blank" role="button" data-ts="concerts-button">koncerty</a> -->
 
-					<script charset="utf-8" src="https://widgetv3.bandsintown.com/main.min.js"></script>
+					<script defer charset="utf-8" src="https://widgetv3.bandsintown.com/main.min.js"></script>
 					<a class="bit-widget-initializer" data-artist-name="id_15542927"
 						data-background-color="rgba(46,37,37,0)" data-separator-color="rgba(255,255,255,0.2)"
 						data-text-color="rgba(255,255,255,1)" data-font="Montserrat" data-auto-style="true"
@@ -279,18 +350,18 @@
 							<div class="row p-5">
 								<div class="col p-1">
 									<a href="https://www.facebook.com/chrust.folkmusic" target="_blank">
-										<img src="img/sm/fb.png" width="80" height="80"
+										<img src="img/sm/fb.png" width="80" height="80" loading="lazy" decoding="async"
 											alt="chrust facebook page">
 									</a>
 								</div>
 								<div class="col p-1">
 									<a href="https://www.tiktok.com/@chrust.folkmusic" target="_blank">
-										<img src="img/sm/tt.png" width="80" height="80" alt="chrust tiktok page">
+										<img src="img/sm/tt.png" width="80" height="80" loading="lazy" decoding="async" alt="chrust tiktok page">
 									</a>
 								</div>
 								<div class="col p-1">
 									<a href="https://chrust.bandcamp.com/" target="_blank">
-										<img src="img/sm/bandcamp.png" width="80" height="80"
+										<img src="img/sm/bandcamp.png" width="80" height="80" loading="lazy" decoding="async"
 											alt="chrust bandcamp page">
 									</a>
 								</div>
@@ -302,19 +373,19 @@
 							<div class="row p-5">
 								<div class="col p-1">
 									<a href="https://music.apple.com/us/artist/chrust/1495191966" target="_blank">
-										<img src="img/sm/music.png" width="80" height="80"
+										<img src="img/sm/music.png" width="80" height="80" loading="lazy" decoding="async"
 											alt="chrust apple music page">
 									</a>
 								</div>
 								<div class="col p-1">
 									<a href="https://www.instagram.com/chrust.folkmusic/" target="_blank">
-										<img src="img/sm/insta.png" width="80" height="80"
+										<img src="img/sm/insta.png" width="80" height="80" loading="lazy" decoding="async"
 											alt="chrust instagram page">
 									</a>
 								</div>
 								<div class="col p-1">
 									<a href="https://www.youtube.com/@chrust.folkmusic/" target="_blank">
-										<img src="img/sm/yt.png" width="80" height="80"
+										<img src="img/sm/yt.png" width="80" height="80" loading="lazy" decoding="async"
 											alt="chrust youtube channel">
 									</a>
 								</div>
@@ -322,7 +393,7 @@
 							<div class="row">
 								<div class="col-12 my-4">
 									<a href="https://linktr.ee/chrust.folkmusic" target="_blank">
-										<h1>@chrust.folkmusic</h1>
+										<p class="h1 mb-0">@chrust.folkmusic</p>
 									</a>
 								</div>
 							</div>
@@ -422,7 +493,7 @@
 											kategorii Album Roku Muzyka Korzeni, za album "Przed Zmierzchem".</p>
 									</div>
 								</div>
-								<img src="img/fryderyki2026.png" alt='fryderyki 2026' />
+								<img src="img/fryderyki2026.png" alt='fryderyki 2026' loading="lazy" decoding="async" />
 							</div>
 						</div>
 
@@ -435,7 +506,7 @@
 											popularna, za album "Przed Zmierzchem".</p>
 									</div>
 								</div>
-								<img src="img/olsnienia.png" alt='onet olsnienia' />
+								<img src="img/olsnienia.png" alt='onet olsnienia' loading="lazy" decoding="async" />
 							</div>
 						</div>
 
@@ -448,7 +519,7 @@
 											Piosenki Eurowizji.</p>
 									</div>
 								</div>
-								<img src="img/eurovision.png" alt="eurovision" />
+								<img src="img/eurovision.png" alt="eurovision" loading="lazy" decoding="async" />
 							</div>
 						</div>
 
@@ -462,7 +533,7 @@
 											Karpiel-Bułecki.</p>
 									</div>
 								</div>
-								<img src="img/mbtm.png" alt="must be the music" />
+								<img src="img/mbtm.png" alt="must be the music" loading="lazy" decoding="async" />
 							</div>
 						</div>
 
@@ -477,7 +548,7 @@
 											Dech” z Joanną Jabłczyńską.</p>
 									</div>
 								</div>
-								<img src="img/pzm.png" alt="okładka albumu Przed Zmierzchem" />
+								<img src="img/pzm.png" alt="okładka albumu Przed Zmierzchem" loading="lazy" decoding="async" />
 							</div>
 						</div>
 
@@ -492,7 +563,7 @@
 											autorską interpretacje utworu "Dziewczyna Szamana".</p>
 									</div>
 								</div>
-								<img src="img/ciechowski.png" alt="inmemoriam ciechowskiego" />
+								<img src="img/ciechowski.png" alt="inmemoriam ciechowskiego" loading="lazy" decoding="async" />
 							</div>
 						</div>
 
@@ -506,7 +577,7 @@
 										</p>
 									</div>
 								</div>
-								<img src="img/radio357.png" alt="radio367" />
+								<img src="img/radio357.png" alt="radio367" loading="lazy" decoding="async" />
 							</div>
 						</div>
 
@@ -519,7 +590,7 @@
 											Festival.</p>
 									</div>
 								</div>
-								<img src="img/slotart.png" alt="Slot Art festival" />
+								<img src="img/slotart.png" alt="Slot Art festival" loading="lazy" decoding="async" />
 							</div>
 						</div>
 
@@ -532,7 +603,7 @@
 											jak Great September, SeaYou Music Festival oraz Tak Brzmi Miasto.</p>
 									</div>
 								</div>
-								<img src="img/greatseptember.png" alt="great september showcase" />
+								<img src="img/greatseptember.png" alt="great september showcase" loading="lazy" decoding="async" />
 							</div>
 						</div>
 
@@ -546,7 +617,7 @@
 											nagrodę publiczności na Rock May Festival.</p>
 									</div>
 								</div>
-								<img src="img/rockmay.png" alt="Rock May Festival" />
+								<img src="img/rockmay.png" alt="Rock May Festival" loading="lazy" decoding="async" />
 							</div>
 						</div>
 
@@ -559,7 +630,7 @@
 											który szybko zdobywa popularność wśród dziennikarzy i słuchaczy.</p>
 									</div>
 								</div>
-								<img src="img/chrustchrust.png" alt="CHRUST - Chrust" />
+								<img src="img/chrustchrust.png" alt="CHRUST - Chrust" loading="lazy" decoding="async" />
 							</div>
 						</div>
 
@@ -574,7 +645,7 @@
 											zespołów.</p>
 									</div>
 								</div>
-								<img src="img/radiogdansk.png" alt="Radio Gdańsk" />
+								<img src="img/radiogdansk.png" alt="Radio Gdańsk" loading="lazy" decoding="async" />
 							</div>
 						</div>
 

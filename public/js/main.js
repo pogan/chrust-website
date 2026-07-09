@@ -96,6 +96,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		if (currentLang == 'pl') { currentLang = 'en' } else { currentLang = 'pl' };
 
+		// Keep <html lang> honest so screen readers pick the right pronunciation
+		// and search engines index the language actually on screen.
+		document.documentElement.lang = currentLang;
+
 		for (let element of translationElements) {
 			let key = element.getAttribute('data-ts');
 			let translated = translations.lang[currentLang][key];
