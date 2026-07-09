@@ -9,6 +9,12 @@ $enable-dark-mode: false;
 
 $font-family-base: 'Montserrat', sans-serif;
 
+// #videos geometry. The strip is the height of .arrow-down; the bar is a
+// generous estimate of the browser's native <video> control bar, which is not
+// stylable or measurable from outside the shadow DOM.
+$video-arrow-strip: 100px;
+$video-controls-bar: 64px;
+
 @keyframes arrowAnimation {
 	0% {
 		background-position: center 0px;
@@ -184,8 +190,38 @@ $font-family-base: 'Montserrat', sans-serif;
 		}
 
 		&.videos {
+			// The video used to fill the whole section, so everything anchored to the
+			// section's bottom edge — the page's down-arrow, the carousel's prev/next
+			// buttons and the indicator dots — landed on top of the video's native
+			// control bar. The play button in particular sat under .carousel-control-prev.
+			//
+			// Fix: the video stops $arrow-strip short of the bottom, leaving that strip
+			// for the page arrow; the carousel's own controls stop $controls-bar short
+			// of the video's bottom edge, leaving the control bar clear.
+			background-color: #000; // the reserved strip, and letterboxing on mobile
+
+			.carousel,
+			.carousel-inner,
+			.carousel-item,
+			video {
+				height: calc(100vh - #{$video-arrow-strip});
+			}
+
 			video {
 				object-fit: cover !important;
+				display: block;
+			}
+
+			.carousel-control-prev,
+			.carousel-control-next {
+				top: 0;
+				bottom: $video-controls-bar;
+				height: auto;
+			}
+
+			.carousel-indicators {
+				bottom: $video-controls-bar;
+				margin-bottom: 0.5rem;
 			}
 		}
 
@@ -340,6 +376,16 @@ body {
 	.chrust.cover {
 		min-height: 100dvh;
 	}
+
+	.chrust.cover.videos {
+
+		.carousel,
+		.carousel-inner,
+		.carousel-item,
+		video {
+			height: calc(100dvh - #{$video-arrow-strip});
+		}
+	}
 }
 
 // Breakpoints below are Bootstrap's own values. They are written as raw media
@@ -379,10 +425,33 @@ body {
 		}
 
 		// Cropping a 16:9 music video to a portrait phone cuts the band out of
-		// frame. Letterbox it instead.
-		&.videos video {
-			object-fit: contain !important;
-			background-color: #000;
+		// frame. Letterbox it instead — but size the box to the video rather than
+		// to the viewport, otherwise the frame is a thin band stranded in the
+		// middle with the indicator dots floating far below it.
+		&.videos {
+
+			.carousel,
+			.carousel-inner,
+			.carousel-item,
+			video {
+				height: auto !important;
+				aspect-ratio: 16 / 9;
+			}
+
+			video {
+				object-fit: contain !important;
+				background-color: #000;
+			}
+		}
+
+		// Centre that box in the full-height section. Must be a *column* flex
+		// container: in a row, .carousel is a flex item that shrink-to-fits, and
+		// the whole carousel collapses to the intrinsic width of its contents
+		// (zero, before the poster loads).
+		&.videos>.col-12 {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
 		}
 	}
 }
