@@ -52,8 +52,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 	// VIDEO controls
-	let controlsR = document.getElementById("videos_control_r");
-	let controlsL = document.getElementById("videos_control_l");
+	//
+	// Driven off Bootstrap's own carousel events rather than click handlers on
+	// the two arrow buttons. The old code only reacted to the arrows, so
+	// clicking an indicator dot (or swiping on a phone) changed the slide while
+	// the previous video kept playing underneath.
+	let videosSection = document.getElementById("videos");
+	let carouselEl = document.getElementById("carouselExampleIndicators");
 	let videos = document.getElementsByTagName("video");
 
 	const stopAllVideos = () => {
@@ -62,12 +67,29 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	}
 
-	controlsR.addEventListener('click', function (e) {
-		stopAllVideos();
-		let nextVideoId = document.getElementsByClassName("carousel-item active")[0].getAttribute('next-video');
-		document.getElementById(nextVideoId).play();
-	});
-	controlsL.addEventListener('click', stopAllVideos);
+	if (carouselEl) {
+		carouselEl.addEventListener('slide.bs.carousel', stopAllVideos);
+
+		carouselEl.addEventListener('slid.bs.carousel', function (e) {
+			let video = e.relatedTarget && e.relatedTarget.querySelector('video');
+			if (!video) return;
+			// Changing slides is always a user gesture (arrow, dot or swipe), so
+			// autoplay is permitted — but a rapid double-click can still abort the
+			// play() promise, and an unhandled rejection would show in the console.
+			let started = video.play();
+			if (started) started.catch(() => { });
+		});
+	}
+
+	// Each video is hundreds of megabytes. Don't keep one streaming after the
+	// visitor has scrolled past the section.
+	if (videosSection && 'IntersectionObserver' in window) {
+		new IntersectionObserver((entries) => {
+			for (let entry of entries) {
+				if (!entry.isIntersecting) stopAllVideos();
+			}
+		}, { threshold: 0 }).observe(videosSection);
+	}
 
 
 	let navLinks = document.getElementsByClassName("nav-link");
