@@ -10,7 +10,7 @@ Live at <https://chrustfolkmusic.pl/>.
 
 ## Commands
 
-- `npm start` — runs `node server.js`, serving `public/` statically. Honours `PORT` (default 3000) and `NODE_ENV=production` (which adds `upgrade-insecure-requests` to the CSP).
+- `npm start` — runs `node chrust-website-express-app.js`, serving `public/` statically. Honours `PORT` (default 3000) and `NODE_ENV=production` (which adds `upgrade-insecure-requests` to the CSP).
 - There is no test suite (`npm test` just exits 1) and no lint/format tooling.
 
 ### Rebuilding the CSS (there is no build script)
@@ -24,11 +24,11 @@ npx --yes -p postcss-cli -p autoprefixer postcss /tmp/out.css --use autoprefixer
 
 **The autoprefixer step is not optional.** Plain `sass` emits 12 vendor-prefixed declarations; the committed CSS has 110. Skipping it silently strips `-webkit-`/`-moz-`/`-o-` prefixes from Bootstrap's own output. Do not hand-edit `public/main.css`.
 
-Source maps are intentionally not generated: the old `public/main.css.map` embedded absolute `/Users/...` paths, and `server.js` 404s `.map` requests anyway.
+Source maps are intentionally not generated: the old `public/main.css.map` embedded absolute `/Users/...` paths, and the server 404s `.map` requests anyway.
 
 ## Architecture
 
-- **Server** (`server.js`): `helmet` (explicit CSP) → `compression` → an extension blocklist → `express.static`. Notable details:
+- **Server** (`chrust-website-express-app.js`): `helmet` (explicit CSP) → `compression` → an extension blocklist → `express.static`. Notable details:
   - `public/` doubles as the designers' asset folder and contains a **933 MB `chrust_backgrounds.psd`**. Requests for `.psd`/`.ai`/`.map`/etc. are 404'd *before* the static handler. Don't remove that guard.
   - `rest.bandsintown.com` lives in `script-src`, not `connect-src`, because the concerts widget fetches events over **JSONP** (it injects a `<script>`). Moving it breaks the concerts list silently.
   - `style-src` keeps `'unsafe-inline'` because Bootstrap's collapse/carousel JS writes `element.style` during transitions.
@@ -41,7 +41,7 @@ Source maps are intentionally not generated: the old `public/main.css.map` embed
   - The language selector is a Bootstrap dropdown (`#langChangeButton` / `#langMenu`). It is also a `.nav-link`, so `setNavListeners()` skips `.dropdown-toggle` — otherwise collapsing the mobile navbar would tear the dropdown off screen as it opened.
   - `#langMenu` is themed by hand through `--bs-dropdown-*` variables. `data-bs-theme="dark"` on the navbar does nothing because `$enable-dark-mode: false`, so Bootstrap never compiled those rules and the menu would render as a white box.
 - **Video carousel** (`#videos`): five `<video preload="none" poster="…">` in a Bootstrap carousel. Playback is driven by `slide.bs.carousel` / `slid.bs.carousel` — **not** by click handlers on the arrows, because indicator dots and swipes must also pause the outgoing video. An `IntersectionObserver` pauses everything when the section scrolls out of view.
-  - The served files are the `*_720.mp4` / `*_web.mp4` H.264 re-encodes (150 MB total), **not** the original masters, which stay on disk beside them. `public/video/*` is gitignored, so **the re-encoded files must be copied to the server manually** — they will never arrive via `git pull`.
+  - The served files are the `*_720.mp4` / `*_web.mp4` H.264 re-encodes, ~150 MB in total. The 1.12 GB original masters were deleted from `public/video/` and are **not** recoverable from git — they were gitignored while they existed.
   - Re-encode with `libx264 -crf 23 -preset slow -pix_fmt yuv420p -movflags +faststart`. Keep `+faststart`: without it the `moov` index sits after the media data and a player must round-trip to the end of the file before the first frame.
   - Do not reintroduce HEVC. `chrust_podjaworem.mp4` was HEVC and reported `videoWidth = 0` in Chrome; Firefox never decodes HEVC in MP4.
 - **Styling** (`src/main.scss`): Bootstrap variable overrides first, custom rules next, and `@import "../node_modules/bootstrap/scss/bootstrap"` **last, on the final line**. Consequences:
