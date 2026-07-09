@@ -41,18 +41,19 @@ Source maps are intentionally not generated: the old `public/main.css.map` embed
   - The language selector is a Bootstrap dropdown (`#langChangeButton` / `#langMenu`). It is also a `.nav-link`, so `setNavListeners()` skips `.dropdown-toggle` — otherwise collapsing the mobile navbar would tear the dropdown off screen as it opened.
   - `#langMenu` is themed by hand through `--bs-dropdown-*` variables. `data-bs-theme="dark"` on the navbar does nothing because `$enable-dark-mode: false`, so Bootstrap never compiled those rules and the menu would render as a white box.
 - **Video carousel** (`#videos`): five `<video preload="none" poster="…">` in a Bootstrap carousel. Playback is driven by `slide.bs.carousel` / `slid.bs.carousel` — **not** by click handlers on the arrows, because indicator dots and swipes must also pause the outgoing video. An `IntersectionObserver` pauses everything when the section scrolls out of view.
-  - The served files are the `*_720.mp4` / `*_web.mp4` H.264 re-encodes, ~157 MB in total. The masters are **not** kept here — they live in `~/Video/CHRUST/TELEDYSKI/`. Never leave a master inside `public/`: `express.static` will happily serve an 883 MB file to anyone who guesses the URL.
-  - `public/video/` is gitignored in full, so **the re-encodes must be copied to the server with scp/rsync** — they never arrive via `git pull`.
+  - The served files are the `*_720.mp4` / `*_web.mp4` H.264 re-encodes, ~141 MB in total. They are **committed**, so `git pull` deploys them. The masters are **not** kept here — they live in `~/Video/CHRUST/TELEDYSKI/`. Never leave a master inside `public/`: `express.static` will happily serve an 883 MB file to anyone who guesses the URL.
+  - `.gitignore` ignores `public/video/*` and then re-allows exactly `chrust_*_720.mp4` / `chrust_*_web.mp4`. **Keep that shape.** A master dropped into `public/video/` must stay ignored — `git add -A` once swallowed 1.29 GB of masters into this history, and GitHub hard-rejects any blob over 100 MB. If you add a re-encode under a new name, whitelist it explicitly rather than loosening the deny line.
   - Re-encode with `libx264 -crf 23 -preset slow -pix_fmt yuv420p -movflags +faststart`. Keep `+faststart`: without it the `moov` index sits after the media data and a player must round-trip to the end of the file before the first frame.
+  - `chrust_woda_720.mp4` is the exception: CRF **25**, because at 23 it came out 57 MB and GitHub warns on every push above 50 MB. Always re-encode from the master in `~/Video/CHRUST/TELEDYSKI/` — never from the 720p file, which would stack a second generation of loss.
   - Do not reintroduce HEVC. `chrust_podjaworem.mp4` was HEVC and reported `videoWidth = 0` in Chrome; Firefox never decodes HEVC in MP4.
 - **Styling** (`src/main.scss`): Bootstrap variable overrides first, custom rules next, and `@import "../node_modules/bootstrap/scss/bootstrap"` **last, on the final line**. Consequences:
   - `@extend .h1` works (extends resolve after the whole file is parsed).
   - `@include media-breakpoint-down(md)` does **not** — the mixin isn't defined yet. Responsive rules use raw `@media (max-width: 767.98px)` at Bootstrap's own breakpoint values.
-- **Assets**: `public/img/`, `public/video/` (videos are gitignored — they must exist locally to test that section but never appear in `git status`).
+- **Assets**: `public/img/`, `public/video/`.
 
 ## Gotchas discovered the hard way
 
-- `.gitignore` **lists itself**, so it is untracked. Ignore rules added there exist only on this machine and never reach a clone.
+- `git filter-branch` ends with a `reset --hard` on the rewritten HEAD, which **deletes from the working tree** any tracked file that the rewrite removed. Purging `public/video/` from history once destroyed the only on-disk copies of the re-encodes. Copy anything large out of the repo before rewriting history.
 - Section backgrounds are photographs. Keep them as **JPEG encoded 4:4:4**, not 4:2:0. These frames have a mean luma around 27/255, and 4:2:0 chroma subsampling bands visibly in the shadows — quality settings barely affect it, because the loss is in the chroma planes, not quantisation. `sips` only writes 4:2:0; use `ffmpeg -q:v 3 -pix_fmt yuvj444p`.
 - Judge image re-encodes by **PSNR, not SSIM**, for the same reason: in near-black regions SSIM's local-variance denominator collapses and it reports ~0.78 for a visually identical image. Aim for ≥36 dB PSNR in RGB.
 - Chrome's `--window-size` clamps to a 500 px minimum on macOS, so headless viewport testing below that silently lies. Drive `Emulation.setDeviceMetricsOverride` over CDP instead (Node 24 has a global `WebSocket`, so no packages needed).
@@ -64,4 +65,5 @@ Commit as you work — don't let a session end with a pile of uncommitted change
 - **Commit early and often.** After each self-contained unit of work (a section's copy updated, a style fixed, a bug resolved), stage and commit it. Don't batch unrelated changes into one commit.
 - **Do not push unless asked.** Committing is automatic; `git push` is not. Leave commits local on `main` until Karol explicitly says to push, then `git push origin main`.
 - **Write clean messages.** A short imperative subject line describing what changed and why it matters — `fix video carousel not pausing outgoing video`, not `minor changes` or `v2`. Add a body only when the subject can't carry the reasoning.
-- **Watch for untracked work.** `.gitignore` excludes `public/video/*` and `*.scss` by pattern, though `src/main.scss` is tracked as an exception. Regenerated `public/main.css` is easy to leave behind — check `git status` before finishing.
+- **Watch for untracked work.** Regenerated `public/main.css` is easy to leave behind — check `git status` before finishing.
+- **Never `git add -A` after touching `public/video/`.** Stage video paths by name. The whitelist in `.gitignore` is the safety net, not the plan.
