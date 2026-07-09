@@ -6,17 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	let activeCover = 0;
 	let arrows = document.getElementsByClassName("arrow-down");
 
-	// HELPER check if element is visible in viewport
-	const isVisibleInViewport = (element) => {
-		const rect = element.getBoundingClientRect()
-		return (
-			rect.top >= 0 &&
-			rect.left >= 0 &&
-			rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-			rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-		)
-	}
-
 	document.addEventListener('keydown', function (e) {
 
 		if (e.keyCode == 40) {
@@ -63,14 +52,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 	// VIDEO controls
-	let video1 = document.getElementById("videos_tempo");
 	let controlsR = document.getElementById("videos_control_r");
 	let controlsL = document.getElementById("videos_control_l");
 	let videos = document.getElementsByTagName("video");
 
 	const stopAllVideos = () => {
-		for (let i in videos) {
-			try { videos[i].pause() } catch { }
+		for (let video of videos) {
+			video.pause();
 		}
 	}
 
@@ -86,9 +74,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	let nabvar = document.getElementById("navbarSupportedContent");
 
 	let setNavListeners = function () {
-		for (i in navLinks) {
-			if (isNaN(i)) return;
-			navLinks[i].addEventListener('click', function (e) {
+		for (let link of navLinks) {
+			link.addEventListener('click', function (e) {
 				nabvar.classList.remove('show');
 			});
 		}
@@ -98,43 +85,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	//translations
 	let translations;
-
-	function fetchTranslations() {
-		fetch('./translations.json')
-			.then(response => {
-				if (!response.ok) {
-					throw new Error(`HTTP error! Status: ${response.status}`);
-				}
-				return response.json();
-			})
-			.then(data => { translations = data })
-			.catch(error => console.error('Failed to fetch data:', error));
-	}
-
 	let currentLang = 'pl';
-	fetchTranslations();
 
 	let translationElements = document.querySelectorAll('[data-ts]');
+	let langChangeButton = document.getElementById('langChangeButton');
 
-	function reTranslate(data) {
+	function reTranslate(e) {
 
-		if (currentLang == 'pl') { currentLang = 'en' } else if (currentLang == 'en') { currentLang = 'pl' } else { currentLang = 'pl' };
+		e.preventDefault();
 
+		if (currentLang == 'pl') { currentLang = 'en' } else { currentLang = 'pl' };
 
-		for (i in translationElements) {
-			if (isNaN(i)) return;
-
-			let key = translationElements[i].getAttribute('data-ts');
-			translationElements[i].innerHTML = translations.lang[currentLang][key];
-
+		for (let element of translationElements) {
+			let key = element.getAttribute('data-ts');
+			let translated = translations.lang[currentLang][key];
+			if (translated === undefined) {
+				console.warn(`Missing ${currentLang} translation for "${key}"`);
+				continue;
+			}
+			// innerHTML is deliberate: translations.json carries markup such as
+			// <span class='redhighlight'> and <a> tags. The file is served from
+			// this origin and is not user input.
+			element.innerHTML = translated;
 		}
-
 
 	}
 
-	// reTranslate();
-
-
-	document.getElementById('langChangeButton').addEventListener('click', reTranslate);
+	// Only wire up the language button once translations are in memory —
+	// otherwise an early click reads `translations` while it is still undefined.
+	fetch('./translations.json')
+		.then(response => {
+			if (!response.ok) {
+				throw new Error(`HTTP error! Status: ${response.status}`);
+			}
+			return response.json();
+		})
+		.then(data => {
+			translations = data;
+			langChangeButton.addEventListener('click', reTranslate);
+		})
+		.catch(error => console.error('Failed to fetch translations:', error));
 
 });

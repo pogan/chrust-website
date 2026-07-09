@@ -1,15 +1,11 @@
+const express = require('express');
 
-var express = require('express'),
-  app = express(),
-  http = require('http'),
-  httpServer = http.Server(app);
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-app.use(express.static(__dirname+'/public'));
+// Serves public/index.html for "/" automatically.
+app.use(express.static(__dirname + '/public'));
 
-app.get('/', function(req, res) {
-  res.sendfile(__dirname + '/index.html');
-});
-
-app.listen(3000,()=>{
-	console.log('chrust-website-app listening at 3000 from ',__dirname);
+app.listen(PORT, () => {
+	console.log(`chrust-website listening on http://localhost:${PORT}`);
 });
