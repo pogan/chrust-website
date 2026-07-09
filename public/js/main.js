@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	setTimeout(() => {
 		document.getElementById("navBar").classList.remove('pushed');
 		document.getElementById("firstArrow").classList.remove('pushed');
-	}, 1000)
+	}, 10)
 
 
 
@@ -95,11 +95,15 @@ document.addEventListener("DOMContentLoaded", function () {
 	let navLinks = document.getElementsByClassName("nav-link");
 	let nabvar = document.getElementById("navbarSupportedContent");
 
+	const closeNavbar = () => nabvar.classList.remove('show');
+
 	let setNavListeners = function () {
 		for (let link of navLinks) {
-			link.addEventListener('click', function (e) {
-				nabvar.classList.remove('show');
-			});
+			// The language selector is also a .nav-link, but it opens a dropdown
+			// rather than navigating. Collapsing the navbar here would tear that
+			// dropdown off the screen the moment it opened.
+			if (link.classList.contains('dropdown-toggle')) continue;
+			link.addEventListener('click', closeNavbar);
 		}
 	};
 
@@ -107,26 +111,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	//translations
 	let translations;
-	let currentLang = 'pl';
+	const DEFAULT_LANG = 'pl'; // the language hardcoded in index.html
+	let currentLang = DEFAULT_LANG;
 
 	let translationElements = document.querySelectorAll('[data-ts]');
-	let langChangeButton = document.getElementById('langChangeButton');
+	let langMenu = document.getElementById('langMenu');
+	let langCurrent = document.getElementById('langCurrent');
 
-	function reTranslate(e) {
+	function applyLanguage(lang) {
 
-		e.preventDefault();
+		let dictionary = translations && translations.lang[lang];
+		if (!dictionary) {
+			console.warn(`No translations for "${lang}"`);
+			return;
+		}
 
-		if (currentLang == 'pl') { currentLang = 'en' } else { currentLang = 'pl' };
+		currentLang = lang;
 
 		// Keep <html lang> honest so screen readers pick the right pronunciation
 		// and search engines index the language actually on screen.
-		document.documentElement.lang = currentLang;
+		document.documentElement.lang = lang;
 
 		for (let element of translationElements) {
 			let key = element.getAttribute('data-ts');
-			let translated = translations.lang[currentLang][key];
+			let translated = dictionary[key];
 			if (translated === undefined) {
-				console.warn(`Missing ${currentLang} translation for "${key}"`);
+				console.warn(`Missing ${lang} translation for "${key}"`);
 				continue;
 			}
 			// innerHTML is deliberate: translations.json carries markup such as
@@ -135,9 +145,20 @@ document.addEventListener("DOMContentLoaded", function () {
 			element.innerHTML = translated;
 		}
 
+		langCurrent.textContent = lang.toUpperCase();
+
+		for (let item of langMenu.querySelectorAll('[data-lang]')) {
+			let selected = item.getAttribute('data-lang') === lang;
+			item.classList.toggle('active', selected);
+			if (selected) {
+				item.setAttribute('aria-current', 'true');
+			} else {
+				item.removeAttribute('aria-current');
+			}
+		}
 	}
 
-	// Only wire up the language button once translations are in memory —
+	// Only wire up the language menu once translations are in memory —
 	// otherwise an early click reads `translations` while it is still undefined.
 	fetch('./translations.json')
 		.then(response => {
@@ -148,7 +169,13 @@ document.addEventListener("DOMContentLoaded", function () {
 		})
 		.then(data => {
 			translations = data;
-			langChangeButton.addEventListener('click', reTranslate);
+			for (let item of langMenu.querySelectorAll('[data-lang]')) {
+				item.addEventListener('click', function () {
+					applyLanguage(this.getAttribute('data-lang'));
+					closeNavbar();
+				});
+			}
+			applyLanguage(DEFAULT_LANG); // marks the current entry in the menu
 		})
 		.catch(error => console.error('Failed to fetch translations:', error));
 

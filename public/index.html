@@ -15,6 +15,9 @@
 	<meta property="og:site_name" content="CHRUST">
 	<meta property="og:locale" content="pl_PL">
 	<meta property="og:locale:alternate" content="en_US">
+	<meta property="og:locale:alternate" content="de_DE">
+	<meta property="og:locale:alternate" content="it_IT">
+	<meta property="og:locale:alternate" content="es_ES">
 	<meta property="og:url" content="https://chrustfolkmusic.pl/">
 	<meta property="og:title" content="CHRUST — słowiański folk, elektronika i rock">
 	<meta property="og:description"
@@ -129,9 +132,18 @@
 					<li class="nav-item">
 						<a class="nav-link" href="#contact" data-ts="contact-navlink">kontakt</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#" id="langChangeButton">
-							<img src="img/uk_pl_flag_round.png" width="20" height="20" alt="Change language to English"></a>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="langChangeButton" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false" aria-label="Change language / zmień język">
+							<span id="langCurrent">PL</span>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-end" id="langMenu" aria-labelledby="langChangeButton">
+							<li><button class="dropdown-item" type="button" data-lang="pl" lang="pl">Polski</button></li>
+							<li><button class="dropdown-item" type="button" data-lang="en" lang="en">English</button></li>
+							<li><button class="dropdown-item" type="button" data-lang="de" lang="de">Deutsch</button></li>
+							<li><button class="dropdown-item" type="button" data-lang="it" lang="it">Italiano</button></li>
+							<li><button class="dropdown-item" type="button" data-lang="es" lang="es">Español</button></li>
+						</ul>
 					</li>
 				</ul>
 			</div>

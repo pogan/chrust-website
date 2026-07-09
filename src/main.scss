@@ -329,11 +329,34 @@ $video-controls-bar: 64px;
 	}
 }
 
+// Language selector. Was a single flag image toggling pl/en; now a dropdown of
+// five languages, so the greyscale filter that used to desaturate that image is
+// gone (it would have washed out the text label).
 #langChangeButton {
-	filter: grayscale(100%);
+	text-transform: uppercase;
+	letter-spacing: 0.05rem;
+}
 
-	&:hover {
-		filter: grayscale(0%);
+// The navbar carries data-bs-theme="dark", but $enable-dark-mode is false above,
+// so Bootstrap never compiled the [data-bs-theme=dark] rules and the menu would
+// render as a white box against the blurred black navbar. Theme it by hand via
+// Bootstrap's dropdown CSS variables.
+#langMenu {
+	--bs-dropdown-min-width: 9rem;
+	--bs-dropdown-bg: rgba(0, 0, 0, 0.75);
+	--bs-dropdown-border-color: rgba(255, 255, 255, 0.15);
+	--bs-dropdown-link-color: #eee;
+	--bs-dropdown-link-hover-color: #fff;
+	--bs-dropdown-link-hover-bg: rgba(255, 255, 255, 0.12);
+	--bs-dropdown-link-active-color: #fff;
+	--bs-dropdown-link-active-bg: #{$primary};
+
+	backdrop-filter: blur(6px);
+
+	.dropdown-item {
+		// The navbar links are centred; left-aligned menu entries look adrift.
+		text-align: center;
+		text-shadow: none;
 	}
 }
 
