@@ -13,10 +13,10 @@
   "license": "ISC",
   "author": "Karol Konop",
   "type": "commonjs",
-  "main": "chrust-website-app.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node chrust-website-express-app.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
