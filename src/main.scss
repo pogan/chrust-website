@@ -57,15 +57,15 @@ $font-family-base: 'Montserrat', sans-serif;
 		}
 		
 		&.fp {
-			background-image: url('img/chrust_bg_gosia_clean.png');
+			background-image: url('img/chrust_bg_gosia_clean.jpg');
 		}
 
 		&.bio{
-			background-image: url('img/chrust_bg_darek1.png');
+			background-image: url('img/chrust_bg_darek1.jpg');
 		}
 
 		&.concerts {
-			background-image: url('img/chrust_bg_zespol3.jpeg');
+			background-image: url('img/chrust_bg_zespol3_2560.jpg');
 			text-shadow: none !important;
 			padding: 100px 0px; 
 
@@ -103,7 +103,7 @@ $font-family-base: 'Montserrat', sans-serif;
 		}
 
 		&.about {
-			background-image: url('img/chrust_bg_gosia2.png');
+			background-image: url('img/chrust_bg_gosia2.jpg');
 		}
 
 		.card {
@@ -124,7 +124,7 @@ $font-family-base: 'Montserrat', sans-serif;
 		}
 
 		&.links {
-			background-image: url('img/chrust_bg_karol1.png');
+			background-image: url('img/chrust_bg_karol1.jpg');
 
 			img {
 				transition: transform 100ms ease-in-out;
@@ -137,7 +137,7 @@ $font-family-base: 'Montserrat', sans-serif;
 		}
 
 		&.members {
-			background-image: url('img/chrust_bg_zespol1.png');
+			background-image: url('img/chrust_bg_zespol1.jpg');
 			padding: 100px 0px; 
 			
 			.text-danger {
@@ -150,7 +150,7 @@ $font-family-base: 'Montserrat', sans-serif;
 		}
 
 		&.contact {
-			background-image: url('img/chrust_bg_gosia3.png');
+			background-image: url('img/chrust_bg_gosia3.jpg');
 			background-position: center right;
 		}
 
@@ -165,9 +165,9 @@ $font-family-base: 'Montserrat', sans-serif;
 				background-color: rgba(0, 0, 0, 0.6) !important;
 				border-radius: 0.2em;
 				// No .m-2 here: this element used to be the grid column itself, and a
-			// margin on a col-*-6 / col-*-3 pushes each row past 100% width, so the
-			// panels wrapped one-per-row on tablets. Spacing is now the row's g-3.
-			@extend .p-4, .d-flex, .flex-column, .justify-content-between;
+				// margin on a col-*-6 / col-*-3 pushes each row past 100% width, so
+				// the panels wrapped one-per-row on tablets. Spacing is the row's g-3.
+				@extend .p-4, .d-flex, .flex-column, .justify-content-between;
 
 				backdrop-filter: blur(2px);
 
@@ -190,7 +190,7 @@ $font-family-base: 'Montserrat', sans-serif;
 		}
 
 		&.press {
-			background-image: url('img/chrust_bg_zespol2.png');
+			background-image: url('img/chrust_bg_zespol2.jpg');
 
 			.card-img-top {
 				max-width: 200px;

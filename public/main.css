@@ -39,13 +39,13 @@
   background-color: rgba(0, 0, 0, 0.2);
 }
 .chrust.cover.fp {
-  background-image: url("img/chrust_bg_gosia_clean.png");
+  background-image: url("img/chrust_bg_gosia_clean.jpg");
 }
 .chrust.cover.bio {
-  background-image: url("img/chrust_bg_darek1.png");
+  background-image: url("img/chrust_bg_darek1.jpg");
 }
 .chrust.cover.concerts {
-  background-image: url("img/chrust_bg_zespol3.jpeg");
+  background-image: url("img/chrust_bg_zespol3_2560.jpg");
   text-shadow: none !important;
   padding: 100px 0px;
 }
@@ -72,7 +72,7 @@
   padding: 20px !important;
 }
 .chrust.cover.about {
-  background-image: url("img/chrust_bg_gosia2.png");
+  background-image: url("img/chrust_bg_gosia2.jpg");
 }
 .chrust.cover .card {
   background-color: rgba(255, 255, 255, 0.1) !important;
@@ -87,7 +87,7 @@
   cursor: pointer;
 }
 .chrust.cover.links {
-  background-image: url("img/chrust_bg_karol1.png");
+  background-image: url("img/chrust_bg_karol1.jpg");
 }
 .chrust.cover.links img {
   transition: transform 100ms ease-in-out;
@@ -97,7 +97,7 @@
   transform: scale(1.3);
 }
 .chrust.cover.members {
-  background-image: url("img/chrust_bg_zespol1.png");
+  background-image: url("img/chrust_bg_zespol1.jpg");
   padding: 100px 0px;
 }
 .chrust.cover.members .text-danger {
@@ -107,7 +107,7 @@
   border-radius: 0;
 }
 .chrust.cover.contact {
-  background-image: url("img/chrust_bg_gosia3.png");
+  background-image: url("img/chrust_bg_gosia3.jpg");
   background-position: center right;
 }
 .chrust.cover.timeline {
@@ -133,7 +133,7 @@
      object-fit: cover !important;
 }
 .chrust.cover.press {
-  background-image: url("img/chrust_bg_zespol2.png");
+  background-image: url("img/chrust_bg_zespol2.jpg");
 }
 .chrust.cover.press .card-img-top {
   max-width: 200px;
