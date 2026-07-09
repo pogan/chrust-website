@@ -635,41 +635,6 @@
 
 		});
 
-		// smooth scrolling
-
-		// let isScrolling = false;
-
-		// window.addEventListener('wheel', function (e) {
-		// 	e.preventDefault();
-
-		// 	if(isScrolling) return;
-
-		// 	if (e.deltaY > 0) {
-		// 		activeCover++;
-		// 	}
-		// 	else if (e.deltaY < 0) {
-		// 		activeCover--;
-		// 	}
-		// 	else {
-		// 		return 0;
-		// 	};
-
-		// 	if (activeCover >= covers.length || activeCover < 0) {
-		// 		activeCover = 0;
-		// 	}
-
-		// 	isScrolling = true;
-		// 	let nextElement = covers[activeCover];
-		// 	window.scrollTo(0, nextElement.offsetTop, 'smooth');
-
-		// },{passive:false});
-
-		// window.addEventListener('mousewheel', function (e) {e.preventDefault();},{passive:false});
-		// window.addEventListener('scroll', function (e) {e.preventDefault();},{passive:false});
-		// window.addEventListener('scrollend', function(e){
-		// 	isScrolling = false;
-		// });
-
 		// click listeners for DOWN ARROWS
 		for (let item of arrows) {
 			item.addEventListener('click', function (e) {
