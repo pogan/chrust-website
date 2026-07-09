@@ -225,7 +225,7 @@
   background-color: rgba(0, 0, 0, 0.6) !important;
   opacity: 1 !important;
   backdrop-filter: blur(6px);
-  transition: top 2s ease-out, opacity 2s ease-out;
+  transition: top 1s ease-out, opacity 1s ease-out;
 }
 .navbar.pushed {
   top: -100px !important;
