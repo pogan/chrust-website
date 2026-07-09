@@ -38,7 +38,10 @@ Source maps are intentionally not generated: the old `public/main.css.map` embed
 - **i18n without a framework**: Polish is hardcoded in the HTML as the default. Translatable elements carry `data-ts="key"`; `public/translations.json` holds both `pl` and `en` under `lang`. The flag button rewrites each `[data-ts]` element's `innerHTML` and updates `document.documentElement.lang`. The listener is attached only *after* the fetch resolves — an early click used to throw.
   - `innerHTML` is deliberate here: the JSON carries markup (`<span class='redhighlight'>`, `<a>`). It is same-origin and not user input; the CSP is the mitigation.
   - When adding copy: edit the Polish in `index.html`, add the same key to **both** `pl` and `en` in `translations.json`, and give the element a `data-ts`.
-- **Video carousel** (`#videos`): five `<video preload="none">` in a Bootstrap carousel. Playback is driven by `slide.bs.carousel` / `slid.bs.carousel` — **not** by click handlers on the arrows, because indicator dots and swipes must also pause the outgoing video. An `IntersectionObserver` pauses everything when the section scrolls out of view.
+- **Video carousel** (`#videos`): five `<video preload="none" poster="…">` in a Bootstrap carousel. Playback is driven by `slide.bs.carousel` / `slid.bs.carousel` — **not** by click handlers on the arrows, because indicator dots and swipes must also pause the outgoing video. An `IntersectionObserver` pauses everything when the section scrolls out of view.
+  - The served files are the `*_720.mp4` / `*_web.mp4` H.264 re-encodes (150 MB total), **not** the original masters, which stay on disk beside them. `public/video/*` is gitignored, so **the re-encoded files must be copied to the server manually** — they will never arrive via `git pull`.
+  - Re-encode with `libx264 -crf 23 -preset slow -pix_fmt yuv420p -movflags +faststart`. Keep `+faststart`: without it the `moov` index sits after the media data and a player must round-trip to the end of the file before the first frame.
+  - Do not reintroduce HEVC. `chrust_podjaworem.mp4` was HEVC and reported `videoWidth = 0` in Chrome; Firefox never decodes HEVC in MP4.
 - **Styling** (`src/main.scss`): Bootstrap variable overrides first, custom rules next, and `@import "../node_modules/bootstrap/scss/bootstrap"` **last, on the final line**. Consequences:
   - `@extend .h1` works (extends resolve after the whole file is parsed).
   - `@include media-breakpoint-down(md)` does **not** — the mixin isn't defined yet. Responsive rules use raw `@media (max-width: 767.98px)` at Bootstrap's own breakpoint values.
@@ -47,8 +50,8 @@ Source maps are intentionally not generated: the old `public/main.css.map` embed
 ## Gotchas discovered the hard way
 
 - `.gitignore` **lists itself**, so it is untracked. Ignore rules added there exist only on this machine and never reach a clone.
-- The videos are 209–367 MB each and two are not faststart (`moov` after `mdat`), so playback needs a round trip to the file's tail. Compressing them needs `ffmpeg`, which is not installed.
-- Section backgrounds are 2480–4926 px PNG/JPEG at 3–5 MB each, ~30 MB on first load. This is the largest remaining performance cost and is untouched by gzip (already-compressed formats).
+- Section backgrounds are photographs. Keep them as **JPEG encoded 4:4:4**, not 4:2:0. These frames have a mean luma around 27/255, and 4:2:0 chroma subsampling bands visibly in the shadows — quality settings barely affect it, because the loss is in the chroma planes, not quantisation. `sips` only writes 4:2:0; use `ffmpeg -q:v 3 -pix_fmt yuvj444p`.
+- Judge image re-encodes by **PSNR, not SSIM**, for the same reason: in near-black regions SSIM's local-variance denominator collapses and it reports ~0.78 for a visually identical image. Aim for ≥36 dB PSNR in RGB.
 - Chrome's `--window-size` clamps to a 500 px minimum on macOS, so headless viewport testing below that silently lies. Drive `Emulation.setDeviceMetricsOverride` over CDP instead (Node 24 has a global `WebSocket`, so no packages needed).
 
 ## Version control
