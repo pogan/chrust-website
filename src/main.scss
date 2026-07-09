@@ -164,7 +164,10 @@ $font-family-base: 'Montserrat', sans-serif;
 			.timeline-panel {
 				background-color: rgba(0, 0, 0, 0.6) !important;
 				border-radius: 0.2em;
-				@extend .p-4, .m-2, .d-flex, .flex-column, .justify-content-between;
+				// No .m-2 here: this element used to be the grid column itself, and a
+			// margin on a col-*-6 / col-*-3 pushes each row past 100% width, so the
+			// panels wrapped one-per-row on tablets. Spacing is now the row's g-3.
+			@extend .p-4, .d-flex, .flex-column, .justify-content-between;
 
 				backdrop-filter: blur(2px);
 
@@ -314,6 +317,83 @@ body {
 	// height: 100%;
 	// overflow: hidden;
 	text-shadow: #000 1px 1px 1px;
+}
+
+body {
+	// Backstop: nothing should ever scroll the page sideways on a phone.
+	overflow-x: hidden;
+}
+
+// On mobile browsers 100vh is the viewport with the URL bar *hidden*, so a
+// 100vh section is taller than what you can see and the layout jumps as the
+// bar collapses. dvh tracks the visible viewport instead.
+@supports (height: 100dvh) {
+
+	.vh-100 {
+		height: 100dvh !important;
+	}
+
+	.min-vh-100 {
+		min-height: 100dvh !important;
+	}
+
+	.chrust.cover {
+		min-height: 100dvh;
+	}
+}
+
+// Breakpoints below are Bootstrap's own values. They are written as raw media
+// queries rather than @include media-breakpoint-down() because Bootstrap is
+// imported at the bottom of this file, so its mixins do not exist up here.
+
+// < md (767.98px)
+@media (max-width: 767.98px) {
+
+	.bigbtn {
+		// 1rem of letter-spacing plus 3rem of side padding overflows a phone.
+		letter-spacing: 0.4rem !important;
+		padding: 0.75rem 1.25rem !important;
+		font-size: calc(1.3rem + 0.6vw) !important;
+	}
+
+	.abouttext {
+		// Justified text in a narrow column opens rivers of whitespace.
+		text-align: left !important;
+		padding: 1rem;
+	}
+
+	.chrust.cover {
+
+		&.concerts,
+		&.members,
+		&.timeline {
+			padding: 80px 0;
+		}
+
+		.timeline-panel p {
+			text-align: left !important;
+		}
+
+		.card .card-text {
+			text-align: left !important;
+		}
+
+		// Cropping a 16:9 music video to a portrait phone cuts the band out of
+		// frame. Letterbox it instead.
+		&.videos video {
+			object-fit: contain !important;
+			background-color: #000;
+		}
+	}
+}
+
+// < sm (575.98px)
+@media (max-width: 575.98px) {
+
+	.bigbtn {
+		letter-spacing: 0.2rem !important;
+		padding: 0.6rem 1rem !important;
+	}
 }
 
 // Then import Bootstrap

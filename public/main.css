@@ -242,6 +242,52 @@ body {
   text-shadow: #000 1px 1px 1px;
 }
 
+body {
+  overflow-x: hidden;
+}
+
+@supports (height: 100dvh) {
+  .vh-100 {
+    height: 100dvh !important;
+  }
+  .min-vh-100 {
+    min-height: 100dvh !important;
+  }
+  .chrust.cover {
+    min-height: 100dvh;
+  }
+}
+@media (max-width: 767.98px) {
+  .bigbtn {
+    letter-spacing: 0.4rem !important;
+    padding: 0.75rem 1.25rem !important;
+    font-size: calc(1.3rem + 0.6vw) !important;
+  }
+  .abouttext {
+    text-align: left !important;
+    padding: 1rem;
+  }
+  .chrust.cover.concerts, .chrust.cover.members, .chrust.cover.timeline {
+    padding: 80px 0;
+  }
+  .chrust.cover .timeline-panel p {
+    text-align: left !important;
+  }
+  .chrust.cover .card .card-text {
+    text-align: left !important;
+  }
+  .chrust.cover.videos video {
+    -o-object-fit: contain !important;
+       object-fit: contain !important;
+    background-color: #000;
+  }
+}
+@media (max-width: 575.98px) {
+  .bigbtn {
+    letter-spacing: 0.2rem !important;
+    padding: 0.6rem 1rem !important;
+  }
+}
 /*!
  * Bootstrap  v5.3.8 (https://getbootstrap.com/)
  * Copyright 2011-2025 The Bootstrap Authors
@@ -7759,7 +7805,7 @@ textarea.form-control-lg {
   margin: 0.25rem !important;
 }
 
-.m-2, .chrust.cover.timeline .timeline-panel {
+.m-2 {
   margin: 0.5rem !important;
 }
 
@@ -11894,4 +11940,4 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
-}/*# sourceMappingURL=main.css.map */
+}
