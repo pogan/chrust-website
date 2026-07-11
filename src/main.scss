@@ -43,11 +43,17 @@ $video-controls-bar: 64px;
 			padding: 0px;
 			width: 100%;
 			height: 100px;
+			z-index: 2; // above the section scrim
 
 			background-image: url("img/down-arrow.png");
 			background-size: 100px 100%;
 			background-repeat: no-repeat;
 			background-position: center 0px;
+
+			// The arrow is a white PNG. Over the light sections (the album shot on
+			// #merch, the washed-out band photo on #concerts) it all but vanished.
+			// A drop-shadow costs nothing on the dark sections and rescues it here.
+			filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.8));
 
 			animation-name: arrowAnimation;
 			animation-duration: 3s;
@@ -62,6 +68,34 @@ $video-controls-bar: 64px;
 			}
 		}
 		
+		// Most of the section photographs are dark, so white text sits on them
+		// comfortably. Two do not: #merch is a studio shot of the album on a pale
+		// grey sweep, and #concerts is a washed-out, mid-grey band photo. On those,
+		// white type and the white down-arrow had almost nothing to sit against.
+		// A scrim fixes the contrast while keeping the picture readable — a flat
+		// overlay at the strength needed here would have killed both images.
+		&.merch::before,
+		&.concerts::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			pointer-events: none;
+			background: linear-gradient(180deg,
+					rgba(0, 0, 0, 0.55) 0%,
+					rgba(0, 0, 0, 0.25) 28%,
+					rgba(0, 0, 0, 0.28) 62%,
+					rgba(0, 0, 0, 0.70) 100%);
+		}
+
+		// Lift the content above the scrim. Scoped to the grid columns rather than
+		// `> *`, because .arrow-down is also a direct child and is position:absolute
+		// — a blanket position:relative here would tear it off the section's floor.
+		&.merch>[class*="col"],
+		&.concerts>[class*="col"] {
+			position: relative;
+			z-index: 1;
+		}
+
 		&.fp {
 			background-image: url('img/chrust_bg_gosia_clean.jpg');
 		}
@@ -120,6 +154,13 @@ $video-controls-bar: 64px;
 			@extend .text-light;
 			@extend .text-center;
 
+			// The card centres its heading and role line, which is what we want —
+			// but a centred body paragraph is unreadable at this length. It has to
+			// be re-aligned explicitly, since it inherits the @extend .text-center
+			// above. Left, not justified: see .abouttext.
+			.card-text {
+				text-align: left;
+			}
 
 			&:hover {
 				background-color: rgba(255, 255, 255, 0.2) !important;
@@ -132,12 +173,25 @@ $video-controls-bar: 64px;
 		&.links {
 			background-image: url('img/chrust_bg_karol1.jpg');
 
+			// Six brand badges — Facebook blue, the Instagram gradient, YouTube red,
+			// Apple red, Bandcamp teal, TikTok — dropped straight onto a warm, moody
+			// photograph. They fought the art direction and each other, and read as a
+			// sticker sheet. Greyscale (not brightness(0)+invert, which would flatten
+			// each badge into a solid white disc and swallow the glyph inside it) puts
+			// them in one key; hover restores the brand colour on the one you reach for.
 			img {
-				transition: transform 100ms ease-in-out;
+				filter: grayscale(1);
+				opacity: 0.85;
 				transform: scale(1);
+				transition: transform 200ms ease-in-out, filter 200ms ease-in-out,
+					opacity 200ms ease-in-out;
 
 				&:hover {
-					transform: scale(1.3);
+					// 1.3 was a lurch. This reads as a lift, and the colour is now
+					// doing most of the work anyway.
+					transform: scale(1.12);
+					filter: grayscale(0);
+					opacity: 1;
 				}
 			}
 		}
@@ -177,14 +231,31 @@ $video-controls-bar: 64px;
 
 				backdrop-filter: blur(2px);
 
+				// Justified — see .abouttext. In a column this narrow it was the
+				// worst offender on the page.
 				p {
-					text-align: justify;
+					text-align: left;
 				}
 
+				// These are twelve third-party award and partner logos, each with its
+				// own palette — a yellow O!LŚNIENIA box, magenta Must Be The Music, a
+				// maroon Fryderyk plate. Side by side on black they read as a jumble
+				// of stickers rather than a row of credentials. Desaturating them is
+				// the standard "as seen in" treatment: the set becomes one coherent
+				// thing, and colour returns on hover for anyone who looks closer.
 				img {
 					max-height: 60px;
 					margin: 0 auto;
 					max-width: 100%;
+
+					filter: grayscale(1);
+					opacity: 0.8;
+					transition: filter 250ms ease-in-out, opacity 250ms ease-in-out;
+				}
+
+				&:hover img {
+					filter: grayscale(0);
+					opacity: 1;
 				}
 			}
 		}
@@ -268,27 +339,63 @@ $video-controls-bar: 64px;
 	}
 }
 
+// The #bio and #oferta paragraphs. Two things were wrong with them:
+//
+//   1. They were justified. Justification without hyphenation opens rivers of
+//      whitespace, and Polish — long words, few break opportunities — is about
+//      the worst language to try it in. The mobile stylesheet already gave up and
+//      forced `text-align: left`; this just admits the same on every width. Left,
+//      ragged right, is the correct setting for the web.
+//
+//   2. They ran the full width of the container: ~140 characters a line at
+//      1440px, roughly double the 60–75 the eye can track without losing its
+//      place on the return sweep. `max-width` in `ch` caps the measure directly.
+//
+// Everything else here — the scrim slab, the shadow — is unchanged.
 .abouttext {
 	font-weight: 400 !important;
-    text-shadow: #000 0px 0px 10px !important;
-    background-color: rgba(0, 0, 0, 0.5) !important;
-    padding: 10px;
-    border: 0;
+	text-shadow: #000 0px 0px 10px !important;
+	background-color: rgba(0, 0, 0, 0.5) !important;
+	border: 0;
+
+	max-width: 68ch;
+	margin-inline: auto;
+	padding: 1.75rem 2rem;
+	line-height: 1.6;
+	backdrop-filter: blur(3px);
 }
 
 .redhighlight {
-	// display: inline-block;
-	padding: 0rem 0.3rem;
-	background-color: rgba(255,0,0,0.6) !important;
+	padding: 0.1rem 0.3rem;
 	color: #fff !important;
+
+	// Was rgba(255, 0, 0, 0.6). A translucent red takes its final colour from
+	// whatever photograph happens to be behind it, so the same highlight came out
+	// near-#900000 on the dark #bio shot and a hot pink on the bright #oferta one.
+	// Solid, and picked to match what the old value resolved to over a dark frame
+	// (0.6 red over black ≈ #990000), so the dark sections look unchanged and the
+	// bright ones stop drifting.
+	background-color: #9c0000 !important;
+
+	// These highlights are inline and several of them wrap. Without this, a phrase
+	// broken across two lines is drawn as one box with padding only at the very
+	// start and the very end — so the fragments come out ragged and unequal. `clone`
+	// gives every fragment its own padding.
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
 }
 
 .underline {
 	text-decoration: underline !important;
 }
 
-.text-justify {
-	text-align: justify !important;
+// The contact footer previously used `fs-8` and `fs-9`. Bootstrap only defines
+// fs-1 … fs-6, so both were dead classes and the credits rendered at full body
+// size — which is why the copyright block had no hierarchy below the © line.
+.fineprint {
+	font-size: 0.875rem;
+	opacity: 0.85;
+	margin-bottom: 0.35rem;
 }
 
 #biglogo {
@@ -426,25 +533,30 @@ body {
 	}
 
 	.abouttext {
-		// Justified text in a narrow column opens rivers of whitespace.
-		text-align: left !important;
-		padding: 1rem;
+		// The 2rem side padding is generous on a 390px screen; the measure is
+		// already capped by max-width, so this is purely about the slab's inset.
+		// (The old `text-align: left` override is gone — it is the default now.)
+		padding: 1.25rem;
 	}
 
 	.chrust.cover {
 
+		// The navbar is fixed and ~76px tall, and every jump target — the arrows,
+		// the nav links, the keyboard handler — scrolls a section's top edge to
+		// y=0. Where a section's content is shorter than the viewport, the flex
+		// centring leaves slack above it and nothing collides. On a phone the #bio
+		// and #oferta paragraphs are *taller* than the screen, so there is no slack
+		// left to give and the paragraph's first line was rendering underneath the
+		// navbar. Pad them clear of it. (#concerts, #members and #timeline already
+		// carried a pad of their own for the same reason; unified here.)
+		//
+		// #oferta's class is `about`, not `oferta` — only its id says oferta.
+		&.bio,
+		&.about,
 		&.concerts,
 		&.members,
 		&.timeline {
-			padding: 80px 0;
-		}
-
-		.timeline-panel p {
-			text-align: left !important;
-		}
-
-		.card .card-text {
-			text-align: left !important;
+			padding: 90px 0;
 		}
 
 		// Cropping a 16:9 music video to a portrait phone cuts the band out of
