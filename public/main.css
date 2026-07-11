@@ -311,7 +311,7 @@ body {
   text-shadow: #000 1px 1px 1px;
 }
 
-body {
+html {
   overflow-x: hidden;
 }
 

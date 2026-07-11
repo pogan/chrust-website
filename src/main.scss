@@ -485,8 +485,23 @@ body {
 	text-shadow: #000 1px 1px 1px;
 }
 
-body {
-	// Backstop: nothing should ever scroll the page sideways on a phone.
+// Backstop: nothing should ever scroll the page sideways on a phone.
+//
+// This MUST stay on html, not body. CSS computes the other axis to `auto` as
+// soon as one axis is not `visible`, so `body { overflow-x: hidden }` silently
+// gives body a computed `overflow-y: auto`. Bootstrap's ScrollSpy (rewritten on
+// IntersectionObserver in 5.2) chooses its observer root with
+//
+//     getComputedStyle(el).overflowY === 'visible' ? null : el
+//
+// so it concluded body was the scroll container and observed against it — while
+// the page actually scrolls on documentElement. With the wrong root the observer
+// never fired and the active nav item stayed pinned to the first section.
+//
+// On html the clip still reaches the viewport (overflow on the root element
+// propagates to it), body's overflow-y stays `visible`, and ScrollSpy correctly
+// falls back to the viewport.
+html {
 	overflow-x: hidden;
 }
 
