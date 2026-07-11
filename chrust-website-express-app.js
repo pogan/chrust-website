@@ -40,7 +40,14 @@ app.use(
 				// Bandsintown serves event artwork from a rotating set of CDN hosts.
 				imgSrc: ["'self'", 'data:', 'https:'],
 				mediaSrc: ["'self'"],
-				connectSrc: ["'self'", 'https://*.bandsintown.com'],
+				// jsDelivr is here only so DevTools can fetch the source map that
+				// bootstrap.bundle.min.js points at with its trailing
+				// //# sourceMappingURL comment. Nothing on the page connects to
+				// jsDelivr; without this the fetch is blocked and every developer
+				// with source maps enabled gets a CSP violation in the console.
+				// It grants no meaningful new trust — jsDelivr is already in
+				// script-src, i.e. already allowed to execute arbitrary JS here.
+				connectSrc: ["'self'", 'https://*.bandsintown.com', 'https://cdn.jsdelivr.net'],
 				frameSrc: ['https://*.bandsintown.com'],
 				// Upgrading would rewrite http://localhost subresources to https in
 				// development, so only ask for it where TLS actually exists.
