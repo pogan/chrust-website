@@ -4,6 +4,13 @@
 # Dependencies
 node_modules/
 
+# Environment / secrets (not currently used by the app, but keep this out
+# by default so a future PORT/NODE_ENV override or credential never lands
+# in a commit by accident).
+.env
+.env.*
+!.env.example
+
 # Design sources. These live inside public/ but must never be served — see the
 # extension blocklist in chrust-website-express-app.js, which 404s them.
 *.psd
