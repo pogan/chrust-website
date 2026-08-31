@@ -26,6 +26,13 @@ npx --yes -p postcss-cli -p autoprefixer postcss /tmp/out.css --use autoprefixer
 
 Source maps are intentionally not generated: the old `public/main.css.map` embedded absolute `/Users/...` paths, and the server 404s `.map` requests anyway.
 
+The `/anatema` subpage has its **own** stylesheet on the same pipeline — `src/anatema.scss` → `public/anatema.css`, both committed, no Bootstrap import:
+
+```sh
+npx --yes sass src/anatema.scss /tmp/anatema.css --no-source-map
+npx --yes -p postcss-cli -p autoprefixer postcss /tmp/anatema.css --use autoprefixer --no-map -o public/anatema.css
+```
+
 ## Architecture
 
 - **Server** (`chrust-website-express-app.js`): `helmet` (explicit CSP) → `compression` → an extension blocklist → `express.static`. Notable details:
@@ -50,6 +57,18 @@ Source maps are intentionally not generated: the old `public/main.css.map` embed
   - `@extend .h1` works (extends resolve after the whole file is parsed).
   - `@include media-breakpoint-down(md)` does **not** — the mixin isn't defined yet. Responsive rules use raw `@media (max-width: 767.98px)` at Bootstrap's own breakpoint values.
 - **Assets**: `public/img/`, `public/video/`.
+
+## The `/anatema` preorder subpage
+
+A separate mini-site announcing the CHRUST vinyl **„ANATEMA!”** and taking preorders via Stripe. Deliberately unlinked from `index.html` — you reach it only if you have the URL.
+
+- **Pages are static**: `public/anatema/index.html`, `public/anatema/regulamin/index.html`, `public/anatema/dziekujemy/index.html` — served by `express.static` (pretty URLs come from the `<dir>/index.html` layout, so links keep the trailing slash). Own stylesheet `public/anatema.css`, own behaviour `public/js/anatema.js` (still no inline scripts — same CSP). Dark, Apple-style, scroll-reveal.
+- **Server logic** lives in `anatema.js` (root, next to the Express app), exporting `{ router, webhook }`:
+  - `POST /anatema/checkout` — creates a Stripe Checkout session (price is fixed server-side at 180 zł brutto, VAT 23% **inclusive**; 20 zł InPost Paczkomat / 0 zł personal pickup; paczkomat code via `custom_fields`; PL shipping + phone). Returns `{ url }`; the page does `window.location = url`. No CSP change — the redirect is a top-level navigation, not a script/frame.
+  - `POST /anatema/webhook` — mounted in `chrust-website-express-app.js` **before `compression()` and any body parser**, with `express.raw()`, because Stripe signature checks need the exact bytes. On `checkout.session.completed` it appends one JSON line to `data/anatema-orders.jsonl` (buyer name/email/phone/address/paczkomat/amount), deduped by session id.
+- **Config**: `anatema.js` reads `.env` (via `dotenv`, loaded at the top of the Express app) — `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `PUBLIC_BASE_URL`. See `.env.example`. Without keys the pages still render and only `/anatema/checkout` returns 503. `.env` and `data/` are gitignored; so is `_anatema_input_data/` (raw briefing material).
+- **VAT rate**: `anatema.js` creates its own Stripe `TaxRate` (23%, `inclusive: true`, marker `chrust_vat: 'pl23_incl'`) on first checkout and caches it. Do **not** set `STRIPE_TAX_RATE_ID` to a rate from another project unless it is also inclusive.
+- **Seller of record** is *Dariusz Mrozek Art* (hardcoded in the footer, the regulamin, and the session metadata) — not the band. Invoice on email request only.
 
 ## Gotchas discovered the hard way
 
