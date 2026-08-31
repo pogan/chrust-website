@@ -4,12 +4,19 @@
 # Dependencies
 node_modules/
 
-# Environment / secrets (not currently used by the app, but keep this out
-# by default so a future PORT/NODE_ENV override or credential never lands
-# in a commit by accident).
+# Environment / secrets. The /anatema preorder checkout reads Stripe keys from
+# .env (see anatema.js); .env.example documents the shape.
 .env
 .env.*
 !.env.example
+
+# Runtime order log written by the /anatema Stripe webhook. Holds buyers'
+# names, e-mails, phone numbers and shipping addresses — never commit it.
+/data/
+
+# Raw briefing material for the ANATEMA! landing page (internal PDF, unedited
+# stock photos, lyric drafts). Web-ready copies live in public/img/anatema/.
+/_anatema_input_data/
 
 # Design sources. These live inside public/ but must never be served — see the
 # extension blocklist in chrust-website-express-app.js, which 404s them.

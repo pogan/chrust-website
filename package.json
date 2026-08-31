@@ -21,7 +21,9 @@
   "dependencies": {
     "bootstrap": "^5.3.8",
     "compression": "^1.8.1",
+    "dotenv": "^16.6.1",
     "express": "^5.2.1",
-    "helmet": "^8.2.0"
+    "helmet": "^8.2.0",
+    "stripe": "^22.6.0"
   }
 }

@@ -1,7 +1,11 @@
+require('dotenv').config();
+
 const path = require('path');
 const express = require('express');
 const helmet = require('helmet');
 const compression = require('compression');
+
+const anatema = require('./anatema');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -60,6 +64,11 @@ app.use(
 	})
 );
 
+// The /anatema Stripe webhook must see the raw request body (signature
+// verification is an HMAC over the exact bytes), so it is mounted here — before
+// compression and before any JSON body parser.
+app.post('/anatema/webhook', express.raw({ type: 'application/json' }), anatema.webhook);
+
 app.use(compression());
 
 // public/ doubles as the designers' asset folder, so it holds source files that
@@ -101,6 +110,10 @@ app.use(
 		},
 	})
 );
+
+// /anatema preorder checkout. The pages themselves are static (public/anatema/**)
+// and are served by express.static above; this only adds POST /anatema/checkout.
+app.use('/anatema', anatema.router);
 
 app.listen(PORT, () => {
 	console.log(`chrust-website listening on http://localhost:${PORT}`);
