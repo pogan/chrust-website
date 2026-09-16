@@ -2,7 +2,8 @@
 	"lang": {
 		"en": {
 			"bio-navlink": "bio",
-			"anatema-hero-title": "<span class='redhighlight'>ANATEMA!</span> — preorder our upcoming vinyl record",
+			"anatema-hero-over": " · CHRUST AEROFONICZNIE · ",
+			"anatema-hero-hook": "Eight songs about a love that comes at a price.",
 			"anatema-hero-cta": "order now ⬈",
 			"oferta-navlink": "offer",
 			"concerts-navlink": "concerts",
@@ -43,7 +44,8 @@
 		},
 		"pl": {
 			"bio-navlink": "bio",
-			"anatema-hero-title": "<span class='redhighlight'>ANATEMA!</span> — preorder nadchodzącej płyty winylowej",
+			"anatema-hero-over": " · CHRUST AEROFONICZNIE · ",
+			"anatema-hero-hook": "Osiem pieśni o miłości, za którą się płaci.",
 			"anatema-hero-cta": "zamów teraz ⬈",
 			"oferta-navlink": "oferta",
 			"concerts-navlink": "koncerty",
@@ -84,7 +86,8 @@
 		},
 		"de": {
 			"bio-navlink": "bio",
-			"anatema-hero-title": "<span class='redhighlight'>ANATEMA!</span> — Vorbestellung unserer kommenden Vinyl-Platte",
+			"anatema-hero-over": " · CHRUST AEROFONICZNIE · ",
+			"anatema-hero-hook": "Acht Lieder über eine Liebe, für die man bezahlt.",
 			"anatema-hero-cta": "jetzt bestellen ⬈",
 			"oferta-navlink": "angebot",
 			"concerts-navlink": "konzerte",
@@ -125,7 +128,8 @@
 		},
 		"it": {
 			"bio-navlink": "bio",
-			"anatema-hero-title": "<span class='redhighlight'>ANATEMA!</span> — preordina il nostro nuovo album in vinile",
+			"anatema-hero-over": " · CHRUST AEROFONICZNIE · ",
+			"anatema-hero-hook": "Otto canzoni su un amore che si paga.",
 			"anatema-hero-cta": "ordina ora ⬈",
 			"oferta-navlink": "offerta",
 			"concerts-navlink": "concerti",
@@ -166,7 +170,8 @@
 		},
 		"es": {
 			"bio-navlink": "bio",
-			"anatema-hero-title": "<span class='redhighlight'>ANATEMA!</span> — reserva nuestro próximo álbum en vinilo",
+			"anatema-hero-over": " · CHRUST AEROFONICZNIE · ",
+			"anatema-hero-hook": "Ocho canciones sobre un amor que se paga.",
 			"anatema-hero-cta": "pide ahora ⬈",
 			"oferta-navlink": "oferta",
 			"concerts-navlink": "conciertos",

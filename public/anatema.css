@@ -160,11 +160,12 @@ a {
   position: absolute;
   left: 50%;
   bottom: 2.25rem;
-  width: 22px;
-  height: 22px;
-  margin-left: -11px;
-  border-right: 1px solid #6e6e73;
-  border-bottom: 1px solid #6e6e73;
+  width: 26px;
+  height: 26px;
+  margin-left: -13px;
+  border-right: 3px solid #f5f5f7;
+  border-bottom: 3px solid #f5f5f7;
+  filter: drop-shadow(0 0 6px rgba(201, 162, 39, 0.65));
   transform: rotate(45deg);
   animation: cue 2.4s ease-in-out infinite;
 }
@@ -172,10 +173,10 @@ a {
 @keyframes cue {
   0%, 100% {
     transform: rotate(45deg) translate(0, 0);
-    opacity: 0.5;
+    opacity: 0.7;
   }
   50% {
-    transform: rotate(45deg) translate(5px, 5px);
+    transform: rotate(45deg) translate(6px, 6px);
     opacity: 1;
   }
 }

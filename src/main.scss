@@ -100,6 +100,16 @@ $video-controls-bar: 64px;
 			background-image: url('img/chrust_bg_gosia_clean.jpg');
 		}
 
+		// Same black + gold-radial treatment as .hero on /anatema (src/anatema.scss),
+		// reimplemented here rather than shared: the two pages load separate,
+		// Bootstrap-free-vs-Bootstrap stylesheets on purpose (see CLAUDE.md).
+		&.anatema-promo {
+			background-color: #000;
+			background-image:
+				radial-gradient(120% 90% at 50% 12%, rgba(201, 162, 39, 0.10), rgba(0, 0, 0, 0) 55%);
+			text-shadow: none !important;
+		}
+
 		&.bio{
 			background-image: url('img/chrust_bg_darek1.jpg');
 		}
@@ -319,6 +329,37 @@ $video-controls-bar: 64px;
 	}
 }
 
+
+// Copies /anatema's .hero__over / .hero__title / .hero__hook (src/anatema.scss)
+// for the homepage's ANATEMA! promo hero. Values, not a shared mixin, since the
+// two stylesheets are deliberately independent.
+.anatema-promo__over {
+	font-size: 0.75rem;
+	letter-spacing: 0.4em;
+	text-transform: uppercase;
+	color: #a1a1a6 !important;
+	margin-bottom: clamp(1.5rem, 5vw, 3rem);
+	text-shadow: none !important;
+}
+
+.anatema-promo__title {
+	margin: 0;
+	font-weight: 800;
+	font-size: clamp(3.2rem, 15vw, 10rem);
+	line-height: 0.92;
+	letter-spacing: -0.02em;
+	color: #f5f5f7 !important;
+	text-shadow: none !important;
+}
+
+.anatema-promo__hook {
+	margin: clamp(1.5rem, 5vw, 2.75rem) auto 0;
+	max-width: 34ch;
+	font-size: clamp(1.05rem, 2.4vw, 1.5rem);
+	font-weight: 300;
+	color: #a1a1a6 !important;
+	text-shadow: none !important;
+}
 
 .bigbtn {
 	// margin-top: 45vh;
