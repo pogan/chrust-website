@@ -206,7 +206,16 @@
   letter-spacing: 0.4em;
   text-transform: uppercase;
   color: #a1a1a6 !important;
-  margin-bottom: clamp(1.5rem, 5vw, 3rem);
+  margin-bottom: 0.75rem;
+  text-shadow: none !important;
+}
+
+.anatema-promo__under {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: #a1a1a6 !important;
+  max-width: 32ch;
+  margin: 0 auto clamp(1.5rem, 5vw, 3rem);
   text-shadow: none !important;
 }
 
