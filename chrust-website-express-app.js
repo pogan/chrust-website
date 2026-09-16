@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const compression = require('compression');
 
 const anatema = require('./anatema');
+const anatemaOrders = require('./anatema-orders');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,17 +30,22 @@ app.use(
 				// concerts section loads the Bandsintown widget. rest.bandsintown.com
 				// belongs here rather than in connect-src because the widget fetches
 				// the event list over JSONP, i.e. by injecting a <script> element.
+				// accounts.google.com is the Google Identity Services (GIS) library
+				// that renders the "Sign in with Google" button on /anatema/orders —
+				// it injects its own iframe and does its own fetches, hence the same
+				// host reappearing in frame-src and connect-src below.
 				scriptSrc: [
 					"'self'",
 					'https://cdn.jsdelivr.net',
 					'https://widgetv3.bandsintown.com',
 					'https://rest.bandsintown.com',
+					'https://accounts.google.com',
 				],
 				// 'unsafe-inline' is required for *style attributes*: Bootstrap's
 				// collapse/carousel JS writes element.style during transitions, and
 				// the Bandsintown widget styles itself inline. It does not weaken
 				// script execution.
-				styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+				styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com', 'https://accounts.google.com'],
 				fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
 				// Bandsintown serves event artwork from a rotating set of CDN hosts.
 				imgSrc: ["'self'", 'data:', 'https:'],
@@ -51,8 +57,8 @@ app.use(
 				// with source maps enabled gets a CSP violation in the console.
 				// It grants no meaningful new trust — jsDelivr is already in
 				// script-src, i.e. already allowed to execute arbitrary JS here.
-				connectSrc: ["'self'", 'https://*.bandsintown.com', 'https://cdn.jsdelivr.net'],
-				frameSrc: ['https://*.bandsintown.com'],
+				connectSrc: ["'self'", 'https://*.bandsintown.com', 'https://cdn.jsdelivr.net', 'https://accounts.google.com'],
+				frameSrc: ['https://*.bandsintown.com', 'https://accounts.google.com'],
 				// Upgrading would rewrite http://localhost subresources to https in
 				// development, so only ask for it where TLS actually exists.
 				...(IS_PROD ? { upgradeInsecureRequests: [] } : {}),
@@ -114,6 +120,11 @@ app.use(
 // /anatema preorder checkout. The pages themselves are static (public/anatema/**)
 // and are served by express.static above; this only adds POST /anatema/checkout.
 app.use('/anatema', anatema.router);
+
+// /anatema/orders — Google-login-gated order list. Mounted after the static
+// handler and the checkout router, same as those: there is no matching static
+// file or /anatema/checkout route for this path, so requests fall through here.
+app.use('/anatema/orders', anatemaOrders.router);
 
 app.listen(PORT, () => {
 	console.log(`chrust-website listening on http://localhost:${PORT}`);
