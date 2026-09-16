@@ -2,6 +2,10 @@
 	"lang": {
 		"en": {
 			"bio-navlink": "bio",
+			"anatema-hero-over": " · CHRUST AEROFONICZNIE · ",
+			"anatema-hero-vinyl": "new material on vinyl, from an expanded lineup",
+			"anatema-hero-hook": "Eight songs about a love that comes at a price.",
+			"anatema-hero-cta": "preorder ⬈",
 			"oferta-navlink": "offer",
 			"concerts-navlink": "concerts",
 			"shop-navlink": "shop",
@@ -41,6 +45,10 @@
 		},
 		"pl": {
 			"bio-navlink": "bio",
+			"anatema-hero-over": " · CHRUST AEROFONICZNIE · ",
+			"anatema-hero-vinyl": "nowy materiał na płycie winylowej, w rozszerzonym składzie",
+			"anatema-hero-hook": "Osiem pieśni o miłości, za którą się płaci.",
+			"anatema-hero-cta": "preorder ⬈",
 			"oferta-navlink": "oferta",
 			"concerts-navlink": "koncerty",
 			"shop-navlink": "sklep",
@@ -80,6 +88,10 @@
 		},
 		"de": {
 			"bio-navlink": "bio",
+			"anatema-hero-over": " · CHRUST AEROFONICZNIE · ",
+			"anatema-hero-vinyl": "neues Material auf Vinyl, in erweiterter Besetzung",
+			"anatema-hero-hook": "Acht Lieder über eine Liebe, für die man bezahlt.",
+			"anatema-hero-cta": "vorbestellen ⬈",
 			"oferta-navlink": "angebot",
 			"concerts-navlink": "konzerte",
 			"shop-navlink": "shop",
@@ -119,6 +131,10 @@
 		},
 		"it": {
 			"bio-navlink": "bio",
+			"anatema-hero-over": " · CHRUST AEROFONICZNIE · ",
+			"anatema-hero-vinyl": "nuovo materiale su vinile, in formazione allargata",
+			"anatema-hero-hook": "Otto canzoni su un amore che si paga.",
+			"anatema-hero-cta": "preordina ⬈",
 			"oferta-navlink": "offerta",
 			"concerts-navlink": "concerti",
 			"shop-navlink": "negozio",
@@ -158,6 +174,10 @@
 		},
 		"es": {
 			"bio-navlink": "bio",
+			"anatema-hero-over": " · CHRUST AEROFONICZNIE · ",
+			"anatema-hero-vinyl": "nuevo material en vinilo, con una formación ampliada",
+			"anatema-hero-hook": "Ocho canciones sobre un amor que se paga.",
+			"anatema-hero-cta": "reserva ⬈",
 			"oferta-navlink": "oferta",
 			"concerts-navlink": "conciertos",
 			"shop-navlink": "tienda",

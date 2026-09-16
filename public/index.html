@@ -90,7 +90,7 @@
 	<!-- navbar -->
 	<nav class="navbar navbar-expand-lg fixed-top pushed" data-bs-theme="dark" id="navBar">
 		<div class="container">
-			<a class="navbar-brand" href="#fp">
+			<a class="navbar-brand" href="#anatema-hero">
 				<img src="img/chrust_logotyp_negatyw.png" height="50" alt="CHRUST" decoding="async">
 			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -153,8 +153,9 @@
 
 	<div class="container-fluid">
 
-		<!-- front page -->
-		<div class="row chrust cover fp position-relative" id="fp">
+		<!-- front page (hidden while ANATEMA! preorder hero takes its place; "cover" dropped
+		     so it's skipped by main.js's Up/Down keyboard section list) -->
+		<div class="row chrust fp position-relative hidden" id="fp">
 			<div class="col">
 				<div class="vh-100 d-flex flex-column justify-content-center align-items-center">
 
@@ -162,6 +163,27 @@
 
 					<img src="img/chrust_bg_logotype_hollow_white.png" class="img-fluid hidden" alt="CHRUST Logo"
 						id="biglogo" fetchpriority="high" decoding="async">
+
+				</div>
+			</div>
+			<div class="arrow-down" data-next="bio"></div>
+		</div>
+
+		<!-- anatema preorder hero: same body as the /anatema page's own hero
+		     (over-text, title, hook), plus a CTA to the preorder subpage -->
+		<div class="row chrust cover anatema-promo position-relative" id="anatema-hero">
+			<div class="col">
+				<div class="vh-100 d-flex flex-column justify-content-center align-items-center text-center">
+
+					<p class="anatema-promo__over" data-ts="anatema-hero-over">&nbsp;·&nbsp;CHRUST AEROFONICZNIE&nbsp;·&nbsp;</p>
+					<p class="anatema-promo__under" data-ts="anatema-hero-vinyl">nowy materiał na płycie winylowej, w rozszerzonym składzie</p>
+
+					<h1 class="anatema-promo__title">ANATEMA!</h1>
+
+					<p class="anatema-promo__hook" data-ts="anatema-hero-hook">Osiem pieśni o miłości, za którą się płaci.</p>
+
+					<a class="btn btn-link btn-primary btn-lg bigbtn fs-2 mt-4" href="/anatema"
+						data-ts="anatema-hero-cta">preorder ⬈</a>
 
 				</div>
 			</div>

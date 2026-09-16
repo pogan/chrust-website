@@ -176,22 +176,25 @@ a {
 }
 
 // --- Strzałka / scroll cue ---
+// Bumped from a 1px $ink-faint hairline to a heavier, brighter chevron with a
+// gold glow so it reads as a call to action rather than a faint decoration.
 .scroll-cue {
 	position: absolute;
 	left: 50%;
 	bottom: 2.25rem;
-	width: 22px;
-	height: 22px;
-	margin-left: -11px;
-	border-right: 1px solid $ink-faint;
-	border-bottom: 1px solid $ink-faint;
+	width: 26px;
+	height: 26px;
+	margin-left: -13px;
+	border-right: 3px solid $ink;
+	border-bottom: 3px solid $ink;
+	filter: drop-shadow(0 0 6px rgba(201, 162, 39, 0.65));
 	transform: rotate(45deg);
 	animation: cue 2.4s ease-in-out infinite;
 }
 
 @keyframes cue {
-	0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 0.5; }
-	50%      { transform: rotate(45deg) translate(5px, 5px); opacity: 1; }
+	0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 0.7; }
+	50%      { transform: rotate(45deg) translate(6px, 6px); opacity: 1; }
 }
 
 // --- Manifest / duży akapit ---

@@ -100,6 +100,16 @@ $video-controls-bar: 64px;
 			background-image: url('img/chrust_bg_gosia_clean.jpg');
 		}
 
+		// Same black + gold-radial treatment as .hero on /anatema (src/anatema.scss),
+		// reimplemented here rather than shared: the two pages load separate,
+		// Bootstrap-free-vs-Bootstrap stylesheets on purpose (see CLAUDE.md).
+		&.anatema-promo {
+			background-color: #000;
+			background-image:
+				radial-gradient(120% 90% at 50% 12%, rgba(201, 162, 39, 0.10), rgba(0, 0, 0, 0) 55%);
+			text-shadow: none !important;
+		}
+
 		&.bio{
 			background-image: url('img/chrust_bg_darek1.jpg');
 		}
@@ -320,6 +330,49 @@ $video-controls-bar: 64px;
 }
 
 
+// Copies /anatema's .hero__over / .hero__title / .hero__hook (src/anatema.scss)
+// for the homepage's ANATEMA! promo hero. Values, not a shared mixin, since the
+// two stylesheets are deliberately independent.
+.anatema-promo__over {
+	font-size: 0.75rem;
+	letter-spacing: 0.4em;
+	text-transform: uppercase;
+	color: #a1a1a6 !important;
+	margin-bottom: 0.75rem;
+	text-shadow: none !important;
+}
+
+// Second eyebrow line, added under .anatema-promo__over. Has no equivalent on
+// /anatema's own hero, so styled to match the site's own tokens rather than
+// copied from src/anatema.scss.
+.anatema-promo__under {
+	font-size: 0.85rem;
+	letter-spacing: 0.08em;
+	color: #a1a1a6 !important;
+	max-width: 32ch;
+	margin: 0 auto clamp(1.5rem, 5vw, 3rem);
+	text-shadow: none !important;
+}
+
+.anatema-promo__title {
+	margin: 0;
+	font-weight: 800;
+	font-size: clamp(3.2rem, 15vw, 10rem);
+	line-height: 0.92;
+	letter-spacing: -0.02em;
+	color: #f5f5f7 !important;
+	text-shadow: none !important;
+}
+
+.anatema-promo__hook {
+	margin: clamp(1.5rem, 5vw, 2.75rem) auto 0;
+	max-width: 34ch;
+	font-size: clamp(1.05rem, 2.4vw, 1.5rem);
+	font-weight: 300;
+	color: #a1a1a6 !important;
+	text-shadow: none !important;
+}
+
 .bigbtn {
 	// margin-top: 45vh;
 	letter-spacing: 1rem;
@@ -331,11 +384,15 @@ $video-controls-bar: 64px;
 	background-color: rgba(0, 0, 0, 0.4) !important;
 	backdrop-filter: blur(2px);
 	text-transform: uppercase;
-	border-bottom: 0.1rem rgba(0, 0, 0, 0.0) !important;
+	// `solid` in both states so the border always occupies its 0.1rem of height —
+	// only the color changes on hover. Without an explicit style here, this
+	// border-bottom style is "none" and its width collapses to 0, so the hover
+	// border added real height and shifted the button.
+	border-bottom: 0.1rem solid rgba(0, 0, 0, 0.0) !important;
 
 	&:hover {
 		background-color: rgba(0, 0, 0, 0.6) !important;
-		border-bottom: 0.1rem #fff solid !important;
+		border-bottom: 0.1rem solid #fff !important;
 	}
 }
 
@@ -387,6 +444,13 @@ $video-controls-bar: 64px;
 
 .underline {
 	text-decoration: underline !important;
+}
+
+// Generic "not shown" utility for whole sections. Distinct from `#biglogo.hidden`
+// below, which is an opacity/margin fade used only for the logo's entrance
+// animation — that rule is scoped to the id so it never collides with this one.
+.hidden {
+	display: none !important;
 }
 
 // The contact footer previously used `fs-8` and `fs-9`. Bootstrap only defines
