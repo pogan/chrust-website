@@ -67,6 +67,14 @@ app.use(
 		// The Bandsintown widget is a plain cross-origin script, not an isolated
 		// context; COEP would block it and buys us nothing here.
 		crossOriginEmbedderPolicy: false,
+		// Helmet's default COOP ('same-origin') cuts the window.opener link between
+		// this page and the popup Google's "Sign in with Google" button opens. The
+		// popup finishes on accounts.google.com/gsi/transform and tries to
+		// postMessage the credential back to its opener — with plain 'same-origin'
+		// that channel doesn't exist, so the popup just sits there forever instead
+		// of closing. 'same-origin-allow-popups' keeps the isolation for same-origin
+		// windows but lets a same-origin page keep its reference to popups it opens.
+		crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
 	})
 );
 
