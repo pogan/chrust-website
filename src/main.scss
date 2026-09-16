@@ -331,11 +331,15 @@ $video-controls-bar: 64px;
 	background-color: rgba(0, 0, 0, 0.4) !important;
 	backdrop-filter: blur(2px);
 	text-transform: uppercase;
-	border-bottom: 0.1rem rgba(0, 0, 0, 0.0) !important;
+	// `solid` in both states so the border always occupies its 0.1rem of height —
+	// only the color changes on hover. Without an explicit style here, this
+	// border-bottom style is "none" and its width collapses to 0, so the hover
+	// border added real height and shifted the button.
+	border-bottom: 0.1rem solid rgba(0, 0, 0, 0.0) !important;
 
 	&:hover {
 		background-color: rgba(0, 0, 0, 0.6) !important;
-		border-bottom: 0.1rem #fff solid !important;
+		border-bottom: 0.1rem solid #fff !important;
 	}
 }
 
