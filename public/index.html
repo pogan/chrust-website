@@ -90,7 +90,7 @@
 	<!-- navbar -->
 	<nav class="navbar navbar-expand-lg fixed-top pushed" data-bs-theme="dark" id="navBar">
 		<div class="container">
-			<a class="navbar-brand" href="#fp">
+			<a class="navbar-brand" href="#anatema-hero">
 				<img src="img/chrust_logotyp_negatyw.png" height="50" alt="CHRUST" decoding="async">
 			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -153,8 +153,9 @@
 
 	<div class="container-fluid">
 
-		<!-- front page -->
-		<div class="row chrust cover fp position-relative" id="fp">
+		<!-- front page (hidden while ANATEMA! preorder hero takes its place; "cover" dropped
+		     so it's skipped by main.js's Up/Down keyboard section list) -->
+		<div class="row chrust fp position-relative hidden" id="fp">
 			<div class="col">
 				<div class="vh-100 d-flex flex-column justify-content-center align-items-center">
 
@@ -162,6 +163,23 @@
 
 					<img src="img/chrust_bg_logotype_hollow_white.png" class="img-fluid hidden" alt="CHRUST Logo"
 						id="biglogo" fetchpriority="high" decoding="async">
+
+				</div>
+			</div>
+			<div class="arrow-down" data-next="bio"></div>
+		</div>
+
+		<!-- anatema preorder hero -->
+		<div class="row chrust cover fp position-relative" id="anatema-hero">
+			<div class="col">
+				<div class="vh-100 d-flex flex-column justify-content-center align-items-center text-center">
+
+					<h1 class="fs-1 text-light" data-ts="anatema-hero-title">
+						<span class='redhighlight'>ANATEMA!</span> — preorder nadchodzącej płyty winylowej
+					</h1>
+
+					<a class="btn btn-link btn-primary btn-lg bigbtn fs-2 mt-4" href="/anatema"
+						data-ts="anatema-hero-cta">zamów teraz ⬈</a>
 
 				</div>
 			</div>

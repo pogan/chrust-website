@@ -2,6 +2,8 @@
 	"lang": {
 		"en": {
 			"bio-navlink": "bio",
+			"anatema-hero-title": "<span class='redhighlight'>ANATEMA!</span> — preorder our upcoming vinyl record",
+			"anatema-hero-cta": "order now ⬈",
 			"oferta-navlink": "offer",
 			"concerts-navlink": "concerts",
 			"shop-navlink": "shop",
@@ -41,6 +43,8 @@
 		},
 		"pl": {
 			"bio-navlink": "bio",
+			"anatema-hero-title": "<span class='redhighlight'>ANATEMA!</span> — preorder nadchodzącej płyty winylowej",
+			"anatema-hero-cta": "zamów teraz ⬈",
 			"oferta-navlink": "oferta",
 			"concerts-navlink": "koncerty",
 			"shop-navlink": "sklep",
@@ -80,6 +84,8 @@
 		},
 		"de": {
 			"bio-navlink": "bio",
+			"anatema-hero-title": "<span class='redhighlight'>ANATEMA!</span> — Vorbestellung unserer kommenden Vinyl-Platte",
+			"anatema-hero-cta": "jetzt bestellen ⬈",
 			"oferta-navlink": "angebot",
 			"concerts-navlink": "konzerte",
 			"shop-navlink": "shop",
@@ -119,6 +125,8 @@
 		},
 		"it": {
 			"bio-navlink": "bio",
+			"anatema-hero-title": "<span class='redhighlight'>ANATEMA!</span> — preordina il nostro nuovo album in vinile",
+			"anatema-hero-cta": "ordina ora ⬈",
 			"oferta-navlink": "offerta",
 			"concerts-navlink": "concerti",
 			"shop-navlink": "negozio",
@@ -158,6 +166,8 @@
 		},
 		"es": {
 			"bio-navlink": "bio",
+			"anatema-hero-title": "<span class='redhighlight'>ANATEMA!</span> — reserva nuestro próximo álbum en vinilo",
+			"anatema-hero-cta": "pide ahora ⬈",
 			"oferta-navlink": "oferta",
 			"concerts-navlink": "conciertos",
 			"shop-navlink": "tienda",

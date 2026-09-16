@@ -389,6 +389,13 @@ $video-controls-bar: 64px;
 	text-decoration: underline !important;
 }
 
+// Generic "not shown" utility for whole sections. Distinct from `#biglogo.hidden`
+// below, which is an opacity/margin fade used only for the logo's entrance
+// animation — that rule is scoped to the id so it never collides with this one.
+.hidden {
+	display: none !important;
+}
+
 // The contact footer previously used `fs-8` and `fs-9`. Bootstrap only defines
 // fs-1 … fs-6, so both were dead classes and the credits rendered at full body
 // size — which is why the copyright block had no hierarchy below the © line.
