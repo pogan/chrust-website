@@ -120,6 +120,24 @@ function formatAmount(order) {
 	return `${(order.amountTotal / 100).toFixed(2)} ${(order.currency || '').toUpperCase()}`;
 }
 
+// Suma kwot per waluta — w praktyce zawsze PLN, ale nie zakładamy tego na sztywno.
+function formatTotalAmount(orders) {
+	const byCurrency = new Map();
+	for (const o of orders) {
+		if (typeof o.amountTotal !== 'number') continue;
+		const currency = (o.currency || '').toUpperCase();
+		byCurrency.set(currency, (byCurrency.get(currency) || 0) + o.amountTotal);
+	}
+	if (byCurrency.size === 0) return '—';
+	return Array.from(byCurrency.entries())
+		.map(([currency, total]) => `${(total / 100).toFixed(2)} ${currency}`)
+		.join(', ');
+}
+
+function sumQty(orders) {
+	return orders.reduce((sum, o) => sum + (typeof o.qty === 'number' ? o.qty : 0), 0);
+}
+
 function formatTimestamp(ts) {
 	const date = new Date(ts);
 	if (Number.isNaN(date.getTime())) return escapeHtml(ts);
@@ -177,8 +195,9 @@ function renderOrdersPage(email) {
 	const orders = readOrders();
 
 	const rows = orders
-		.map((o) => `
+		.map((o, i) => `
 			<tr>
+				<td>${i + 1}</td>
 				<td>${escapeHtml(formatTimestamp(o.ts))}</td>
 				<td>${escapeHtml(o.name)}</td>
 				<td>${escapeHtml(o.email)}</td>
@@ -188,6 +207,7 @@ function renderOrdersPage(email) {
 				<td>${escapeHtml(o.delivery)}${o.paczkomat ? ` (${escapeHtml(o.paczkomat)})` : ''}</td>
 				<td>${escapeHtml(o.address)}</td>
 				<td>${escapeHtml(o.nip)}</td>
+				<td>${o.sessionId ? `<button type="button" class="orders__delete" data-session-id="${escapeHtml(o.sessionId)}">Usuń</button>` : ''}</td>
 			</tr>`)
 		.join('');
 
@@ -196,6 +216,7 @@ function renderOrdersPage(email) {
 			<table class="orders">
 				<thead>
 					<tr>
+						<th>Lp.</th>
 						<th>Data</th>
 						<th>Imię i nazwisko</th>
 						<th>E-mail</th>
@@ -205,6 +226,7 @@ function renderOrdersPage(email) {
 						<th>Dostawa</th>
 						<th>Adres</th>
 						<th>NIP</th>
+						<th>Akcje</th>
 					</tr>
 				</thead>
 				<tbody>${rows}</tbody>
@@ -212,15 +234,32 @@ function renderOrdersPage(email) {
 		</div>`
 		: `<p class="orders-empty">Brak zamówień.</p>`;
 
+	const summary = `
+		<div class="orders__summary">
+			<div class="orders__stat">
+				<span class="orders__stat-value">${orders.length}</span>
+				<span class="orders__stat-label">${orders.length === 1 ? 'zamówienie' : 'zamówień'}</span>
+			</div>
+			<div class="orders__stat">
+				<span class="orders__stat-value">${sumQty(orders)}</span>
+				<span class="orders__stat-label">zamówionych płyt</span>
+			</div>
+			<div class="orders__stat">
+				<span class="orders__stat-value">${escapeHtml(formatTotalAmount(orders))}</span>
+				<span class="orders__stat-label">suma kwot</span>
+			</div>
+		</div>`;
+
 	return renderPage({
 		title: 'Zamówienia',
 		bodyClass: 'orders-page',
 		body: `
 	<main class="orders">
 		<div class="orders__intro">
-			<span class="orders__count">${orders.length} ${orders.length === 1 ? 'zamówienie' : 'zamówień'} · zalogowano jako ${escapeHtml(email)}</span>
+			<span class="orders__count">zalogowano jako ${escapeHtml(email)}</span>
 			<button type="button" class="orders__logout" id="orders-logout">Wyloguj</button>
 		</div>
+		${summary}
 		${table}
 	</main>`,
 	});
@@ -271,6 +310,48 @@ router.post('/login', express.json({ limit: '8kb' }), async (req, res) => {
 router.post('/logout', (req, res) => {
 	res.clearCookie(COOKIE_NAME, { path: COOKIE_PATH });
 	res.json({ ok: true });
+});
+
+router.post('/delete', express.json({ limit: '4kb' }), (req, res) => {
+	const session = getSession(req);
+	if (!session) return res.status(401).json({ ok: false, error: 'Musisz być zalogowany.' });
+
+	const sessionId = req.body && req.body.sessionId;
+	if (!sessionId || typeof sessionId !== 'string') {
+		return res.status(400).json({ ok: false, error: 'Brak identyfikatora zamówienia.' });
+	}
+
+	let raw;
+	try {
+		raw = fs.readFileSync(ORDERS_FILE, 'utf8');
+	} catch {
+		return res.status(404).json({ ok: false, error: 'Nie znaleziono zamówienia.' });
+	}
+
+	let removed = false;
+	const kept = raw.split('\n').filter((line) => {
+		const trimmed = line.trim();
+		if (!trimmed) return false;
+		let row;
+		try {
+			row = JSON.parse(trimmed);
+		} catch {
+			return true; // nieparsowalna linia — zostawiamy, nie tracimy danych po cichu
+		}
+		if (row.sessionId === sessionId) {
+			removed = true;
+			return false;
+		}
+		return true;
+	});
+
+	if (!removed) {
+		return res.status(404).json({ ok: false, error: 'Nie znaleziono zamówienia.' });
+	}
+
+	fs.writeFileSync(ORDERS_FILE, kept.length ? kept.join('\n') + '\n' : '');
+	console.log(`anatema/orders: usunięto zamówienie ${sessionId} (${session.email})`);
+	return res.json({ ok: true });
 });
 
 module.exports = { router };
