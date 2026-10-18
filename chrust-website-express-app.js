@@ -7,6 +7,7 @@ const compression = require('compression');
 
 const anatema = require('./anatema');
 const anatemaOrders = require('./anatema-orders');
+const setlisty = require('./setlisty');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -133,6 +134,10 @@ app.use('/anatema', anatema.router);
 // handler and the checkout router, same as those: there is no matching static
 // file or /anatema/checkout route for this path, so requests fall through here.
 app.use('/anatema/orders', anatemaOrders.router);
+
+// /setlisty — the page is static (public/setlisty/index.html); this adds its
+// JSON API and Google login. Same fall-through reasoning as above.
+app.use('/setlisty', setlisty.router);
 
 app.listen(PORT, () => {
 	console.log(`chrust-website listening on http://localhost:${PORT}`);

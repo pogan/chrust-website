@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pl">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+	<title>Setlisty — CHRUST</title>
+	<meta name="robots" content="noindex">
+	<link rel="icon" type="image/png" href="/img/chrust_favicon_pozytyw.png">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&display=swap">
+	<link rel="stylesheet" href="/setlisty.css">
+	<script defer src="/js/vendor/Sortable.min.js"></script>
+	<script defer src="/js/vendor/jspdf.umd.min.js"></script>
+	<script defer src="/js/setlisty.js"></script>
+</head>
+<body class="ro">
+<div class="wrap">
+	<header class="top">
+		<div class="brandrow">
+			<a class="brand" href="/" style="color:inherit;text-decoration:none">Chrust<small>setlisty</small></a>
+			<span class="status" id="status">Wczytywanie…</span>
+			<button class="btn" id="loginBtn" hidden>Edytuj</button>
+		</div>
+		<div class="pickrow">
+			<select id="pick" aria-label="Wybierz setlistę"></select>
+			<div class="menu">
+				<button class="btn" id="menuBtn" aria-haspopup="true" aria-expanded="false">Więcej</button>
+				<div class="menu-pop" id="menuPop" hidden>
+					<button id="mNew">Nowa setlista</button>
+					<button id="mDup">Duplikuj tę setlistę</button>
+					<button id="mDel" class="danger">Usuń tę setlistę</button>
+					<button id="mLogout">Wyloguj</button>
+				</div>
+			</div>
+		</div>
+		<div class="summary" id="summary"></div>
+	</header>
+
+	<div id="confirmBox"></div>
+
+	<div id="main">
+		<div class="meta">
+			<label class="full">Nazwa<input id="fName" type="text" autocomplete="off"></label>
+			<label>Data<input id="fDate" type="date"></label>
+			<label>Miejsce<input id="fVenue" type="text" autocomplete="off" placeholder="klub, miasto"></label>
+		</div>
+
+		<div class="tabs" role="tablist">
+			<button role="tab" id="tSet" aria-selected="true">Setlista</button>
+			<button role="tab" id="tLib" aria-selected="false">Utwory</button>
+		</div>
+
+		<div class="cols">
+			<section class="pane" id="pSet">
+				<h2>Kolejność</h2>
+				<div class="colhead"><span></span><span>#</span><span>utwór · tonacja · metrum · tempo</span><span>czas</span><span></span></div>
+				<ol class="set" id="set"></ol>
+				<div class="setactions">
+					<button class="btn" id="addSep">+ Przerwa / bis</button>
+				</div>
+			</section>
+			<section class="pane" id="pLib" hidden>
+				<h2>Baza utworów</h2>
+				<div class="libtools">
+					<input id="q" type="search" placeholder="Szukaj utworu" aria-label="Szukaj utworu">
+					<label class="chk"><input type="checkbox" id="onlyFree"> tylko niewybrane</label>
+				</div>
+				<ul class="lib" id="lib"></ul>
+			</section>
+		</div>
+	</div>
+</div>
+
+<div class="dock">
+	<div class="wrap">
+		<div class="info" id="dockInfo"></div>
+		<button class="btn primary" id="pdfBtn">PDF A5</button>
+	</div>
+</div>
+
+<div class="sheet" id="sheet" hidden>
+	<div class="sheet-in" role="dialog" aria-labelledby="sheetTitle">
+		<h3 id="sheetTitle">Setlista do druku (A5)</h3>
+		<div class="preview"><img id="prevImg" alt="Podgląd strony A5"></div>
+		<div class="opts">
+			<label class="chk"><input type="checkbox" id="oDet" checked> tonacja, metrum, tempo</label>
+			<label class="chk"><input type="checkbox" id="oTime" checked> czasy utworów</label>
+			<label class="chk"><input type="checkbox" id="oTags" checked> oznaczenia (uku, KLIK…)</label>
+		</div>
+		<p class="note" id="pdfNote"></p>
+		<div style="display:flex;gap:8px;justify-content:flex-end">
+			<button class="btn ghost" id="closeSheet">Zamknij</button>
+			<button class="btn primary" id="dlPdf">Pobierz PDF</button>
+		</div>
+	</div>
+</div>
+
+<div class="sheet" id="loginSheet" hidden>
+	<div class="sheet-in" role="dialog" aria-labelledby="loginTitle">
+		<h3 id="loginTitle">Edycja setlist</h3>
+		<p class="note">Edytować mogą tylko członkowie zespołu. Zaloguj się kontem Google.</p>
+		<div class="login-box"><div id="gBtn"></div></div>
+		<p class="note err" id="loginErr"></p>
+		<div style="display:flex;justify-content:flex-end">
+			<button class="btn ghost" id="closeLogin">Zamknij</button>
+		</div>
+	</div>
+</div>
+</body>
+</html>

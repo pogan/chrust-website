@@ -75,6 +75,15 @@ A separate mini-site announcing the CHRUST vinyl **„ANATEMA!”** and taking p
   - **Data**: reads `data/anatema-orders.jsonl` (written by `anatema.js`'s webhook — see above) read-only; renders it as an HTML table. Missing file → "no orders" state, not an error. All fields are HTML-escaped before rendering — those strings came from Stripe Checkout form input typed by customers, so they're untrusted.
   - **Config**: `GOOGLE_CLIENT_ID`, `ANATEMA_ADMIN_EMAILS` (comma-separated), `SESSION_SECRET` — see `.env.example`. Without `GOOGLE_CLIENT_ID`/`SESSION_SECRET` the page still renders a login screen, it just can't complete a login (mirrors how `/anatema` degrades without Stripe keys).
 
+## The `/setlisty` subpage
+
+Setlist editor for the band (ported from a Claude artifact). Public to view and to print (PDF A5); editing needs Google login. Unlinked from `index.html`, `noindex`.
+
+- **Page is static**: `public/setlisty/index.html`, plain CSS `public/setlisty.css` (not on the sass pipeline), behaviour `public/js/setlisty.js`. Sortable and jsPDF are **vendored** in `public/js/vendor/` (no CSP change needed). The song catalogue (`SONGS`) lives in `setlisty.js` — edit it there.
+- **Server**: `setlisty.js` (root, exports `{ router }`), mounted at `/setlisty` after the static handler. `GET /setlisty/api/sets` is public and also returns `editor` (e-mail or null) and the Google `clientId`; `PUT`/`DELETE /setlisty/api/sets/:id` need the session. Writes require `Content-Type: application/json` (CSRF guard together with `SameSite=Lax`).
+- **Login**: same GIS-token + HMAC-cookie scheme as `/anatema/orders`, but its own cookie (`setlisty_editor`, path `/setlisty`, 30 days). Whitelist: `SETLISTY_EDITOR_EMAILS`, falling back to `ANATEMA_ADMIN_EMAILS`.
+- **Data**: `data/setlists.json` (gitignored, written atomically). When it does not exist yet the server starts from the committed `setlisty-seed.json`. Clients poll every 20 s; last write wins per setlist.
+
 ## Gotchas discovered the hard way
 
 - `git filter-branch` ends with a `reset --hard` on the rewritten HEAD, which **deletes from the working tree** any tracked file that the rewrite removed. Purging `public/video/` from history once destroyed the only on-disk copies of the re-encodes. Copy anything large out of the repo before rewriting history.
