@@ -81,7 +81,7 @@ Setlist editor for the band (ported from a Claude artifact). Public to view and 
 
 - **Page is static**: `public/setlisty/index.html`, plain CSS `public/setlisty.css` (not on the sass pipeline), behaviour `public/js/setlisty.js`. Sortable and jsPDF are **vendored** in `public/js/vendor/` (no CSP change needed). The song catalogue (`SONGS`) lives in `setlisty.js` — edit it there.
 - **Server**: `setlisty.js` (root, exports `{ router }`), mounted at `/setlisty` after the static handler. `GET /setlisty/api/sets` is public and also returns `editor` (e-mail or null) and the Google `clientId`; `PUT`/`DELETE /setlisty/api/sets/:id` need the session. Writes require `Content-Type: application/json` (CSRF guard together with `SameSite=Lax`).
-- **Login**: same GIS-token + HMAC-cookie scheme as `/anatema/orders`, but its own cookie (`setlisty_editor`, path `/setlisty`, 30 days). Whitelist: `SETLISTY_EDITOR_EMAILS`, falling back to `ANATEMA_ADMIN_EMAILS`.
+- **Login**: same GIS-token + HMAC-cookie scheme as `/anatema/orders`, but its own cookie (`setlisty_editor`, path `/setlisty`, 30 days). Whitelist: `ANATEMA_ADMIN_EMAILS` (shared with `/anatema/orders`).
 - **Data**: `data/setlists.json` (gitignored, written atomically). When it does not exist yet the server starts from the committed `setlisty-seed.json`. Clients poll every 20 s; last write wins per setlist.
 
 ## Gotchas discovered the hard way

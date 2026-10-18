@@ -1,7 +1,6 @@
 // /setlisty — setlisty koncertowe zespołu. Strona (public/setlisty/index.html)
 // jest statyczna i publiczna: każdy może przeglądać setlisty i pobrać PDF A5.
-// Zmieniać je mogą tylko osoby z SETLISTY_EDITOR_EMAILS (domyślnie
-// ANATEMA_ADMIN_EMAILS), zalogowane przez "Sign in with Google" — ten sam
+// Zmieniać je mogą tylko osoby z ANATEMA_ADMIN_EMAILS, zalogowane przez "Sign in with Google" — ten sam
 // mechanizm co /anatema/orders (token GIS weryfikowany przez
 // google-auth-library, potem własne ciasteczko podpisane HMAC-iem), tylko
 // z osobnym ciasteczkiem ograniczonym do /setlisty.
@@ -28,7 +27,7 @@ const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 const SESSION_SECRET = process.env.SESSION_SECRET || '';
 const IS_PROD = process.env.NODE_ENV === 'production';
 
-const EDITOR_EMAILS = (process.env.SETLISTY_EDITOR_EMAILS || process.env.ANATEMA_ADMIN_EMAILS || '')
+const EDITOR_EMAILS = (process.env.ANATEMA_ADMIN_EMAILS || '')
 	.split(',')
 	.map((e) => e.trim().toLowerCase())
 	.filter(Boolean);
