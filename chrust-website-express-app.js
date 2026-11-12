@@ -11,6 +11,8 @@ const setlisty = require('./setlisty');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+// Domyślnie tylko localhost (ruch z zewnątrz przez nginx); w kontenerze podglądu HOST=0.0.0.0.
+const HOST = process.env.HOST || '127.0.0.1';
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const IS_PROD = process.env.NODE_ENV === 'production';
 
@@ -139,6 +141,6 @@ app.use('/anatema/orders', anatemaOrders.router);
 // JSON API and Google login. Same fall-through reasoning as above.
 app.use('/setlisty', setlisty.router);
 
-app.listen(PORT, () => {
+app.listen(PORT, HOST, () => {
 	console.log(`chrust-website listening on http://localhost:${PORT}`);
 });
