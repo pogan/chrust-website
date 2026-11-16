@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A single-page marketing website for the Polish folk band CHRUST, served by a small hardened Express app. There is no frontend framework and no bundler — the site is one long `public/index.html` styled with Bootstrap 5 plus a SCSS override file, with behaviour in `public/js/main.js`.
+A single-page marketing website for the Polish folk band CHRUST, served by a small hardened Express app. There is no frontend framework and no bundler — the site is one long page template `views/index.ejs` (EJS only for the footer year and app version) styled with Bootstrap 5 plus a SCSS override file, with behaviour in `public/js/main.js`.
 
 Live at <https://chrustfolkmusic.pl/>.
 
@@ -15,7 +15,7 @@ Live at <https://chrustfolkmusic.pl/>.
 
 ### Rebuilding the CSS (there is no build script)
 
-`public/index.html` links `public/main.css`. That file is **generated** from `src/main.scss` and is committed. `sass` is deliberately *not* a dependency, so after any SCSS edit run:
+`views/index.ejs` links `public/main.css`. That file is **generated** from `src/main.scss` and is committed. `sass` is deliberately *not* a dependency, so after any SCSS edit run:
 
 ```sh
 npx --yes sass src/main.scss /tmp/out.css --no-source-map
@@ -44,7 +44,7 @@ npx --yes -p postcss-cli -p autoprefixer postcss /tmp/anatema.css --use autopref
 - **Single page, section-per-screen**: stacked full-viewport `<div class="row chrust cover …">` sections with ids `#fp #bio #oferta #concerts #merch #videos #links #members #history #contact`. Navbar links, the `data-next` down-arrows, and the Up/Down keyboard handler all just scroll to a section's `offsetTop` — there is no router. **Each arrow's `data-next` must name the next section in DOM order.**
 - **i18n without a framework**: Polish is hardcoded in the HTML as the default. Translatable elements carry `data-ts="key"`; `public/translations.json` holds `pl`, `en`, `de`, `it` and `es` under `lang`. `applyLanguage(code)` rewrites each `[data-ts]` element's `innerHTML`, updates `document.documentElement.lang`, and syncs the navbar dropdown's label and `.active` entry. Listeners are attached only *after* the fetch resolves — an early click used to throw.
   - `innerHTML` is deliberate here: the JSON carries markup (`<span class='redhighlight'>`, `<a>`). It is same-origin and not user input; the CSP is the mitigation.
-  - When adding copy: edit the Polish in `index.html`, add the same key to **all five** languages in `translations.json`, and give the element a `data-ts`. A missing key logs a warning and leaves the previous language's text in place.
+  - When adding copy: edit the Polish in `views/index.ejs`, add the same key to **all five** languages in `translations.json`, and give the element a `data-ts`. A missing key logs a warning and leaves the previous language's text in place.
   - The language selector is a Bootstrap dropdown (`#langChangeButton` / `#langMenu`). It is also a `.nav-link`, so `setNavListeners()` skips `.dropdown-toggle` — otherwise collapsing the mobile navbar would tear the dropdown off screen as it opened.
   - `#langMenu` is themed by hand through `--bs-dropdown-*` variables. `data-bs-theme="dark"` on the navbar does nothing because `$enable-dark-mode: false`, so Bootstrap never compiled those rules and the menu would render as a white box.
 - **Video carousel** (`#videos`): five `<video preload="none" poster="…">` in a Bootstrap carousel. Playback is driven by `slide.bs.carousel` / `slid.bs.carousel` — **not** by click handlers on the arrows, because indicator dots and swipes must also pause the outgoing video. An `IntersectionObserver` pauses everything when the section scrolls out of view.
@@ -100,3 +100,10 @@ Commit as you work — don't let a session end with a pile of uncommitted change
 - **Write clean messages.** A short imperative subject line describing what changed and why it matters — `fix video carousel not pausing outgoing video`, not `minor changes` or `v2`. Add a body only when the subject can't carry the reasoning.
 - **Watch for untracked work.** Regenerated `public/main.css` is easy to leave behind — check `git status` before finishing.
 - **Never `git add -A` after touching `public/video/`.** Stage video paths by name. The whitelist in `.gitignore` is the safety net, not the plan.
+
+## vamude-kit
+
+`/healthz` (status, version, commit), the app version in the main page footer, and visit statistics
+in `data/stats.sqlite` (no cookies, bots counted separately) with the panel at `/stats`
+(`STATS_PASSWORD` in `.env`; empty = panel off). The static `/anatema` and `/setlisty` pages are
+counted too. `npm test` runs the smoke tests.
