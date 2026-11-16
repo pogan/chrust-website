@@ -32,7 +32,7 @@ There is no database, no server-side rendering, and no contact form handler — 
 chrust-website-express-app.js   Express entrypoint: helmet → compression → extension
                                  blocklist → express.static, with cache headers set per
                                  file type
-public/index.html               The entire site: one page, ten stacked sections
+views/index.ejs                 The entire site: one page, ten stacked sections (EJS: footer year + version)
 public/js/main.js               Keyboard/arrow section navigation, video-carousel
                                  pause/play logic (IntersectionObserver), i18n loader
 public/translations.json        pl / en / de / it / es copy, keyed by data-ts attribute

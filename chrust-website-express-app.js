@@ -4,6 +4,7 @@ const path = require('path');
 const express = require('express');
 const helmet = require('helmet');
 const compression = require('compression');
+const { readVersion, healthz, createStats } = require('vamude-kit');
 
 const anatema = require('./anatema');
 const anatemaOrders = require('./anatema-orders');
@@ -18,6 +19,17 @@ const IS_PROD = process.env.NODE_ENV === 'production';
 
 app.disable('x-powered-by');
 app.set('trust proxy', 1);
+
+// The main page is views/index.ejs (outside public/); EJS only fills in the
+// footer year and the app version. The /anatema and /setlisty pages stay static.
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+const version = readVersion({ root: __dirname });
+app.locals.appVersion = version;
+
+// Visit statistics (vamude-kit): panel at /stats, password STATS_PASSWORD in .env.
+const stats = createStats({ file: process.env.STATS_DB || path.join(__dirname, 'data', 'stats.sqlite') });
 
 app.use(
 	helmet({
@@ -106,6 +118,17 @@ app.use((req, res, next) => {
 	next();
 });
 
+app.get('/healthz', healthz({ version, checks: { stats: () => stats.db.prepare('SELECT 1').get() } }));
+app.use(stats.middleware);
+app.use(stats.panel);
+
+app.get('/', (req, res) => {
+	res.set('Cache-Control', 'no-cache');
+	res.render('index');
+});
+// Old URL from before the page became a template.
+app.get('/index.html', (req, res) => res.redirect(301, '/'));
+
 // main.css and js/main.js carry no content hash in their filenames, so they are
 // revalidated (cheap 304s) rather than pinned for a year — otherwise a deploy
 // would not reach anyone holding a cached copy. Media is immutable.
@@ -141,6 +164,10 @@ app.use('/anatema/orders', anatemaOrders.router);
 // JSON API and Google login. Same fall-through reasoning as above.
 app.use('/setlisty', setlisty.router);
 
-app.listen(PORT, HOST, () => {
-	console.log(`chrust-website listening on http://localhost:${PORT}`);
-});
+module.exports = app;
+
+if (require.main === module) {
+	app.listen(PORT, HOST, () => {
+		console.log(`chrust-website ${version.label} listening on http://${HOST}:${PORT}`);
+	});
+}
