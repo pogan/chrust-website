@@ -199,14 +199,28 @@ async function recordOrder(sessionId) {
 	if (session.payment_status !== 'paid') return;
 	if (alreadyRecorded(session.id)) return;
 
+	const row = orderRow(session);
+	ensureOrdersDir();
+	fs.appendFileSync(ORDERS_FILE, JSON.stringify(row) + '\n');
+	console.log(`anatema: zapisano zamówienie ${session.id} (${row.qty}× , ${row.amountTotal / 100} ${row.currency})`);
+}
+
+// Wiersz data/anatema-orders.jsonl z pobranej sesji Checkout.
+// Od API 2025-03-31 (basil) dane wysyłki (imię i nazwisko + adres, oba wymagane
+// w formularzu Stripe) są w collected_information.shipping_details, a nie
+// w session.shipping_details. customer_details.name to tylko nazwa z płatności -
+// przy BLIK/Przelewy24 bywa pusta, stąd brak nazwisk w części zamówień.
+function orderRow(session) {
 	const cd = session.customer_details || {};
+	const ci = session.collected_information || {};
+	const ship = ci.shipping_details || session.shipping_details || null;
 	const li = (session.line_items && session.line_items.data && session.line_items.data[0]) || null;
 	const paczkomatField = (session.custom_fields || []).find((f) => f.key === 'paczkomat');
 	const shipRate = session.shipping_cost && session.shipping_cost.shipping_rate;
-	const addr = (session.shipping_details && session.shipping_details.address) || cd.address || null;
+	const addr = (ship && ship.address) || cd.address || null;
 	const taxId = Array.isArray(cd.tax_ids) && cd.tax_ids[0] ? cd.tax_ids[0].value : null;
 
-	const row = {
+	return {
 		ts: new Date().toISOString(),
 		sessionId: session.id,
 		paymentIntent: typeof session.payment_intent === 'string' ? session.payment_intent : null,
@@ -214,7 +228,7 @@ async function recordOrder(sessionId) {
 		amountTotal: session.amount_total,
 		currency: session.currency,
 		email: cd.email || null,
-		name: (session.shipping_details && session.shipping_details.name) || cd.name || null,
+		name: (ship && ship.name) || ci.individual_name || cd.name || null,
 		phone: cd.phone || null,
 		delivery:
 			session.shipping_cost && session.shipping_cost.amount_total === 0
@@ -227,10 +241,6 @@ async function recordOrder(sessionId) {
 		nip: taxId,
 		regulamin: (session.metadata && session.metadata.regulamin) || null,
 	};
-
-	ensureOrdersDir();
-	fs.appendFileSync(ORDERS_FILE, JSON.stringify(row) + '\n');
-	console.log(`anatema: zapisano zamówienie ${session.id} (${row.qty}× , ${row.amountTotal / 100} ${row.currency})`);
 }
 
 function webhook(req, res) {
@@ -255,4 +265,4 @@ function webhook(req, res) {
 	return res.json({ received: true });
 }
 
-module.exports = { router, webhook, SELLER, REGULAMIN_VERSION };
+module.exports = { router, webhook, orderRow, SELLER, REGULAMIN_VERSION };
