@@ -29,5 +29,8 @@
     "helmet": "^8.2.0",
     "stripe": "^22.6.0",
     "vamude-kit": "https://github.com/pogan/vamude-kit/archive/refs/tags/v1.0.0.tar.gz"
+  },
+  "allowScripts": {
+    "better-sqlite3": true
   }
 }
