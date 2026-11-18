@@ -2,91 +2,15 @@
 // (patrz anatema.js: recordOrder), schowana za logowaniem Google i whitelistą
 // adresów e-mail z .env.
 //
-// Logowanie to "Sign in with Google" (Google Identity Services, biblioteka
-// ładowana z accounts.google.com — patrz CSP w chrust-website-express-app.js).
-// Przeglądarka dostaje od Google podpisany token (JWT) i wysyła go tutaj;
-// serwer weryfikuje podpis przez google-auth-library (nie dowierza niczemu,
-// co przyszło z klienta) i sprawdza e-mail z tokenu przeciwko ANATEMA_ADMIN_EMAILS.
-// Po weryfikacji dostaje ciasteczko podpisane HMAC-iem (SESSION_SECRET) —
-// własna, minimalna sesja, bez express-session (i tak trzyma tylko e-mail + exp).
+// Dostęp: zalogowany administrator z panelu /kierownik (vamude-kit, logowanie
+// Google, ADMIN_EMAILS sprawdzane przy każdym żądaniu). Niezalogowanego
+// odsyłamy do /kierownik, a po zalogowaniu wraca tutaj.
 
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
 const express = require('express');
-const cookie = require('cookie');
-const { OAuth2Client } = require('google-auth-library');
 
 const ORDERS_FILE = path.join(__dirname, 'data', 'anatema-orders.jsonl');
-
-const COOKIE_NAME = 'anatema_admin';
-const COOKIE_PATH = '/anatema/orders';
-const SESSION_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7 dni
-
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
-const SESSION_SECRET = process.env.SESSION_SECRET || '';
-const IS_PROD = process.env.NODE_ENV === 'production';
-
-const ADMIN_EMAILS = (process.env.ANATEMA_ADMIN_EMAILS || '')
-	.split(',')
-	.map((e) => e.trim().toLowerCase())
-	.filter(Boolean);
-
-const googleClient = GOOGLE_CLIENT_ID ? new OAuth2Client(GOOGLE_CLIENT_ID) : null;
-const loginConfigured = Boolean(googleClient && SESSION_SECRET);
-
-if (!loginConfigured) {
-	console.warn(
-		'anatema/orders: brak GOOGLE_CLIENT_ID i/lub SESSION_SECRET w .env — strona będzie zwracać ekran logowania, ale logowanie nie zadziała.'
-	);
-}
-if (loginConfigured && ADMIN_EMAILS.length === 0) {
-	console.warn('anatema/orders: ANATEMA_ADMIN_EMAILS jest puste — nikt nie będzie miał dostępu.');
-}
-
-function isWhitelisted(email) {
-	return Boolean(email) && ADMIN_EMAILS.includes(email.toLowerCase());
-}
-
-// --- Sesja: {email, exp} podpisane HMAC-SHA256, bez szyfrowania — to nie jest
-// sekret, tylko dowód, że MY to wystawiliśmy i że whitelist był sprawdzony. ---
-
-function signSession(payload) {
-	const data = Buffer.from(JSON.stringify(payload), 'utf8').toString('base64url');
-	const sig = crypto.createHmac('sha256', SESSION_SECRET).update(data).digest('base64url');
-	return `${data}.${sig}`;
-}
-
-function verifySession(token) {
-	if (!token || !SESSION_SECRET) return null;
-	const dot = token.lastIndexOf('.');
-	if (dot < 0) return null;
-	const data = token.slice(0, dot);
-	const sig = token.slice(dot + 1);
-	const expected = crypto.createHmac('sha256', SESSION_SECRET).update(data).digest('base64url');
-	const sigBuf = Buffer.from(sig);
-	const expectedBuf = Buffer.from(expected);
-	if (sigBuf.length !== expectedBuf.length || !crypto.timingSafeEqual(sigBuf, expectedBuf)) return null;
-	try {
-		const payload = JSON.parse(Buffer.from(data, 'base64url').toString('utf8'));
-		if (!payload || typeof payload.exp !== 'number' || Date.now() > payload.exp) return null;
-		return payload;
-	} catch {
-		return null;
-	}
-}
-
-function getSession(req) {
-	const header = req.headers.cookie;
-	if (!header) return null;
-	const token = cookie.parse(header)[COOKIE_NAME];
-	const session = verifySession(token);
-	// Re-check the whitelist on every request, not just at login — removing
-	// someone from ANATEMA_ADMIN_EMAILS should cut their access immediately,
-	// not just block new logins.
-	if (session && isWhitelisted(session.email)) return session;
-	return null;
-}
 
 function escapeHtml(value) {
 	return String(value == null ? '' : value).replace(/[&<>"']/g, (c) => (
@@ -168,29 +92,6 @@ ${body}
 </html>`;
 }
 
-function renderLoginPage({ error } = {}) {
-	const googleButton = loginConfigured
-		? `<script src="https://accounts.google.com/gsi/client" async defer></script>
-			<div id="g_id_onload"
-				data-client_id="${escapeHtml(GOOGLE_CLIENT_ID)}"
-				data-callback="handleCredentialResponse"
-				data-auto_prompt="false"></div>
-			<div class="g_id_signin" data-type="standard" data-theme="filled_black" data-size="large"></div>
-			<p class="login__error" id="login-error">${error ? escapeHtml(error) : ''}</p>`
-		: `<p class="login__unconfigured">Logowanie nie jest jeszcze skonfigurowane (brak GOOGLE_CLIENT_ID / SESSION_SECRET w .env).</p>`;
-
-	return renderPage({
-		title: 'Logowanie',
-		bodyClass: 'login-page',
-		body: `
-	<main class="login">
-		<h1 class="login__title">Zamówienia ANATEMA!</h1>
-		<p class="login__hint">Dostęp tylko dla wybranych adresów e-mail. Zaloguj się kontem Google.</p>
-		${googleButton}
-	</main>`,
-	});
-}
-
 function renderOrdersPage(email) {
 	const orders = readOrders();
 
@@ -267,91 +168,59 @@ function renderOrdersPage(email) {
 
 // --- Router ---------------------------------------------------------------
 
-const router = express.Router();
+function createRouter(admin) {
+	const router = express.Router();
 
-router.get('/', (req, res) => {
-	const session = getSession(req);
-	res.type('html').send(session ? renderOrdersPage(session.email) : renderLoginPage());
-});
-
-router.post('/login', express.json({ limit: '8kb' }), async (req, res) => {
-	if (!loginConfigured) {
-		return res.status(503).json({ ok: false, error: 'Logowanie nie jest skonfigurowane.' });
-	}
-	const credential = req.body && req.body.credential;
-	if (!credential || typeof credential !== 'string') {
-		return res.status(400).json({ ok: false, error: 'Brak tokenu logowania.' });
-	}
-	try {
-		const ticket = await googleClient.verifyIdToken({ idToken: credential, audience: GOOGLE_CLIENT_ID });
-		const payload = ticket.getPayload();
-		const email = payload && payload.email ? payload.email.toLowerCase() : null;
-
-		if (!payload || !payload.email_verified || !isWhitelisted(email)) {
-			console.warn(`anatema/orders: odrzucono logowanie${email ? ` (${email})` : ''} — spoza listy dostępu.`);
-			return res.status(403).json({ ok: false, error: 'Ten adres e-mail nie ma dostępu do zamówień.' });
-		}
-
-		const token = signSession({ email, exp: Date.now() + SESSION_MAX_AGE_MS });
-		res.cookie(COOKIE_NAME, token, {
-			httpOnly: true,
-			secure: IS_PROD,
-			sameSite: 'lax',
-			path: COOKIE_PATH,
-			maxAge: SESSION_MAX_AGE_MS,
-		});
-		return res.json({ ok: true });
-	} catch (err) {
-		console.error('anatema/orders: weryfikacja tokenu Google nieudana —', err.message);
-		return res.status(401).json({ ok: false, error: 'Nie udało się zweryfikować logowania Google.' });
-	}
-});
-
-router.post('/logout', (req, res) => {
-	res.clearCookie(COOKIE_NAME, { path: COOKIE_PATH });
-	res.json({ ok: true });
-});
-
-router.post('/delete', express.json({ limit: '4kb' }), (req, res) => {
-	const session = getSession(req);
-	if (!session) return res.status(401).json({ ok: false, error: 'Musisz być zalogowany.' });
-
-	const sessionId = req.body && req.body.sessionId;
-	if (!sessionId || typeof sessionId !== 'string') {
-		return res.status(400).json({ ok: false, error: 'Brak identyfikatora zamówienia.' });
-	}
-
-	let raw;
-	try {
-		raw = fs.readFileSync(ORDERS_FILE, 'utf8');
-	} catch {
-		return res.status(404).json({ ok: false, error: 'Nie znaleziono zamówienia.' });
-	}
-
-	let removed = false;
-	const kept = raw.split('\n').filter((line) => {
-		const trimmed = line.trim();
-		if (!trimmed) return false;
-		let row;
-		try {
-			row = JSON.parse(trimmed);
-		} catch {
-			return true; // nieparsowalna linia — zostawiamy, nie tracimy danych po cichu
-		}
-		if (row.sessionId === sessionId) {
-			removed = true;
-			return false;
-		}
-		return true;
+	router.get('/', (req, res) => {
+		const session = admin.current(req);
+		if (!session) return res.redirect(303, `/kierownik?next=${encodeURIComponent(req.originalUrl)}`);
+		res.set('Cache-Control', 'no-store');
+		res.type('html').send(renderOrdersPage(session.email));
 	});
 
-	if (!removed) {
-		return res.status(404).json({ ok: false, error: 'Nie znaleziono zamówienia.' });
-	}
+	router.post('/delete', express.json({ limit: '4kb' }), (req, res) => {
+		const session = admin.current(req);
+		if (!session) return res.status(401).json({ ok: false, error: 'Musisz być zalogowany.' });
 
-	fs.writeFileSync(ORDERS_FILE, kept.length ? kept.join('\n') + '\n' : '');
-	console.log(`anatema/orders: usunięto zamówienie ${sessionId} (${session.email})`);
-	return res.json({ ok: true });
-});
+		const sessionId = req.body && req.body.sessionId;
+		if (!sessionId || typeof sessionId !== 'string') {
+			return res.status(400).json({ ok: false, error: 'Brak identyfikatora zamówienia.' });
+		}
 
-module.exports = { router };
+		let raw;
+		try {
+			raw = fs.readFileSync(ORDERS_FILE, 'utf8');
+		} catch {
+			return res.status(404).json({ ok: false, error: 'Nie znaleziono zamówienia.' });
+		}
+
+		let removed = false;
+		const kept = raw.split('\n').filter((line) => {
+			const trimmed = line.trim();
+			if (!trimmed) return false;
+			let row;
+			try {
+				row = JSON.parse(trimmed);
+			} catch {
+				return true; // nieparsowalna linia — zostawiamy, nie tracimy danych po cichu
+			}
+			if (row.sessionId === sessionId) {
+				removed = true;
+				return false;
+			}
+			return true;
+		});
+
+		if (!removed) {
+			return res.status(404).json({ ok: false, error: 'Nie znaleziono zamówienia.' });
+		}
+
+		fs.writeFileSync(ORDERS_FILE, kept.length ? kept.join('\n') + '\n' : '');
+		console.log(`anatema/orders: usunięto zamówienie ${sessionId} (${session.email})`);
+		return res.json({ ok: true });
+	});
+
+	return router;
+}
+
+module.exports = { createRouter };

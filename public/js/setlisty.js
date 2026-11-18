@@ -352,14 +352,14 @@ $("#loginBtn").onclick=async()=>{
   $("#loginSheet").hidden=false;$("#loginErr").textContent="";
   try{await loadGsi()}catch(e){$("#loginErr").textContent="Nie udało się wczytać logowania Google.";return}
   google.accounts.id.initialize({client_id:clientId,auto_select:false,callback:async r=>{
-    try{const d=await api("POST","/setlisty/login",{credential:r.credential});editor=d.editor;$("#loginSheet").hidden=true;await refresh();applyMode();status("Zalogowano: "+editor)}
+    try{const d=await api("POST","/kierownik/login",{credential:r.credential});editor=d.editor;$("#loginSheet").hidden=true;await refresh();applyMode();status("Zalogowano: "+editor)}
     catch(e){$("#loginErr").textContent=e.message||"Nie udało się zalogować."}
   }});
   google.accounts.id.renderButton($("#gBtn"),{type:"standard",theme:"outline",size:"large",text:"signin_with",locale:"pl"});
 };
 $("#closeLogin").onclick=()=>$("#loginSheet").hidden=true;
 $("#loginSheet").addEventListener("click",e=>{if(e.target.id==="loginSheet")$("#loginSheet").hidden=true});
-$("#mLogout").onclick=async()=>{pop.hidden=true;try{await api("POST","/setlisty/logout")}catch(e){}editor=null;applyMode();status("Wylogowano")};
+$("#mLogout").onclick=async()=>{pop.hidden=true;try{await api("POST","/kierownik/wyloguj")}catch(e){}editor=null;applyMode();status("Wylogowano")};
 
 // ---------- boot ----------
 // Other band members may edit at the same time, so re-fetch every 20 s and when the tab comes back.

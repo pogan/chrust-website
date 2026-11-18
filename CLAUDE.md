@@ -69,19 +69,18 @@ A separate mini-site announcing the CHRUST vinyl **„ANATEMA!”** and taking p
 - **Config**: `anatema.js` reads `.env` (via `dotenv`, loaded at the top of the Express app) — `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `PUBLIC_BASE_URL`. See `.env.example`. Without keys the pages still render and only `/anatema/checkout` returns 503. `.env` and `data/` are gitignored; so is `_anatema_input_data/` (raw briefing material).
 - **VAT rate**: `anatema.js` creates its own Stripe `TaxRate` (23%, `inclusive: true`, marker `chrust_vat: 'pl23_incl'`) on first checkout and caches it. Do **not** set `STRIPE_TAX_RATE_ID` to a rate from another project unless it is also inclusive.
 - **Seller of record** is *Dariusz Mrozek Art* (hardcoded in the footer, the regulamin, and the session metadata) — not the band. Invoice on email request only.
-- **`/anatema/orders`** — an internal order list, gated by "Sign in with Google" plus an email whitelist. Server logic in `anatema-orders.js` (root, exporting `{ router }`), mounted at `/anatema/orders` in `chrust-website-express-app.js`, after the static handler and the `/anatema` router (same reasoning: nothing earlier in the chain matches this path, so the request falls through). The page itself is rendered server-side (template strings, not a static file), styled by `public/anatema-orders.css` (plain hand-written CSS — not part of the sass pipeline, since this is a one-off internal page rather than a themed public one) and scripted by `public/js/anatema-orders.js`.
-  - **Login**: Google Identity Services (`https://accounts.google.com/gsi/client`, allow-listed in the CSP's `script-src`/`style-src`/`connect-src`/`frame-src`) hands the browser a signed ID token; the browser POSTs it to `/anatema/orders/login`; the server verifies it with `google-auth-library` (`OAuth2Client.verifyIdToken`) and checks the email against `ANATEMA_ADMIN_EMAILS`. There is no OAuth redirect flow and no client secret — this is the token-based GIS button, so only `GOOGLE_CLIENT_ID` (public) is needed.
-  - **Session**: a `cookie`-parsed, HMAC-SHA256-signed cookie (`SESSION_SECRET`) holding `{email, exp}` — no `express-session`, no server-side session store. `getSession()` re-checks the whitelist on *every* request, not just at login, so removing an email from `ANATEMA_ADMIN_EMAILS` revokes access immediately.
+- **`/anatema/orders`** — an internal order list for admins signed in at `/kierownik`. Server logic in `anatema-orders.js` (root, exporting `createRouter(admin)`), mounted at `/anatema/orders` in `chrust-website-express-app.js`, after the static handler and the `/anatema` router (same reasoning: nothing earlier in the chain matches this path, so the request falls through). The page itself is rendered server-side (template strings, not a static file), styled by `public/anatema-orders.css` (plain hand-written CSS — not part of the sass pipeline, since this is a one-off internal page rather than a themed public one) and scripted by `public/js/anatema-orders.js`.
+  - **Login**: the shared admin session of vamude-kit (`/kierownik`, Google Identity Services token verified server-side, `ADMIN_EMAILS` re-checked on every request, cookie `vk_admin`, path `/`). Not signed in → 303 to `/kierownik?next=/anatema/orders`. Logout: `POST /kierownik/wyloguj`.
   - **Data**: reads `data/anatema-orders.jsonl` (written by `anatema.js`'s webhook — see above) read-only; renders it as an HTML table. Missing file → "no orders" state, not an error. All fields are HTML-escaped before rendering — those strings came from Stripe Checkout form input typed by customers, so they're untrusted.
-  - **Config**: `GOOGLE_CLIENT_ID`, `ANATEMA_ADMIN_EMAILS` (comma-separated), `SESSION_SECRET` — see `.env.example`. Without `GOOGLE_CLIENT_ID`/`SESSION_SECRET` the page still renders a login screen, it just can't complete a login (mirrors how `/anatema` degrades without Stripe keys).
+  - **Config**: `GOOGLE_CLIENT_ID`, `ADMIN_EMAILS` (comma-separated) — see `.env.example`. Without `GOOGLE_CLIENT_ID` `/kierownik` still renders, it just can't complete a login.
 
 ## The `/setlisty` subpage
 
 Setlist editor for the band (ported from a Claude artifact). Public to view and to print (PDF A5); editing needs Google login. Unlinked from `index.html`, `noindex`.
 
 - **Page is static**: `public/setlisty/index.html`, plain CSS `public/setlisty.css` (not on the sass pipeline), behaviour `public/js/setlisty.js`. Sortable and jsPDF are **vendored** in `public/js/vendor/` (no CSP change needed). The song catalogue (`SONGS`) lives in `setlisty.js` — edit it there.
-- **Server**: `setlisty.js` (root, exports `{ router }`), mounted at `/setlisty` after the static handler. `GET /setlisty/api/sets` is public and also returns `editor` (e-mail or null) and the Google `clientId`; `PUT`/`DELETE /setlisty/api/sets/:id` need the session. Writes require `Content-Type: application/json` (CSRF guard together with `SameSite=Lax`).
-- **Login**: same GIS-token + HMAC-cookie scheme as `/anatema/orders`, but its own cookie (`setlisty_editor`, path `/setlisty`, 30 days). Whitelist: `ANATEMA_ADMIN_EMAILS` (shared with `/anatema/orders`).
+- **Server**: `setlisty.js` (root, exports `createRouter(admin)`), mounted at `/setlisty` after the static handler. `GET /setlisty/api/sets` is public and also returns `editor` (e-mail or null) and the Google `clientId`; `PUT`/`DELETE /setlisty/api/sets/:id` need the session. Writes require `Content-Type: application/json` (CSRF guard together with `SameSite=Lax`).
+- **Login**: the shared `/kierownik` admin session (vamude-kit). The page signs in in place: the GIS button's token goes to `POST /kierownik/login` as JSON, logout is `POST /kierownik/wyloguj`. Whitelist: `ADMIN_EMAILS`.
 - **Data**: `data/setlists.json` (gitignored, written atomically). When it does not exist yet the server starts from the committed `setlisty-seed.json`. Clients poll every 20 s; last write wins per setlist.
 
 ## Gotchas discovered the hard way
@@ -104,6 +103,6 @@ Commit as you work — don't let a session end with a pile of uncommitted change
 ## vamude-kit
 
 `/healthz` (status, version, commit), the app version in the main page footer, and visit statistics
-in `data/stats.sqlite` (no cookies, bots counted separately) with the panel at `/stats`
-(`STATS_PASSWORD` in `.env`; empty = panel off). The static `/anatema` and `/setlisty` pages are
+in `data/stats.sqlite` (no cookies, bots counted separately) with the panel at `/kierownik/stats`
+for admins signed in at `/kierownik` (Google, `ADMIN_EMAILS`). The static `/anatema` and `/setlisty` pages are
 counted too. `npm test` runs the smoke tests.

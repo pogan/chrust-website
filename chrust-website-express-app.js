@@ -4,7 +4,7 @@ const path = require('path');
 const express = require('express');
 const helmet = require('helmet');
 const compression = require('compression');
-const { readVersion, healthz, createStats } = require('vamude-kit');
+const { readVersion, healthz, createStats, createAdmin } = require('vamude-kit');
 
 const anatema = require('./anatema');
 const anatemaOrders = require('./anatema-orders');
@@ -28,8 +28,17 @@ app.set('views', path.join(__dirname, 'views'));
 const version = readVersion({ root: __dirname });
 app.locals.appVersion = version;
 
-// Visit statistics (vamude-kit): panel at /stats, password STATS_PASSWORD in .env.
+// Admin panel /kierownik (vamude-kit: Google sign-in, ADMIN_EMAILS) and visit
+// statistics at /kierownik/stats. The same admin session unlocks /anatema/orders
+// and editing /setlisty.
 const stats = createStats({ file: process.env.STATS_DB || path.join(__dirname, 'data', 'stats.sqlite') });
+const admin = createAdmin({
+	stats,
+	links: [
+		{ href: '/anatema/orders', label: 'Zamówienia ANATEMA!' },
+		{ href: '/setlisty', label: 'Setlisty' },
+	],
+});
 
 app.use(
 	helmet({
@@ -119,8 +128,10 @@ app.use((req, res, next) => {
 });
 
 app.get('/healthz', healthz({ version, checks: { stats: () => stats.db.prepare('SELECT 1').get() } }));
+app.use(admin.middleware);
 app.use(stats.middleware);
 app.use(stats.panel);
+app.use(admin.router);
 
 app.get('/', (req, res) => {
 	res.set('Cache-Control', 'no-cache');
@@ -155,14 +166,14 @@ app.use(
 // and are served by express.static above; this only adds POST /anatema/checkout.
 app.use('/anatema', anatema.router);
 
-// /anatema/orders — Google-login-gated order list. Mounted after the static
+// /anatema/orders — order list for admins signed in at /kierownik. Mounted after the static
 // handler and the checkout router, same as those: there is no matching static
 // file or /anatema/checkout route for this path, so requests fall through here.
-app.use('/anatema/orders', anatemaOrders.router);
+app.use('/anatema/orders', anatemaOrders.createRouter(admin));
 
 // /setlisty — the page is static (public/setlisty/index.html); this adds its
-// JSON API and Google login. Same fall-through reasoning as above.
-app.use('/setlisty', setlisty.router);
+// JSON API (editing for admins signed in via /kierownik). Same fall-through reasoning as above.
+app.use('/setlisty', setlisty.createRouter(admin));
 
 module.exports = app;
 
