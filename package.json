@@ -21,14 +21,12 @@
   "dependencies": {
     "bootstrap": "^5.3.8",
     "compression": "^1.8.1",
-    "cookie": "^0.7.2",
     "dotenv": "^16.6.1",
     "ejs": "^7.0.2",
     "express": "^5.2.1",
-    "google-auth-library": "^9.15.1",
     "helmet": "^8.2.0",
     "stripe": "^22.6.0",
-    "vamude-kit": "https://github.com/pogan/vamude-kit/archive/refs/tags/v1.0.0.tar.gz"
+    "vamude-kit": "https://github.com/pogan/vamude-kit/archive/31398a9a514153507a0e3fde625aad74cde48cd9.tar.gz"
   },
   "allowScripts": {
     "better-sqlite3": true

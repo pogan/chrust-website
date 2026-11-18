@@ -1,9 +1,9 @@
 // /setlisty — setlisty koncertowe zespołu. Strona (public/setlisty/index.html)
 // jest statyczna i publiczna: każdy może przeglądać setlisty i pobrać PDF A5.
-// Zmieniać je mogą tylko osoby z ANATEMA_ADMIN_EMAILS, zalogowane przez "Sign in with Google" — ten sam
-// mechanizm co /anatema/orders (token GIS weryfikowany przez
-// google-auth-library, potem własne ciasteczko podpisane HMAC-iem), tylko
-// z osobnym ciasteczkiem ograniczonym do /setlisty.
+// Zmieniać je mogą administratorzy z ADMIN_EMAILS zalogowani przez "Sign in with
+// Google": wspólna sesja panelu /kierownik (vamude-kit). Strona loguje w oknie
+// na miejscu (POST /kierownik/login z tokenem GIS) i wylogowuje przez
+// POST /kierownik/wyloguj.
 //
 // Dane: data/setlists.json — {<id>: {name, date, venue, items, updated}}.
 // Gdy pliku jeszcze nie ma, startujemy od setlisty-seed.json (commitowany —
@@ -11,68 +11,12 @@
 
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
 const express = require('express');
-const cookie = require('cookie');
-const { OAuth2Client } = require('google-auth-library');
 
 const DATA_FILE = path.join(__dirname, 'data', 'setlists.json');
 const SEED_FILE = path.join(__dirname, 'setlisty-seed.json');
 
-const COOKIE_NAME = 'setlisty_editor';
-const COOKIE_PATH = '/setlisty';
-const SESSION_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000; // 30 dni
-
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
-const SESSION_SECRET = process.env.SESSION_SECRET || '';
-const IS_PROD = process.env.NODE_ENV === 'production';
-
-const EDITOR_EMAILS = (process.env.ANATEMA_ADMIN_EMAILS || '')
-	.split(',')
-	.map((e) => e.trim().toLowerCase())
-	.filter(Boolean);
-
-const googleClient = GOOGLE_CLIENT_ID ? new OAuth2Client(GOOGLE_CLIENT_ID) : null;
-const loginConfigured = Boolean(googleClient && SESSION_SECRET);
-
-if (!loginConfigured) {
-	console.warn('setlisty: brak GOOGLE_CLIENT_ID i/lub SESSION_SECRET w .env — setlisty będą tylko do odczytu.');
-}
-
-function isEditor(email) {
-	return Boolean(email) && EDITOR_EMAILS.includes(email.toLowerCase());
-}
-
-// --- Sesja: {email, exp} podpisane HMAC-SHA256 (jak w anatema-orders.js) ---
-
-function sign(data) {
-	return crypto.createHmac('sha256', SESSION_SECRET).update(data).digest('base64url');
-}
-
-function signSession(payload) {
-	const data = Buffer.from(JSON.stringify(payload), 'utf8').toString('base64url');
-	return `${data}.${sign(data)}`;
-}
-
-function getSession(req) {
-	if (!SESSION_SECRET || !req.headers.cookie) return null;
-	const token = cookie.parse(req.headers.cookie)[COOKIE_NAME];
-	if (!token) return null;
-	const dot = token.lastIndexOf('.');
-	if (dot < 0) return null;
-	const data = token.slice(0, dot);
-	const sigBuf = Buffer.from(token.slice(dot + 1));
-	const expectedBuf = Buffer.from(sign(data));
-	if (sigBuf.length !== expectedBuf.length || !crypto.timingSafeEqual(sigBuf, expectedBuf)) return null;
-	try {
-		const payload = JSON.parse(Buffer.from(data, 'base64url').toString('utf8'));
-		if (!payload || typeof payload.exp !== 'number' || Date.now() > payload.exp) return null;
-		// Whitelist sprawdzany przy każdym żądaniu — usunięcie adresu odbiera dostęp od razu.
-		return isEditor(payload.email) ? payload : null;
-	} catch {
-		return null;
-	}
-}
 
 // --- Dane ---------------------------------------------------------------
 
@@ -122,91 +66,64 @@ function sanitizeSet(body) {
 
 // --- Router ---------------------------------------------------------------
 
-const router = express.Router();
+function createRouter(admin) {
+	const router = express.Router();
 
-function requireEditor(req, res, next) {
-	const session = getSession(req);
-	if (!session) return res.status(401).json({ ok: false, error: 'Zaloguj się, żeby edytować setlisty.' });
-	req.editor = session.email;
-	next();
-}
-
-// Zapisy przyjmują wyłącznie application/json: formularz z obcej strony nie
-// wyśle takiego Content-Type bez preflightu CORS, więc to (razem z SameSite=Lax)
-// zamyka drogę dla CSRF.
-function requireJson(req, res, next) {
-	if (!req.is('application/json')) return res.status(415).json({ ok: false, error: 'Oczekiwano JSON.' });
-	next();
-}
-
-router.get('/api/sets', (req, res) => {
-	const session = getSession(req);
-	res.set('Cache-Control', 'no-store');
-	res.json({
-		sets,
-		editor: session ? session.email : null,
-		clientId: loginConfigured ? GOOGLE_CLIENT_ID : null,
-	});
-});
-
-router.put('/api/sets/:id', requireEditor, requireJson, express.json({ limit: '32kb' }), (req, res) => {
-	const { id } = req.params;
-	if (!ID_RE.test(id)) return res.status(400).json({ ok: false, error: 'Niepoprawny identyfikator.' });
-	const clean = sanitizeSet(req.body);
-	if (!clean) return res.status(400).json({ ok: false, error: 'Niepoprawne dane setlisty.' });
-	sets[id] = clean;
-	try {
-		persist();
-	} catch (err) {
-		console.error('setlisty: zapis nieudany —', err.message);
-		return res.status(500).json({ ok: false, error: 'Nie udało się zapisać.' });
+	function requireEditor(req, res, next) {
+		const session = admin.current(req);
+		if (!session) return res.status(401).json({ ok: false, error: 'Zaloguj się, żeby edytować setlisty.' });
+		req.editor = session.email;
+		next();
 	}
-	res.json({ ok: true, updated: clean.updated });
-});
 
-router.delete('/api/sets/:id', requireEditor, (req, res) => {
-	const { id } = req.params;
-	if (!Object.prototype.hasOwnProperty.call(sets, id)) return res.status(404).json({ ok: false, error: 'Nie ma takiej setlisty.' });
-	delete sets[id];
-	try {
-		persist();
-	} catch (err) {
-		console.error('setlisty: zapis nieudany —', err.message);
-		return res.status(500).json({ ok: false, error: 'Nie udało się usunąć.' });
+	// Zapisy przyjmują wyłącznie application/json: formularz z obcej strony nie
+	// wyśle takiego Content-Type bez preflightu CORS, więc to (razem z SameSite=Lax)
+	// zamyka drogę dla CSRF.
+	function requireJson(req, res, next) {
+		if (!req.is('application/json')) return res.status(415).json({ ok: false, error: 'Oczekiwano JSON.' });
+		next();
 	}
-	console.log(`setlisty: usunięto ${id} (${req.editor})`);
-	res.json({ ok: true });
-});
 
-router.post('/login', requireJson, express.json({ limit: '8kb' }), async (req, res) => {
-	if (!loginConfigured) return res.status(503).json({ ok: false, error: 'Logowanie nie jest skonfigurowane.' });
-	const credential = req.body && req.body.credential;
-	if (!credential || typeof credential !== 'string') return res.status(400).json({ ok: false, error: 'Brak tokenu logowania.' });
-	try {
-		const ticket = await googleClient.verifyIdToken({ idToken: credential, audience: GOOGLE_CLIENT_ID });
-		const payload = ticket.getPayload();
-		const email = payload && payload.email ? payload.email.toLowerCase() : null;
-		if (!payload || !payload.email_verified || !isEditor(email)) {
-			console.warn(`setlisty: odrzucono logowanie${email ? ` (${email})` : ''} — spoza listy edytorów.`);
-			return res.status(403).json({ ok: false, error: 'Ten adres e-mail nie może edytować setlist.' });
-		}
-		res.cookie(COOKIE_NAME, signSession({ email, exp: Date.now() + SESSION_MAX_AGE_MS }), {
-			httpOnly: true,
-			secure: IS_PROD,
-			sameSite: 'lax',
-			path: COOKIE_PATH,
-			maxAge: SESSION_MAX_AGE_MS,
+	router.get('/api/sets', (req, res) => {
+		const session = admin.current(req);
+		res.set('Cache-Control', 'no-store');
+		res.json({
+			sets,
+			editor: session ? session.email : null,
+			clientId: GOOGLE_CLIENT_ID || null,
 		});
-		res.json({ ok: true, editor: email });
-	} catch (err) {
-		console.error('setlisty: weryfikacja tokenu Google nieudana —', err.message);
-		res.status(401).json({ ok: false, error: 'Nie udało się zweryfikować logowania Google.' });
-	}
-});
+	});
 
-router.post('/logout', (req, res) => {
-	res.clearCookie(COOKIE_NAME, { path: COOKIE_PATH });
-	res.json({ ok: true });
-});
+	router.put('/api/sets/:id', requireEditor, requireJson, express.json({ limit: '32kb' }), (req, res) => {
+		const { id } = req.params;
+		if (!ID_RE.test(id)) return res.status(400).json({ ok: false, error: 'Niepoprawny identyfikator.' });
+		const clean = sanitizeSet(req.body);
+		if (!clean) return res.status(400).json({ ok: false, error: 'Niepoprawne dane setlisty.' });
+		sets[id] = clean;
+		try {
+			persist();
+		} catch (err) {
+			console.error('setlisty: zapis nieudany —', err.message);
+			return res.status(500).json({ ok: false, error: 'Nie udało się zapisać.' });
+		}
+		res.json({ ok: true, updated: clean.updated });
+	});
 
-module.exports = { router };
+	router.delete('/api/sets/:id', requireEditor, (req, res) => {
+		const { id } = req.params;
+		if (!Object.prototype.hasOwnProperty.call(sets, id)) return res.status(404).json({ ok: false, error: 'Nie ma takiej setlisty.' });
+		delete sets[id];
+		try {
+			persist();
+		} catch (err) {
+			console.error('setlisty: zapis nieudany —', err.message);
+			return res.status(500).json({ ok: false, error: 'Nie udało się usunąć.' });
+		}
+		console.log(`setlisty: usunięto ${id} (${req.editor})`);
+		res.json({ ok: true });
+	});
+
+	return router;
+}
+
+module.exports = { createRouter };
