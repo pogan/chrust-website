@@ -26,7 +26,7 @@
     "express": "^5.2.1",
     "helmet": "^8.2.0",
     "stripe": "^22.6.0",
-    "vamude-kit": "https://github.com/pogan/vamude-kit/archive/refs/tags/v2.1.0.tar.gz"
+    "vamude-kit": "https://github.com/pogan/vamude-kit/archive/refs/tags/v2.2.0.tar.gz"
   },
   "allowScripts": {
     "better-sqlite3": true
